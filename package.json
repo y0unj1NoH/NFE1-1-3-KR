@@ -42,5 +42,10 @@
     "vite-tsconfig-paths": "^5.0.1"
   },
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
+  }
 }
