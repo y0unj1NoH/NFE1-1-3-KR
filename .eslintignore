@@ -1,4 +1,4 @@
-.eslintrc.cjs
+eslint.config.js
 vite.config.ts
 dist
 

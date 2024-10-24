@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
+    "lint": "eslint . --report-unused-disable-directives --max-warnings 0 --fix",
+    "lint-fix": "eslint . --fix",
     "format": "prettier --write ./src"
   },
   "dependencies": {
@@ -21,6 +22,7 @@
     "zustand": "^5.0.0"
   },
   "devDependencies": {
+    "@eslint/compat": "^1.2.1",
     "@eslint/js": "^9.12.0",
     "@tanstack/react-query-devtools": "^5.59.15",
     "@types/react": "^18.3.10",
@@ -28,8 +30,11 @@
     "@typescript-eslint/eslint-plugin": "^8.9.0",
     "@typescript-eslint/parser": "^8.9.0",
     "@vitejs/plugin-react": "^4.3.2",
-    "eslint": "^8",
+    "eslint": "9",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-import-resolver-typescript": "^3.6.3",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-jsx-a11y": "^6.10.1",
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.37.1",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",

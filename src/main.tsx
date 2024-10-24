@@ -1,8 +1,10 @@
 import { createRoot } from 'react-dom/client';
+
 import App from './App';
 
-// Mocks
 import { worker } from 'mocks/browser';
+
+// Mocks
 
 const main = async () => {
   if (import.meta.env.DEV) {
@@ -18,4 +20,4 @@ const main = async () => {
   root.render(<App />);
 };
 
-main();
+await main();
