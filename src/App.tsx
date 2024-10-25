@@ -1,10 +1,10 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
-import { Header } from 'components/Layout';
+import { Layout } from 'components/Layout';
 
 const router = createBrowserRouter([
   {
-    element: <Header />,
+    element: <Layout />,
     errorElement: <></>,
 
     children: [
