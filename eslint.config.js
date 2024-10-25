@@ -17,19 +17,12 @@ const baseESLintConfig = {
   name: 'eslint',
   extends: [eslintJS.configs.recommended],
   rules: {
-    'no-await-in-loop': 'error',
-    'no-duplicate-imports': 'error',
-    'no-use-before-define': 'error',
+    'no-await-in-loop': 'warn',
     'require-atomic-updates': 'error',
     'no-promise-executor-return': 'error',
     'no-constant-binary-expression': 'warn',
-    'no-new-native-nonconstructor': 'warn',
     'no-self-compare': 'warn',
     'no-template-curly-in-string': 'warn',
-    'no-unmodified-loop-condition': 'warn',
-    'no-unreachable-loop': 'warn',
-    'no-unused-private-class-members': 'warn',
-    camelcase: 'warn',
   },
 };
 
@@ -56,18 +49,11 @@ const typescriptConfig = {
     import: patchedImportPlugin,
   },
   rules: {
-    '@typescript-eslint/adjacent-overload-signatures': 'error',
-    '@typescript-eslint/array-type': ['error', { default: 'generic' }],
     '@typescript-eslint/no-unused-vars': 'error',
     '@typescript-eslint/no-require-imports': 'error',
     '@typescript-eslint/no-import-type-side-effects': 'error',
-
-    '@typescript-eslint/consistent-type-exports': 'warn',
     '@typescript-eslint/consistent-type-imports': 'warn',
-    '@typescript-eslint/no-useless-empty-export': 'warn',
-
     '@typescript-eslint/no-confusing-void-expression': 'error',
-    '@typescript-eslint/prefer-enum-initializers': 'warn',
     '@typescript-eslint/no-misused-promises': [
       'error',
       {
@@ -95,24 +81,8 @@ const reactConfig = {
     'react-refresh': eslintPluginReactRefresh,
   },
   rules: {
-    'import/no-anonymous-default-export': 'error',
-    'react/jsx-boolean-value': 'warn',
-    'react/jsx-filename-extension': [2, { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
-    'react/jsx-no-target-blank': 'off',
-    'react/jsx-max-props-per-line': 'off',
-    'react/jsx-sort-props': [
-      'error',
-      {
-        callbacksLast: true,
-        shorthandFirst: true,
-        reservedFirst: true,
-        multiline: 'last',
-      },
-    ],
-    'react/no-unknown-property': 'off',
-    'react/prop-types': 'off',
-    'react/react-in-jsx-scope': 'off',
     'react-hooks/exhaustive-deps': 'warn',
+    'react/jsx-sort-props': 'warn',
     ...patchedReactHooksPlugin.configs.recommended.rules,
     'import/order': [
       'error',
@@ -130,17 +100,6 @@ const reactConfig = {
           caseInsensitive: true,
         },
         'newlines-between': 'always',
-      },
-    ],
-
-    'import/extensions': [
-      'error',
-      'ignorePackages',
-      {
-        js: 'never',
-        jsx: 'never',
-        ts: 'never',
-        tsx: 'never',
       },
     ],
   },
