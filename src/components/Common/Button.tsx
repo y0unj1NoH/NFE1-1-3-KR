@@ -5,7 +5,8 @@ import { cn } from 'utils';
 
 export const ButtonVariants = cva(
   `
-  absolute w-[4rem] h-[4rem] shadow rounded-full flex items-center justify-center transition-all duration-200 ease-in-out
+  absolute w-[4rem] h-[4rem] shadow rounded-full flex items-center justify-center 
+  transition-all duration-200 ease-in-out p-2 gap-2
   `,
   {
     variants: {
@@ -22,10 +23,15 @@ export const ButtonVariants = cva(
         community: ' top-[4.95rem] right-[5rem] ',
         profile: ' top-24 right-3 ',
       },
+      stretch: {
+        default: ' w-[4rem] ',
+        search: ' w-[20rem] top-3 right-24',
+      },
     },
     defaultVariants: {
       variant: 'default',
       position: 'default',
+      stretch: 'default',
     },
   },
 );
@@ -41,13 +47,18 @@ interface ButtonProps
 export const Button: FC<ButtonProps> = ({
   variant,
   position,
+  stretch,
   children,
   label,
   onClick,
   ...props
 }) => {
   return (
-    <button className={cn(ButtonVariants({ variant, position }))} {...props} onClick={onClick}>
+    <button
+      className={cn(ButtonVariants({ variant, position, stretch }))}
+      {...props}
+      onClick={onClick}
+    >
       {children && children}
       {label && label}
     </button>

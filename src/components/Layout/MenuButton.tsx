@@ -7,6 +7,7 @@ export const MenuButton = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isClick, setIsClick] = useState(false);
+  const [isStretchSearch, setIsStretchSearch] = useState(false);
 
   const handleButtonClick = (pathname: string) => {
     navigate(pathname);
@@ -20,15 +21,28 @@ export const MenuButton = () => {
         variant={location.pathname.startsWith('/community') ? 'gold' : 'coral'}
         onClick={() => {
           setIsClick(prev => !prev);
+          setIsStretchSearch(false);
         }}
       >
         <Icon alt='menu' src='/menu/Menu.svg' />
       </Button>
-      <Button position={isClick ? 'search' : 'default'} variant='white' onClick={() => {}}>
-        <Icon alt='search' src='/menu/Search.svg' />
+      <Button
+        position={isClick ? 'search' : 'default'}
+        stretch={isStretchSearch ? 'search' : 'default'}
+        variant='white'
+        onClick={() => {
+          setIsStretchSearch(true);
+        }}
+      >
+        <>
+          <Icon alt='search' src='/menu/Search.svg' />
+          {isStretchSearch && (
+            <input className='w-full focus:out' placeholder='search' type='text' />
+          )}
+        </>
       </Button>
       <Button
-        position={isClick ? 'community' : 'default'}
+        position={isClick && !isStretchSearch ? 'community' : 'default'}
         variant='white'
         onClick={() => {
           handleButtonClick('/community');
@@ -37,7 +51,7 @@ export const MenuButton = () => {
         <Icon alt='community' src='/menu/Community.svg' />
       </Button>
       <Button
-        position={isClick ? 'profile' : 'default'}
+        position={isClick && !isStretchSearch ? 'profile' : 'default'}
         variant='white'
         onClick={() => {
           handleButtonClick('/profile');
