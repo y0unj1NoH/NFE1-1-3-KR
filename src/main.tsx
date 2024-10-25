@@ -1,8 +1,8 @@
 import { createRoot } from 'react-dom/client';
 
 import App from './App';
-
-import { worker } from 'mocks/browser';
+import { worker } from './mocks/browser';
+import './globals.css';
 
 // Mocks
 
