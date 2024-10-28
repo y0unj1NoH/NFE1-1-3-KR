@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { Button, Icon } from 'components/Common';
+import { Button, Icon } from 'components/Common-temp';
 
 export const MenuButton = () => {
   const location = useLocation();
@@ -17,22 +17,22 @@ export const MenuButton = () => {
   return (
     <>
       <Button
-        position='menu'
-        variant={location.pathname.startsWith('/community') ? 'gold' : 'coral'}
         onClick={() => {
           setIsClick(prev => !prev);
           setIsStretchSearch(false);
         }}
+        position='menu'
+        variant={location.pathname.startsWith('/community') ? 'gold' : 'coral'}
       >
         <Icon alt='menu' src='/menu/Menu.svg' />
       </Button>
       <Button
-        position={isClick ? 'search' : 'default'}
-        stretch={isStretchSearch ? 'search' : 'default'}
-        variant='white'
         onClick={() => {
           setIsStretchSearch(true);
         }}
+        position={isClick ? 'search' : 'default'}
+        stretch={isStretchSearch ? 'search' : 'default'}
+        variant='white'
       >
         <>
           <Icon alt='search' src='/menu/Search.svg' />
@@ -42,20 +42,20 @@ export const MenuButton = () => {
         </>
       </Button>
       <Button
-        position={isClick && !isStretchSearch ? 'community' : 'default'}
-        variant='white'
         onClick={() => {
           handleButtonClick('/community');
         }}
+        position={isClick && !isStretchSearch ? 'community' : 'default'}
+        variant='white'
       >
         <Icon alt='community' src='/menu/Community.svg' />
       </Button>
       <Button
-        position={isClick && !isStretchSearch ? 'profile' : 'default'}
-        variant='white'
         onClick={() => {
           handleButtonClick('/profile');
         }}
+        position={isClick && !isStretchSearch ? 'profile' : 'default'}
+        variant='white'
       >
         <Icon alt='profile' src='/menu/Profile.svg' />
       </Button>
