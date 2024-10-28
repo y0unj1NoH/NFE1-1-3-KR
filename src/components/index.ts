@@ -1,2 +1,2 @@
-export * from './Common-temp';
-export * from './Layout-temp';
+export * from './common';
+export * from './layout';

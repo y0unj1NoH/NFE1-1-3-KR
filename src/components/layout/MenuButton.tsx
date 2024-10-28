@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { Button, Icon } from 'components/Common-temp';
+import { Button, Icon } from 'components/common';
 
 export const MenuButton = () => {
   const location = useLocation();
