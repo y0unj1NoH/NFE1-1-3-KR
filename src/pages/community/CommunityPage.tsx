@@ -1,21 +1,12 @@
-import { useEffect } from 'react';
-
 import { Background } from './Background';
 import { ContentsWrapper } from './ContentsWrapper';
 import { SearchModal } from './SearchModal';
 
 import { ContentsContainer } from 'components';
-import { useBackgroundColor } from 'context';
+import { useSetBackgroundColor } from 'hooks';
 
 export const CommunityPage = () => {
-  const { setBackgroundColor } = useBackgroundColor();
-
-  useEffect(() => {
-    setBackgroundColor('bg-primary');
-    return () => {
-      setBackgroundColor('bg-primary');
-    };
-  }, [setBackgroundColor]);
+  useSetBackgroundColor('bg-primary');
 
   return (
     <div className='relative flex flex-col items-center justify-center w-full h-full overflow-hidden bg-primary'>
