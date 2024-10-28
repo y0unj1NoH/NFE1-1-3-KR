@@ -6,7 +6,7 @@ export const ContentsContainer = ({ childNode }: { childNode: ReactNode }) => {
 
   return (
     <div className='h-full w-[868px] relative'>
-      <div className='h-[50rem] w-[868px] p-10 flex-col justify-start items-center inline-flex bg-text-white rounded-t-[80px] absolute bottom-0 z-[9999]'>
+      <div className='h-[50rem] w-[868px] p-10 flex-col justify-start items-center inline-flex bg-text-white rounded-t-[80px] absolute bottom-0 z-[9999] overflow-x-scroll'>
         {childNode}
       </div>
       {location.pathname.startsWith('/community') && (
