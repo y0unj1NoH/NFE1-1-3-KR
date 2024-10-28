@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 
 import SlideItem from './SlideItem';
 import type { BookData } from '../../api/book';
-import { setupWheel } from '../../utils/sliderUtils';
+import { initGsap, setupWheel, handleDrag } from '../../utils/sliderUtils';
 
 const Slide = ({ data }: { data: BookData[] }) => {
   useEffect(() => {
@@ -14,6 +14,7 @@ const Slide = ({ data }: { data: BookData[] }) => {
       return;
     }
 
+    initGsap();
     setupWheel(wheel, images);
 
     const handleResize = () => {
@@ -21,6 +22,8 @@ const Slide = ({ data }: { data: BookData[] }) => {
     };
 
     window.addEventListener('resize', handleResize);
+
+    handleDrag('.wheel', images);
 
     return () => {
       window.removeEventListener('resize', handleResize);

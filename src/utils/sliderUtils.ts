@@ -1,4 +1,11 @@
 import { gsap } from 'gsap';
+import { Draggable } from 'gsap/Draggable';
+import { Flip } from 'gsap/Flip';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+export const initGsap = () => {
+  gsap.registerPlugin(ScrollTrigger, Draggable, Flip);
+};
 
 export const setupWheel = (wheel: HTMLElement, images: HTMLElement[]) => {
   const radius = wheel.offsetWidth / 2;
@@ -20,4 +27,22 @@ export const setupWheel = (wheel: HTMLElement, images: HTMLElement[]) => {
   });
 
   images[0].classList.add('active');
+};
+
+export const handleDrag = (selector: string, images: HTMLElement[]) => {
+  Draggable.create(selector, {
+    type: 'rotation',
+    snap: {
+      rotation: gsap.utils.snap(360 / images.length),
+    },
+    onDragEnd: function () {
+      const rotation = this.rotation % 360;
+      const closestSnap = gsap.utils.snap(360 / images.length)(rotation);
+      gsap.to(this.target, {
+        rotation: closestSnap,
+        duration: 0.5,
+        ease: 'power2.out',
+      });
+    },
+  });
 };
