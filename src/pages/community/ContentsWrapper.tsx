@@ -3,11 +3,13 @@ import { WritePost } from './WritePost';
 
 export const ContentsWrapper = () => {
   return (
-    <>
+    <div className='w-full h-full p-2'>
       <WritePost />
-      {Array.from({ length: 20 }).map(() => (
-        <Post />
-      ))}
-    </>
+      <div className='w-full h-full p-4 overflow-y-scroll'>
+        {Array.from({ length: 20 }).map(() => (
+          <Post />
+        ))}
+      </div>
+    </div>
   );
 };

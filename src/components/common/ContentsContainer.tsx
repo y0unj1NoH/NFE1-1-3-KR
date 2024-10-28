@@ -1,12 +1,13 @@
 import type { ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
+import 'styles/scroll.css';
 
 export const ContentsContainer = ({ childNode }: { childNode: ReactNode }) => {
   const location = useLocation();
 
   return (
     <div className='h-full w-[868px] relative'>
-      <div className='h-[50rem] w-[868px] p-10 flex-col justify-start items-center inline-flex bg-text-white rounded-t-[80px] absolute bottom-0 z-[9999] overflow-x-scroll'>
+      <div className='h-[50rem] w-[868px] p-10 flex-col justify-start items-center inline-flex bg-text-white rounded-t-[80px] absolute bottom-0 z-[9999]'>
         {childNode}
       </div>
       {location.pathname.startsWith('/community') && (

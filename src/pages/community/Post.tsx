@@ -1,6 +1,6 @@
 export const Post = () => {
   return (
-    <div className='max-h-[16rem] w-full px-2 py-[1.875rem] border-b border-[#243868] justify-center items-start gap-2 inline-flex'>
+    <div className='max-h-[16rem] h-full w-full px-2 py-[1.875rem] border-b border-[#243868] justify-center items-start gap-2 inline-flex'>
       <img
         alt='bookcover'
         className='object-contain w-auto h-full rounded'
