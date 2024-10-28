@@ -1,60 +1,29 @@
 import { gsap } from 'gsap';
-import { Draggable } from 'gsap/Draggable';
-import { Flip } from 'gsap/Flip';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useEffect } from 'react';
 
 import SlideItem from './SlideItem';
 import type { BookData } from '../../api/book';
+import { setupWheel } from '../../utils/sliderUtils';
 
-interface SlideProps {
-  data: BookData[];
-}
-const Slide = ({ data }: SlideProps) => {
+const Slide = ({ data }: { data: BookData[] }) => {
   useEffect(() => {
     const wheel = document.querySelector<HTMLElement>('.wheel');
     const images = gsap.utils.toArray<HTMLElement>('.wheel__card');
 
     if (!wheel || !images.length) {
-      console.error('Wheel or images not found');
       return;
     }
-    const total = images.length;
-    const step = 1 / total;
-    let wrapProgress = gsap.utils.wrap(0, 1);
-    let snap = gsap.utils.snap(step);
-    let wrapTracker = gsap.utils.wrap(0, total);
-    let tracker = { item: 0 };
 
-    gsap.registerPlugin(ScrollTrigger, Draggable, Flip);
+    setupWheel(wheel, images);
 
-    const setup = () => {
-      const radius = wheel.offsetWidth / 2;
-      const center = wheel.offsetWidth / 2;
-      const slice = (2 * Math.PI) / total;
-
-      images.forEach((item, i) => {
-        const angle = i * slice;
-        const x = center + radius * Math.sin(angle);
-        const y = center - radius * Math.cos(angle);
-
-        gsap.set(item, {
-          rotation: angle + '_rad',
-          xPercent: -50,
-          yPercent: -50,
-          x: x,
-          y: y,
-        });
-      });
-
-      images[0].classList.add('active');
+    const handleResize = () => {
+      setupWheel(wheel, images);
     };
 
-    setup();
-    window.addEventListener('resize', setup);
+    window.addEventListener('resize', handleResize);
 
     return () => {
-      window.removeEventListener('resize', setup);
+      window.removeEventListener('resize', handleResize);
     };
   }, [data]);
 
