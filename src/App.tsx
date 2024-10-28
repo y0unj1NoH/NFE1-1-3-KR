@@ -1,7 +1,7 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import { Layout } from 'components';
-import { ModalProvider } from 'context';
+import { ModalProvider, BackgroundColorProvider } from 'context';
 import { CommunityPage } from 'pages/community';
 import BookModal from 'pages/modal/BookModal';
 
@@ -28,9 +28,11 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <ModalProvider>
-      <RouterProvider router={router} />
-    </ModalProvider>
+    <BackgroundColorProvider>
+      <ModalProvider>
+        <RouterProvider router={router} />
+      </ModalProvider>
+    </BackgroundColorProvider>
   );
 }
 

@@ -21,9 +21,9 @@ export const Background = () => {
   }, []);
 
   return (
-    <div className='absolute top-0 bottom-0 w-full'>
-      <div className='absolute bottom-0 flex '>
-        {Array.from({ length: imageCount }).map((_, index) => (
+    <div className='absolute bottom-0 w-full'>
+      <div className='absolute bottom-0 flex'>
+        {Array.from({ length: imageCount + 1 }).map((_, index) => (
           <img
             alt='bg-ellipse'
             className='w-[10rem] object-contain'

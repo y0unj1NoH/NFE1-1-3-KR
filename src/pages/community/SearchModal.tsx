@@ -24,10 +24,10 @@ export const SearchModal = () => {
 
   return (
     <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999]'>
-      <div className='p-2.5 bg-white rounded-lg flex-col justify-start items-start gap-2.5 inline-flex'>
-        <div className='relative justify-start items-start gap-2.5 inline-flex'>
+      <div className='p-2.5 bg-white rounded-lg flex-col justify-start items-start gap-2.5 inline-flex w-auto'>
+        <div className='relative justify-start items-start gap-2.5 inline-flex flex-col md:flex-row'>
           <div
-            className='p-2 rounded border border-[#afa18b] items-center gap-1.5 flex w-[9.5rem] justify-between'
+            className='p-2 rounded border border-[#afa18b] items-center gap-1.5 flex w-[9.5rem] justify-between cursor-pointer'
             onClick={() => {
               setIsSelectOpen(prev => !prev);
             }}
@@ -37,7 +37,7 @@ export const SearchModal = () => {
             <img alt='chevron-bottom' className='relative w-4 h-4' src='/chevron-bottom.svg' />
           </div>
           {isSelectOpen && (
-            <div className='rounded min-w-[9.5rem] bg-white shadow-lg flex flex-col absolute -bottom-[4.5rem] z-[20000] p-3 gap-3'>
+            <div className='rounded min-w-[9.5rem] bg-white shadow-lg flex flex-col absolute -bottom-[4.5rem] z-[20000] p-3 gap-3 cursor-pointer'>
               <p
                 className='text-[#3a3b3f] text-sm font-normal leading-tight'
                 onClick={() => {
@@ -64,7 +64,7 @@ export const SearchModal = () => {
             />
           </div>
           <button
-            className='w-9 h-9 bg-[#243868] rounded flex-col justify-center items-center gap-2.5 inline-flex'
+            className='w-9 h-9 bg-[#243868] rounded flex-col justify-center items-center gap-2.5 inline-flex absolute md:relative right-0'
             onClick={closeModal}
           >
             <img alt='close' src='/close.svg' />

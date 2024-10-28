@@ -12,15 +12,15 @@ export const WritePost = () => {
           src='https://via.placeholder.com/40x40'
         />
         <input
-          className='grow shrink basis-0 h-[33px] px-0.5 py-2 justify-start items-center gap-2.5 flex-1 text-sm'
+          className='h-[33px] px-0.5 py-2 justify-start items-center gap-2.5 w-full text-sm'
           placeholder="What's on your mind?"
           type='text'
         />
       </div>
       <div className='flex items-center justify-end h-full gap-5'>
-        <div className='flex items-center justify-start gap-2 cursor-pointer'>
+        <div className='flex items-center justify-start gap-2 cursor-pointer' onClick={openModal}>
           <img alt='search-book' className='w-5 h-5' src='/bookmark-search.svg' />
-          <button className='text-[#27364b] text-xs font-normal leading-none' onClick={openModal}>
+          <button className='text-[#27364b] text-xs font-normal leading-none hidden md:block'>
             Add Book
           </button>
         </div>
