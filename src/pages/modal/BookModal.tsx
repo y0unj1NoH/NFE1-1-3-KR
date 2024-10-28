@@ -1,13 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import type { BookData } from '../../api/book';
 import { getBookDataById } from '../../api/book';
 import { useNavigate } from 'react-router-dom';
 import { Button, Icon } from '../../components';
+import { gsap } from 'gsap';
+import SlidingTitle from './SlidingTitle';
 
 const BookModal = () => {
   const [book, setBook] = useState<BookData | null>(null);
   const [isBookmarkOpen, setBookmarkOpen] = useState(false);
+  const [initialized, setInitialized] = useState(false);
   const navigate = useNavigate();
+  const bookmarkRef = useRef<HTMLDivElement>(null);
 
   const bookId = '173930433'; // 임시 책 Id
   const backgroundColor = 'rgba(36, 56, 104, 0.5)'; // 임시 배경색 (투명도 50)
@@ -19,27 +23,61 @@ const BookModal = () => {
         setBook(data);
       } catch (error) {
         console.error('Failed to fetch book details:', error);
+      } finally {
+        setInitialized(true);
       }
     };
 
     fetchBookDetails();
   }, [bookId]);
 
-  if (!book) return <p>wait</p>;
+  // 리본 초기 위치
+  useEffect(() => {
+    if (bookmarkRef.current) {
+      const initialY = isBookmarkOpen ? 0 : -200;
+      gsap.set(bookmarkRef.current, { y: initialY });
+    }
+  }, [initialized]);
+
+  // 리본 애니메이션
+  useEffect(() => {
+    if (!initialized || !bookmarkRef.current) return;
+
+    gsap.to(bookmarkRef.current, {
+      y: isBookmarkOpen ? 0 : -200,
+      duration: 0.8,
+      ease: 'bounce.out',
+    });
+  }, [isBookmarkOpen, initialized]);
+
+  if (!book) return <p>Loading...</p>;
 
   const [leftTitle, rightTitle] = book.title.split(' - ');
   const author = book.author.split(' (')[0];
-  const formatCategory = (category: string) => {
-    return category
-      .split(' > ')
-      .map(item => `#${item.replace(/\s+/g, '_')}`);
-  };
+  const formatCategory = (category: string) =>
+    category.split(' > ').map(item => `#${item.replace(/\s+/g, '_')}`);
 
   return (
     <div className='fixed inset-0 z-50 bg-white'>
       <div className='relative w-full h-full flex' style={{ backgroundColor }}>
+        <div
+          ref={bookmarkRef}
+          className='absolute top-0'
+          style={{
+            right: '10%',
+            zIndex: 99,
+            clipPath: 'polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%)',
+            width: '4rem',
+            height: '300px',
+            backgroundColor: '#DD0000',
+            cursor: 'pointer',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+          }}
+          onClick={() => setBookmarkOpen(prev => !prev)}
+        />
+
         <div className='w-[15%] flex items-center justify-center'>
-          <h1 className='text-h1 rotate-90 whitespace-nowrap'> {rightTitle}</h1>
+          <SlidingTitle title={rightTitle} />
         </div>
         <div className='w-[80%] flex items-center justify-center'>
           <div className='relative max-w-5xl w-full h-full p-12 flex flex-col items-center justify-center overflow-y-auto'>
