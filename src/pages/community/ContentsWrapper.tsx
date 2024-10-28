@@ -1,5 +1,6 @@
 import { Post } from './Post';
 import { WritePost } from './WritePost';
+import 'styles/scroll.css';
 
 export const ContentsWrapper = () => {
   return (

@@ -1,6 +1,7 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import { Layout } from 'components';
+import { ModalProvider } from 'context';
 import { CommunityPage } from 'pages/community';
 import BookModal from 'pages/modal/BookModal';
 
@@ -26,7 +27,11 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <ModalProvider>
+      <RouterProvider router={router} />
+    </ModalProvider>
+  );
 }
 
 export default App;
