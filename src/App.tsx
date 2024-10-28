@@ -1,6 +1,7 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import { Layout } from 'components/Layout';
+import BookModal from 'pages/modal/BookModal';
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,7 @@ const router = createBrowserRouter([
       },
       { path: '/community', element: <></> },
       { path: '/profile', element: <></> },
+      { path: '/modal', element: <BookModal /> },
     ],
   },
 ]);
