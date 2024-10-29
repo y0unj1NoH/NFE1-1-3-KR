@@ -1,7 +1,7 @@
-import { useModal } from 'context';
+import { useModalDispatch } from 'context';
 
 export const WritePost = () => {
-  const { openModal } = useModal();
+  const dispatch = useModalDispatch();
 
   return (
     <div className='p-2 rounded-[60px] border-2 border-[#243868] justify-between items-start inline-flex w-full'>
@@ -18,7 +18,12 @@ export const WritePost = () => {
         />
       </div>
       <div className='flex items-center justify-end h-full gap-5'>
-        <div className='flex items-center justify-start gap-2 cursor-pointer' onClick={openModal}>
+        <div
+          className='flex items-center justify-start gap-2 cursor-pointer'
+          onClick={() => {
+            dispatch({ type: 'OPEN_MODAL' });
+          }}
+        >
           <img alt='search-book' className='w-5 h-5' src='/bookmark-search.svg' />
           <button className='text-[#27364b] text-xs font-normal leading-none hidden md:block'>
             Add Book

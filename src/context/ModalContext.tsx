@@ -1,35 +1,52 @@
-import { createContext, useContext, useState, type ReactNode } from 'react';
+import type React from 'react';
+import { createContext, useContext, useReducer, type ReactNode } from 'react';
 
-type ModalContextType = {
+type ModalState = {
   isOpen: boolean;
-  openModal: () => void;
-  closeModal: () => void;
 };
 
-const ModalContext = createContext<ModalContextType | undefined>(undefined);
+type ModalAction = { type: 'OPEN_MODAL' } | { type: 'CLOSE_MODAL' };
+
+const initialState: ModalState = {
+  isOpen: false,
+};
+
+const modalReducer = (state: ModalState, action: ModalAction): ModalState => {
+  switch (action.type) {
+    case 'OPEN_MODAL':
+      return { ...state, isOpen: true };
+    case 'CLOSE_MODAL':
+      return { ...state, isOpen: false };
+    default:
+      return state;
+  }
+};
+
+const ModalStateContext = createContext<ModalState | undefined>(undefined);
+const ModalDispatchContext = createContext<React.Dispatch<ModalAction> | undefined>(undefined);
 
 export const ModalProvider = ({ children }: { children: ReactNode }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const openModal = () => {
-    setIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsOpen(false);
-  };
+  const [state, dispatch] = useReducer(modalReducer, initialState);
 
   return (
-    <ModalContext.Provider value={{ isOpen, openModal, closeModal }}>
-      {children}
-    </ModalContext.Provider>
+    <ModalStateContext.Provider value={state}>
+      <ModalDispatchContext.Provider value={dispatch}>{children}</ModalDispatchContext.Provider>
+    </ModalStateContext.Provider>
   );
 };
 
-export const useModal = () => {
-  const context = useContext(ModalContext);
-  if (!context) {
-    throw new Error('Modal Error');
+export const useModalState = () => {
+  const context = useContext(ModalStateContext);
+  if (context === undefined) {
+    throw new Error('ModalState Error');
+  }
+  return context;
+};
+
+export const useModalDispatch = () => {
+  const context = useContext(ModalDispatchContext);
+  if (context === undefined) {
+    throw new Error('ModalDispatch Error');
   }
   return context;
 };

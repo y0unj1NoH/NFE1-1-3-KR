@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 
-import { useModal } from 'context';
+import { useModalState, useModalDispatch } from 'context';
 
 export const SearchModal = () => {
-  const { isOpen, closeModal } = useModal();
+  const { isOpen } = useModalState();
+  const dispatch = useModalDispatch();
+
   const [condition, setCondition] = useState('Title + Author');
   const [isSelectOpen, setIsSelectOpen] = useState(false);
 
@@ -65,7 +67,9 @@ export const SearchModal = () => {
           </div>
           <button
             className='w-9 h-9 bg-[#243868] rounded flex-col justify-center items-center gap-2.5 inline-flex absolute md:relative right-0'
-            onClick={closeModal}
+            onClick={() => {
+              dispatch({ type: 'CLOSE_MODAL' });
+            }}
           >
             <img alt='close' src='/close.svg' />
           </button>
