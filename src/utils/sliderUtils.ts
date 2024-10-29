@@ -25,7 +25,12 @@ export const setupWheel = (wheel: HTMLElement, images: HTMLElement[]) => {
   images[0].classList.add('active');
 };
 
-export const handleDrag = (selector: string, images: HTMLElement[], tracker: { item: number }) => {
+export const handleDrag = (
+  selector: string,
+  images: HTMLElement[],
+  tracker: { item: number },
+  tl: gsap.core.Timeline,
+) => {
   let startRotation = 0;
 
   const rotateSlider = (
@@ -45,9 +50,9 @@ export const handleDrag = (selector: string, images: HTMLElement[], tracker: { i
 
   Draggable.create(selector, {
     type: 'rotation',
-    snap: {
-      rotation: gsap.utils.snap(360 / images.length),
-    },
+    // snap: {
+    //   rotation: gsap.utils.snap(360 / images.length),
+    // },
     onPress: function () {
       startRotation = this.rotation as number;
     },
@@ -62,14 +67,35 @@ export const handleDrag = (selector: string, images: HTMLElement[], tracker: { i
       const moveSteps = Math.round(Math.abs(rotationDiff) / AnglePerImage);
       const finalRotation = startRotation + moveSteps * direction * AnglePerImage;
 
-      // const snap = gsap.utils.snap(1 / images.length);
-      // tl.progress(wrapProgress(snap(tl.progress() + moveSteps * direction)));
+      console.log('Drag 1: ', tracker.item, tl.progress());
 
-      tracker.item = (tracker.item - moveSteps * direction + images.length) % images.length;
-      document.querySelector('.wheel__card.active')?.classList.remove('active');
-      images[tracker.item].classList.add('active');
+      const snap = gsap.utils.snap(1 / images.length);
 
-      rotateSlider(this.target as HTMLElement, finalRotation, 1, 'power4.out');
+      gsap.to(tl, {
+        progress: snap(tl.progress() + (moveSteps * direction) / images.length),
+        modifiers: {
+          progress: gsap.utils.wrap(0, 1),
+        },
+        onComplete: () => {
+          console.log('Drag Complete: ', tracker.item, tl.progress());
+          document.querySelector('.wheel__card.active')?.classList.remove('active');
+          images[next].classList.add('active');
+        },
+      });
+
+      // tracker.item를 할당해서 수정하면 타임라인은 안바뀐다. 이렇게 하면 안된다.
+      const next = (tracker.item - moveSteps * direction + images.length) % images.length;
+
+      gsap.to(this.target, {
+        rotation: finalRotation,
+        duration: 1,
+        ease: 'power4.out',
+        onComplete: () => {
+          console.log('Drag 2: ', tracker.item, tl.progress());
+        },
+      });
+
+      // rotateSlider(this.target as HTMLElement, finalRotation, 1, 'power4.out');
     },
   });
 };
@@ -104,12 +130,32 @@ const setupTimeline = (total: number, tl: gsap.core.Timeline, tracker: { item: n
   );
 };
 
-const moveWheel = (i: number, step: number, tl: gsap.core.Timeline, amount: number) => {
+const moveWheel = (
+  i: number,
+  step: number,
+  tl: gsap.core.Timeline,
+  amount: number,
+  tracker: { item: number },
+  images: HTMLElement[],
+) => {
+  console.log('Click 1: ', tracker.item, tl.progress());
+
   const snap = gsap.utils.snap(step);
+  const progress = tl.progress();
+  tl.progress(gsap.utils.wrap(0, 1)(snap(tl.progress() + amount)));
+  const next = tracker.item;
+  tl.progress(progress);
+
+  document.querySelector('.wheel__card.active')?.classList.remove('active');
+  images[next]?.classList.add('active');
+
   gsap.to(tl, {
     progress: snap(tl.progress() + amount),
     modifiers: {
       progress: gsap.utils.wrap(0, 1),
+    },
+    onComplete: () => {
+      console.log('Click Complete: ', tracker.item, tl.progress());
     },
   });
 };
@@ -136,13 +182,13 @@ export const handleInactiveClick = (
       const diff = currentActive - i;
 
       if (Math.abs(diff) < total / 2) {
-        moveWheel(i, step, tl, diff * step);
+        moveWheel(i, step, tl, diff * step, tracker, images);
       } else {
         const amt = total - Math.abs(diff);
         if (currentActive > i) {
-          moveWheel(i, step, tl, amt * -step);
+          moveWheel(i, step, tl, amt * -step, tracker, images);
         } else {
-          moveWheel(i, step, tl, amt * step);
+          moveWheel(i, step, tl, amt * step, tracker, images);
         }
       }
     });
@@ -157,8 +203,8 @@ export const initGsap = (wheel: HTMLElement, images: HTMLElement[]) => {
 
   setupWheel(wheel, images);
 
-  handleDrag('.wheel', images, tracker);
+  handleDrag('.wheel', images, tracker, tl);
 
-  // setupTimeline(images.length, tl, tracker);
-  // handleInactiveClick(images, tl, tracker);
+  setupTimeline(images.length, tl, tracker);
+  handleInactiveClick(images, tl, tracker);
 };
