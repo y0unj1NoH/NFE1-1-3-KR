@@ -131,7 +131,7 @@ const setupTimeline = (total: number, tl: gsap.core.Timeline, tracker: { item: n
 
   const snap = gsap.utils.snap(1 / total);
   gsap.to(tl, {
-    progress: snap(tl.progress() + 1),
+    progress: snap(tl.progress() - 1),
     modifiers: {
       progress: gsap.utils.wrap(0, 1),
     },
