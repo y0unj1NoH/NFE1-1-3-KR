@@ -57,8 +57,8 @@ export const PopularPosts = () => {
     >
       {dummyPosts.map(post => (
         <div
-          key={post.id}
           className='inline-flex p-2.5 items-center gap-2.5 w-full h-full duration-300 ease-in transition-all'
+          key={post.id}
           style={{ transform: `translateY(-${currentPosterId}00%)` }}
         >
           <img
