@@ -5,6 +5,7 @@ export default {
     extend: {
       colors: {
         primary: '#243868',
+        secondary: '#FEF9F1',
         intro: '#3B2A4B',
         'gold-default': '#D6B36D',
         'gold-dark': '#C2955C',

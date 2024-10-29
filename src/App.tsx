@@ -4,6 +4,7 @@ import { Layout } from 'components';
 import { ModalProvider, BackgroundColorProvider } from 'context';
 import { CommunityPage } from 'pages/community';
 import BookModal from 'pages/modal/BookModal';
+import { MyPage } from 'pages/mypage/MyPage';
 
 const router = createBrowserRouter([
   {
@@ -20,7 +21,7 @@ const router = createBrowserRouter([
         element: <></>,
       },
       { path: '/community', element: <CommunityPage /> },
-      { path: '/profile', element: <></> },
+      { path: '/profile', element: <MyPage /> },
       { path: '/modal', element: <BookModal /> },
     ],
   },
