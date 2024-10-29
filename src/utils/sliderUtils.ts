@@ -159,6 +159,6 @@ export const initGsap = (wheel: HTMLElement, images: HTMLElement[]) => {
 
   handleDrag('.wheel', images, tracker);
 
-  setupTimeline(images.length, tl, tracker);
-  handleInactiveClick(images, tl, tracker);
+  // setupTimeline(images.length, tl, tracker);
+  // handleInactiveClick(images, tl, tracker);
 };
