@@ -1,13 +1,11 @@
 import { gsap } from 'gsap';
 import { useEffect } from 'react';
 
-import SlideItem from './SlideItem';
+import SliderItem from './SliderItem';
 import type { BookData } from '../../api/book';
 import { initGsap, setupWheel } from '../../utils/sliderUtils';
 
-import './styles.css';
-
-const Slide = ({ data }: { data: BookData[] }) => {
+const Slider = ({ data }: { data: BookData[] }) => {
   useEffect(() => {
     const wheel = document.querySelector<HTMLElement>('.wheel');
     const images = gsap.utils.toArray<HTMLElement>('.wheel__card');
@@ -36,7 +34,7 @@ const Slide = ({ data }: { data: BookData[] }) => {
           {
             // TODO: 이미지에 따른 모달 창 색상값 설정
             data.slice(0, 14).map((bookData, index) => (
-              <SlideItem
+              <SliderItem
                 alt='슬라이드 아이템'
                 backfaceColor='bg-[rgb(255,153,153)]'
                 key={index}
@@ -50,4 +48,4 @@ const Slide = ({ data }: { data: BookData[] }) => {
   );
 };
 
-export default Slide;
+export default Slider;

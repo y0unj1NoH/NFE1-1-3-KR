@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import Slide from './Slide';
+import Slider from './Slider';
 import { getBookDataList, type BookData } from '../../api/book';
 
 const PopularBooks = () => {
@@ -23,7 +23,7 @@ const PopularBooks = () => {
   // TODO: 검색 결과 없을 시 안내 표시
   return (
     <>
-      <Slide data={data} />
+      <Slider data={data} />
     </>
   );
 };
