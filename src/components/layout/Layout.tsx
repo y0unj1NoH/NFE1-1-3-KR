@@ -2,10 +2,10 @@ import { Outlet } from 'react-router-dom';
 
 import { Header } from './Header';
 
-import { useBackgroundColor } from 'context';
+import { useBackgroundColorState } from 'context';
 
 export const Layout = () => {
-  const { backgroundColor } = useBackgroundColor();
+  const { backgroundColor } = useBackgroundColorState();
 
   return (
     <>

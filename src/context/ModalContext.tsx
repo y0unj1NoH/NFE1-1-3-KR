@@ -1,5 +1,5 @@
-import type React from 'react';
-import { createContext, useContext, useReducer, type ReactNode } from 'react';
+import type { ReactNode, Dispatch } from 'react';
+import { createContext, useContext, useReducer } from 'react';
 
 type ModalState = {
   isOpen: boolean;
@@ -23,7 +23,7 @@ const modalReducer = (state: ModalState, action: ModalAction): ModalState => {
 };
 
 const ModalStateContext = createContext<ModalState | undefined>(undefined);
-const ModalDispatchContext = createContext<React.Dispatch<ModalAction> | undefined>(undefined);
+const ModalDispatchContext = createContext<Dispatch<ModalAction> | undefined>(undefined);
 
 export const ModalProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(modalReducer, initialState);

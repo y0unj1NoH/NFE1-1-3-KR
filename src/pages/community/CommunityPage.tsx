@@ -9,7 +9,7 @@ export const CommunityPage = () => {
   useSetBackgroundColor('bg-primary');
 
   return (
-    <div className='relative flex flex-col items-center justify-center w-full h-full overflow-hidden bg-primary'>
+    <div className='relative flex flex-col items-center justify-center w-full h-full overflow-hidden'>
       <Background />
       <ContentsContainer childNode={<ContentsWrapper />} />
       <SearchModal />
