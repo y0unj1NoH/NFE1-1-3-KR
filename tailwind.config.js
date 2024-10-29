@@ -23,6 +23,7 @@ export default {
         h4: ['36px', { fontWeight: '700' }],
         h5: ['24px', { fontWeight: '700' }],
         body1: ['16px', { fontWeight: '400' }],
+        subtitle1: ['16px', { fontWeight: '500'}],
       },
     },
   },

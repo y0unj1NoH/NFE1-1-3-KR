@@ -69,7 +69,7 @@ const BookModal = () => {
         {Array.from({ length: maxRating }, (_, index) => (
           <img
             key={index}
-            src={`/Icon/${index < filledHearts ? 'heart.svg' : 'white-heart.svg'}`}
+            src={`/icon/${index < filledHearts ? 'heart.svg' : 'white-heart.svg'}`}
             alt='heart'
             className='w-6 h-6'
           />
@@ -124,7 +124,7 @@ const BookModal = () => {
           </div>
           <Button position='default' onClick={() => navigate('/')}>
             <>
-              <Icon src='/Icon/X.svg' alt='Close' />
+              <Icon src='/icon/X.svg' alt='Close' />
             </>
           </Button>
         </div>
