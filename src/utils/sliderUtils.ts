@@ -78,13 +78,13 @@ export const handleDrag = (
         },
         onComplete: () => {
           console.log('Drag Complete: ', tracker.item, tl.progress());
-          document.querySelector('.wheel__card.active')?.classList.remove('active');
-          images[next].classList.add('active');
         },
       });
 
       // tracker.item를 할당해서 수정하면 타임라인은 안바뀐다. 이렇게 하면 안된다.
       const next = (tracker.item - moveSteps * direction + images.length) % images.length;
+      document.querySelector('.wheel__card.active')?.classList.remove('active');
+      images[next].classList.add('active');
 
       gsap.to(this.target, {
         rotation: finalRotation,
@@ -128,6 +128,17 @@ const setupTimeline = (total: number, tl: gsap.core.Timeline, tracker: { item: n
     },
     0,
   );
+
+  const snap = gsap.utils.snap(1 / total);
+  gsap.to(tl, {
+    progress: snap(tl.progress() + 1),
+    modifiers: {
+      progress: gsap.utils.wrap(0, 1),
+    },
+    onComplete: () => {
+      console.log('Click Complete: ', tracker.item, tl.progress());
+    },
+  });
 };
 
 const moveWheel = (
