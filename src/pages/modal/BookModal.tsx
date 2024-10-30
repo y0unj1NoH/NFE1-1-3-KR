@@ -6,6 +6,8 @@ import SlidingTitle from './SlidingTitle';
 import type { BookData } from '../../api/book';
 import { getBookDataById } from '../../api/book';
 import { Button, Icon } from '../../components';
+import { useBookCoverAnimation, useRibbonAnimation } from 'hooks';
+import { Rating } from './Rating';
 
 export const BookModal = () => {
   const [book, setBook] = useState<BookData | null>(null);
@@ -17,6 +19,9 @@ export const BookModal = () => {
 
   const bookId = '2173713'; // 임시 책 Id
   const backgroundColor = 'rgba(36, 56, 104, 0.5)'; // 임시 배경색 (투명도 50)
+
+  useBookCoverAnimation(coverRef, initialized);
+  useRibbonAnimation(bookmarkRef, isBookmarkOpen, initialized);
 
   useEffect(() => {
     const fetchBookDetails = async () => {
@@ -34,54 +39,6 @@ export const BookModal = () => {
     void fetchBookDetails();
   }, [bookId]);
 
-  // 책 커버 마우스 호버 효과
-  useEffect(() => {
-    console.log('imgmouse');
-
-    const handleMouseMove = (event: MouseEvent) => {
-      if (!coverRef.current) return;
-
-      const { clientX, clientY } = event;
-      const { left, top, width, height } = coverRef.current.getBoundingClientRect();
-
-      const xPos = (clientX - left) / width;
-      const yPos = (clientY - top) / height;
-
-      const rotationX = (yPos - 0.5) * 20;
-      const rotationY = (xPos - 0.5) * -20;
-
-      gsap.to(coverRef.current, {
-        rotateX: rotationX,
-        rotateY: rotationY,
-        duration: 0.3,
-        ease: 'power1.out',
-      });
-    };
-
-    // 원래 상태로 복구
-    const handleMouseLeave = () => {
-      gsap.to(coverRef.current, {
-        rotateX: 0,
-        rotateY: 0,
-        duration: 0.5,
-        ease: 'power3.out',
-      });
-    };
-
-    const coverElement = coverRef.current;
-    if (coverElement) {
-      coverElement.addEventListener('mousemove', handleMouseMove);
-      coverElement.addEventListener('mouseleave', handleMouseLeave);
-    }
-
-    return () => {
-      if (coverElement) {
-        coverElement.removeEventListener('mousemove', handleMouseMove);
-        coverElement.removeEventListener('mouseleave', handleMouseLeave);
-      }
-    };
-  }, [initialized]);
-
   // 리본 초기 위치
   useEffect(() => {
     if (bookmarkRef.current) {
@@ -89,17 +46,6 @@ export const BookModal = () => {
       gsap.set(bookmarkRef.current, { y: initialY });
     }
   }, [initialized]);
-
-  // 리본 애니메이션
-  useEffect(() => {
-    if (!initialized || !bookmarkRef.current) return;
-
-    gsap.to(bookmarkRef.current, {
-      y: isBookmarkOpen ? 0 : -200,
-      duration: 0.8,
-      ease: 'bounce.out',
-    });
-  }, [isBookmarkOpen, initialized]);
 
   if (!book) return <p>Loading...</p>;
 
@@ -109,24 +55,6 @@ export const BookModal = () => {
       .split('/')
       .map(item => `#${item.trim()}`)
       .join(' ');
-
-  const renderRating = (rating: number) => {
-    const maxRating = 5;
-    const filledHearts = Math.round(rating / 2);
-
-    return (
-      <div className='flex space-x-0.5'>
-        {Array.from({ length: maxRating }, (_, index) => (
-          <img
-            alt='heart'
-            className='w-6 h-6'
-            key={index}
-            src={`/icon/${index < filledHearts ? 'heart.svg' : 'white-heart.svg'}`}
-          />
-        ))}
-      </div>
-    );
-  };
 
   return (
     <div className='fixed inset-0 z-50 bg-white z-[10000]'>
@@ -167,7 +95,7 @@ export const BookModal = () => {
                   <p className='mb-2 text-h5'>{author}</p>
                   <div className='mb-4 text-body1'>{formatCategory(book.category_name)}</div>
                   <div className='flex items-center mb-6'>
-                    {renderRating(Number(book.rating_info))}
+                    <Rating rating={Number(book.rating_info)} />
                     <span className='text-[#DD0000] text-body1 ml-2'>{book.rating_info}</span>
                   </div>
                   <p className='leading-relaxed text-body1'>{book.description}</p>
