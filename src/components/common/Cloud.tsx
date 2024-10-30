@@ -1,5 +1,5 @@
-import { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
+import { useRef, useEffect } from 'react';
 
 interface CloudProps {
   src: string;
@@ -38,8 +38,8 @@ export const Cloud = ({ src, duration, initialX, initialY, driftAmount }: CloudP
 
   return (
     <div
-      ref={cloudRef}
       className='absolute'
+      ref={cloudRef}
       style={{
         width: 200,
         height: 150,

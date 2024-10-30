@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
+
 import { Cloud } from './Cloud';
 
 export const ContentsContainer = ({ childNode }: { childNode: ReactNode }) => {
@@ -15,18 +16,18 @@ export const ContentsContainer = ({ childNode }: { childNode: ReactNode }) => {
           <div className="absolute h-[100px] w-[250px] -right-[14rem] bottom-[38rem] bg-[url('/bg/cloud-1.svg')] bg-no-repeat bg-contain z-10"></div>
           <div className="absolute h-[100px] w-[250px] -left-[12rem] bottom-[15rem] bg-[url('/bg/cloud-3.svg')] bg-no-repeat bg-contain z-10"></div>
           <Cloud
-            src='/bg/cloud-1.svg'
+            driftAmount={40}
             duration={15}
             initialX={-600}
             initialY={120}
-            driftAmount={40}
+            src='/bg/cloud-1.svg'
           />
           <Cloud
-            src='/bg/cloud-3.svg'
+            driftAmount={20}
             duration={28}
             initialX={-700}
             initialY={200}
-            driftAmount={20}
+            src='/bg/cloud-3.svg'
           />
         </>
       )}
@@ -34,32 +35,32 @@ export const ContentsContainer = ({ childNode }: { childNode: ReactNode }) => {
         <>
           <>
             <Cloud
-              src='/bg/cloud-4.svg'
+              driftAmount={50}
               duration={30}
               initialX={-600}
               initialY={10}
-              driftAmount={50}
+              src='/bg/cloud-4.svg'
             />
             <Cloud
-              src='/bg/cloud-5.svg'
+              driftAmount={10}
               duration={38}
               initialX={-1600}
               initialY={330}
-              driftAmount={10}
+              src='/bg/cloud-5.svg'
             />
             <Cloud
-              src='/bg/cloud-1.svg'
+              driftAmount={20}
               duration={25}
               initialX={-900}
               initialY={520}
-              driftAmount={20}
+              src='/bg/cloud-1.svg'
             />
             <Cloud
-              src='/bg/cloud-3.svg'
+              driftAmount={30}
               duration={28}
               initialX={-1300}
               initialY={700}
-              driftAmount={30}
+              src='/bg/cloud-3.svg'
             />
           </>
         </>
