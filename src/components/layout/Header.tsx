@@ -2,13 +2,37 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { MenuButton } from './MenuButton';
 
+import LoginModal from 'components/common/Modal/LoginModal';
+import { supabase } from 'lib/supabase';
 import { PopularPosts } from 'pages/community';
+import { useAuthStore } from 'store/useAuthStore';
+import { useModalStore } from 'store/useModalStore';
 import { useIntroStore } from 'stores';
 
 export const Header = () => {
+  const { openModal } = useModalStore();
+  const { userInfo } = useAuthStore();
   const location = useLocation();
   const navigate = useNavigate();
   const isVisible = useIntroStore(state => state.isVisible);
+
+  const handleLogin = () => {
+    openModal('LOGIN', { component: LoginModal });
+  };
+
+  const handleLogOut = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+
+      if (error) {
+        throw error;
+      }
+      navigate('/', { replace: true });
+    } catch (error) {
+      console.error('로그아웃 에러:', error);
+      alert('로그아웃 중 문제가 발생했습니다.');
+    }
+  };
 
   return (
     <div className='absolute flex items-center justify-center w-full h-[6rem] top-0 z-[9999]'>
@@ -21,6 +45,19 @@ export const Header = () => {
         <img alt='logo' className='object-contain' src='/Logo.svg' />
       </h1>
       {location.pathname.startsWith('/community') && <PopularPosts />}
+
+      {userInfo ? (
+        <>
+          <span>{userInfo.username}</span>
+          <button className='bg-blue-300 p-3' onClick={handleLogOut}>
+            로그아웃
+          </button>
+        </>
+      ) : (
+        <button className='bg-blue-300 p-3' onClick={handleLogin}>
+          로그인
+        </button>
+      )}
       {!isVisible && <MenuButton />}
     </div>
   );

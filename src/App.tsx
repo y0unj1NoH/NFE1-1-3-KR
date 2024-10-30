@@ -1,5 +1,9 @@
+import { useEffect } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
+import { getUserInfo } from 'api/auth';
+import { supabase } from 'lib/supabase';
+import { useAuthStore } from 'store/useAuthStore';
 import { Layout } from 'components';
 import { ModalProvider, BackgroundColorProvider } from 'context';
 import { CommunityPage, MyPage, BookModal, HomePage } from 'pages';
@@ -26,6 +30,57 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const { reset, setSession, setIsLoading, setUserInfo } = useAuthStore();
+
+  useEffect(() => {
+    const initializeAuth = async () => {
+      try {
+        setIsLoading(true);
+
+        const {
+          data: { session },
+          error: sessionError,
+        } = await supabase.auth.getSession();
+        if (sessionError) throw sessionError;
+
+        if (session) {
+          setSession(session);
+
+          const userInfo = await getUserInfo(session.user.id);
+          setUserInfo(userInfo);
+        }
+      } catch (error) {
+        console.error('Auth initialization error:', error);
+        reset();
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    void initializeAuth();
+
+    const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'SIGNED_OUT') {
+        reset();
+      } else if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+        setSession(session);
+
+        if (session) {
+          try {
+            const userInfo = await getUserInfo(session.user.id);
+            setUserInfo(userInfo);
+          } catch (error) {
+            console.error('Error fetching user info:', error);
+          }
+        }
+      }
+    });
+
+    return () => {
+      data.subscription.unsubscribe();
+    };
+  }, []);
+
   return (
     <BackgroundColorProvider>
       <ModalProvider>
