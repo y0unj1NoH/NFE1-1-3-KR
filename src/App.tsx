@@ -2,11 +2,12 @@ import { useEffect } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import { getUserInfo } from 'api/auth';
-import { supabase } from 'lib/supabase';
 import { Layout } from 'components';
+import ModalRenderer from 'components/common/Modal/ModalRenderer';
 import { ModalProvider, BackgroundColorProvider } from 'context';
+import { supabase } from 'lib/supabase';
 import { CommunityPage, MyPage, BookModal, HomePage } from 'pages';
-import { useAuthStore } from 'stores/useAuthStore';
+import { useAuthStore } from 'stores';
 
 const router = createBrowserRouter([
   {
@@ -85,6 +86,7 @@ function App() {
     <BackgroundColorProvider>
       <ModalProvider>
         <RouterProvider router={router} />
+        <ModalRenderer />
       </ModalProvider>
     </BackgroundColorProvider>
   );

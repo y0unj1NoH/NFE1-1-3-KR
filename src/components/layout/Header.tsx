@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { MenuButton } from './MenuButton';
@@ -5,16 +6,16 @@ import { MenuButton } from './MenuButton';
 import LoginModal from 'components/common/Modal/LoginModal';
 import { supabase } from 'lib/supabase';
 import { PopularPosts } from 'pages/community';
-import { useAuthStore } from 'stores/useAuthStore';
-import { useModalStore } from 'stores/useModalStore';
 import { useIntroStore } from 'stores';
+import { useAuthStore } from 'stores';
+import { useModalStore } from 'stores';
 
 export const Header = () => {
-  const { openModal } = useModalStore();
-  const { userInfo } = useAuthStore();
   const location = useLocation();
   const navigate = useNavigate();
   const isVisible = useIntroStore(state => state.isVisible);
+  const openModal = useModalStore(state => state.openModal);
+  const userInfo = useAuthStore(state => state.userInfo);
 
   const handleLogin = () => {
     openModal('LOGIN', { component: LoginModal });
