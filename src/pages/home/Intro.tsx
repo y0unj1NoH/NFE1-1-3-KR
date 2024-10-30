@@ -3,11 +3,17 @@ import { useRef, useEffect } from 'react';
 
 import { Background } from 'components';
 import { useIntersectionObserver, useSetBackgroundColor } from 'hooks';
+import { useIntroStore } from 'stores';
 
 export const Intro = () => {
   const pageRef = useRef<HTMLDivElement>(null);
   const isVisible = useIntersectionObserver(pageRef);
   const paragraphsRef = useRef<HTMLParagraphElement[]>([]);
+  const setIsVisible = useIntroStore(state => state.setIsVisible);
+
+  useEffect(() => {
+    setIsVisible(isVisible);
+  }, [isVisible, setIsVisible]);
 
   useSetBackgroundColor('bg-primary', isVisible);
 
