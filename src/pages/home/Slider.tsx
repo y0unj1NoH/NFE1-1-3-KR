@@ -3,29 +3,10 @@ import { useEffect } from 'react';
 
 import SliderItem from './SliderItem';
 import type { BookData } from '../../api/book';
-import { initGsap, setupWheel } from '../../utils/sliderUtils';
+import useSlider from '../../hooks/useSlider';
 
 const Slider = ({ data }: { data: BookData[] }) => {
-  useEffect(() => {
-    const wheel = document.querySelector<HTMLElement>('.wheel');
-    const images = gsap.utils.toArray<HTMLElement>('.wheel__card');
-
-    if (!wheel || !images.length) {
-      return;
-    }
-
-    initGsap(wheel, images);
-
-    const handleResize = () => {
-      setupWheel(wheel, images);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [data]);
+  useSlider({ data });
 
   return (
     <>
