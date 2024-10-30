@@ -22,7 +22,7 @@ const ModalWrapper = ({ children, onClose }: ModalWrapperProps) => {
       {isVisible && (
         <motion.div
           animate={{ opacity: 1 }}
-          className='fixed inset-0 z-20 flex items-center justify-center bg-black bg-opacity-50'
+          className='fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50'
           exit={{ opacity: 0 }}
           initial={{ opacity: 0 }}
           onClick={handleContainerClick}
