@@ -34,6 +34,9 @@ export const Intro = () => {
 
   return (
     <div className='h-[calc(100vh-6rem)] w-full relative flex items-center p-[8rem]' ref={pageRef}>
+      <div className='w-[234px] h-[234px] bg-[#c3634d] rounded-full absolute top-0 right-[6rem]' />
+      <img alt='cloud-1' className='absolute right-[3rem] top-[23rem]' src='/bg/cloud-1.svg' />
+      <img alt='cloud-3' className='absolute top-[10rem] right-[14rem]' src='/bg/cloud-3.svg' />
       <div className='text-white text-[4rem] translate-y-[-3rem] flex flex-col gap-4'>
         {['DISCOVER', 'KOREAN STORIES', 'THAT TOUCH THE SOUL'].map((text, index) => (
           <p
