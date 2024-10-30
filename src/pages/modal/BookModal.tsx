@@ -1,12 +1,13 @@
+import { gsap } from 'gsap';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import SlidingTitle from './SlidingTitle';
 import type { BookData } from '../../api/book';
 import { getBookDataById } from '../../api/book';
-import { useNavigate } from 'react-router-dom';
 import { Button, Icon } from '../../components';
-import { gsap } from 'gsap';
-import SlidingTitle from './SlidingTitle';
 
-const BookModal = () => {
+export const BookModal = () => {
   const [book, setBook] = useState<BookData | null>(null);
   const [isBookmarkOpen, setBookmarkOpen] = useState(false);
   const [initialized, setInitialized] = useState(false);
@@ -68,10 +69,10 @@ const BookModal = () => {
       <div className='flex space-x-0.5'>
         {Array.from({ length: maxRating }, (_, index) => (
           <img
-            key={index}
-            src={`/icon/${index < filledHearts ? 'heart.svg' : 'white-heart.svg'}`}
             alt='heart'
             className='w-6 h-6'
+            key={index}
+            src={`/icon/${index < filledHearts ? 'heart.svg' : 'white-heart.svg'}`}
           />
         ))}
       </div>
@@ -80,10 +81,13 @@ const BookModal = () => {
 
   return (
     <div className='fixed inset-0 z-50 bg-white'>
-      <div className='relative w-full h-full flex' style={{ backgroundColor }}>
+      <div className='relative flex w-full h-full' style={{ backgroundColor }}>
         <div
-          ref={bookmarkRef}
           className='absolute top-0'
+          onClick={() => {
+            setBookmarkOpen(prev => !prev);
+          }}
+          ref={bookmarkRef}
           style={{
             right: '10%',
             zIndex: 99,
@@ -94,37 +98,41 @@ const BookModal = () => {
             cursor: 'pointer',
             boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
           }}
-          onClick={() => setBookmarkOpen(prev => !prev)}
         />
 
         <div className='w-[15%] flex items-center justify-center'>
           <SlidingTitle title={book.title} />
         </div>
         <div className='w-[80%] flex items-center justify-center'>
-          <div className='relative max-w-5xl w-full h-full p-12 flex flex-col items-center justify-center overflow-y-auto'>
-            <div className='flex flex-col md:flex-row items-end gap-12'>
+          <div className='relative flex flex-col items-center justify-center w-full h-full max-w-5xl p-12 overflow-y-auto'>
+            <div className='flex flex-col items-end gap-12 md:flex-row'>
               <img
-                className='w-full max-w-md md:max-w-lg h-auto object-cover rounded-lg shadow-xl'
-                src={book.cover}
                 alt={book.title}
+                className='object-cover w-full h-auto max-w-md rounded-lg shadow-xl md:max-w-lg'
+                src={book.cover}
               />
-              <div className='flex-1 flex flex-col justify-end'>
+              <div className='flex flex-col justify-end flex-1'>
                 <div>
-                  <p className='text-h4 mb-4'>{book.title}</p>
-                  <p className='text-h5 mb-2'>{author}</p>
-                  <div className='text-body1 mb-4'>{formatCategory(book.category_name)}</div>
+                  <p className='mb-4 text-h4'>{book.title}</p>
+                  <p className='mb-2 text-h5'>{author}</p>
+                  <div className='mb-4 text-body1'>{formatCategory(book.category_name)}</div>
                   <div className='flex items-center mb-6'>
                     {renderRating(Number(book.rating_info))}
                     <span className='text-[#DD0000] text-body1 ml-2'>{book.rating_info}</span>
                   </div>
-                  <p className='text-body1 leading-relaxed'>{book.description}</p>
+                  <p className='leading-relaxed text-body1'>{book.description}</p>
                 </div>
               </div>
             </div>
           </div>
-          <Button position='default' onClick={() => navigate('/')}>
+          <Button
+            onClick={() => {
+              navigate('/');
+            }}
+            position='default'
+          >
             <>
-              <Icon src='/icon/X.svg' alt='Close' />
+              <Icon alt='Close' src='/icon/X.svg' />
             </>
           </Button>
         </div>
@@ -132,5 +140,3 @@ const BookModal = () => {
     </div>
   );
 };
-
-export default BookModal;

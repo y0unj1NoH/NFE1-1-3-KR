@@ -1,6 +1,13 @@
+import { useLayoutEffect } from 'react';
+
 import { useBackgroundColorDispatch, setBackgroundColor } from 'context';
 
-export const useSetBackgroundColor = (color: string) => {
+export const useSetBackgroundColor = (color: string, active = true) => {
   const dispatch = useBackgroundColorDispatch();
-  setBackgroundColor(dispatch, color);
+
+  useLayoutEffect(() => {
+    if (!active) return;
+
+    setBackgroundColor(dispatch, color);
+  }, [color, dispatch, active]);
 };

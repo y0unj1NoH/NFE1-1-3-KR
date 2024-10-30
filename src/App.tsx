@@ -2,9 +2,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import { Layout } from 'components';
 import { ModalProvider, BackgroundColorProvider } from 'context';
-import { CommunityPage } from 'pages/community';
-import BookModal from 'pages/modal/BookModal';
-import { MyPage } from 'pages/mypage/MyPage';
+import { CommunityPage, MyPage, BookModal, HomePage } from 'pages';
 
 const router = createBrowserRouter([
   {
@@ -14,7 +12,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <></>,
+        element: <HomePage />,
       },
       {
         path: '/book/:id',

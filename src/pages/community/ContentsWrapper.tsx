@@ -7,8 +7,8 @@ export const ContentsWrapper = () => {
     <div className='w-full h-full p-2'>
       <WritePost />
       <div className='w-full h-full p-4 overflow-y-scroll'>
-        {Array.from({ length: 20 }).map(() => (
-          <Post />
+        {Array.from({ length: 20 }).map((_, index) => (
+          <Post key={index} />
         ))}
       </div>
     </div>

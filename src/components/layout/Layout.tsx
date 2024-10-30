@@ -10,7 +10,9 @@ export const Layout = () => {
   return (
     <>
       <Header />
-      <main className={`mx-auto pt-[6rem] w-full min-h-[calc(100vh-6rem)] ${backgroundColor}`}>
+      <main
+        className={`mx-auto pt-[6rem] w-full min-h-[calc(100vh-6rem)] ${backgroundColor} transition-all`}
+      >
         <Outlet />
       </main>
     </>

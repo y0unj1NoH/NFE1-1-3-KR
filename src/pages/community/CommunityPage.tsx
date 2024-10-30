@@ -1,7 +1,7 @@
-import { Background } from './Background';
 import { ContentsWrapper } from './ContentsWrapper';
 import { SearchModal } from './SearchModal';
 
+import { Background } from 'components';
 import { ContentsContainer } from 'components';
 import { useSetBackgroundColor } from 'hooks';
 
