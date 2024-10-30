@@ -1,5 +1,6 @@
-import { useEffect, RefObject } from 'react';
 import { gsap } from 'gsap';
+import type { RefObject } from 'react';
+import { useEffect } from 'react';
 
 export const useRibbonAnimation = (
   bookmarkRef: RefObject<HTMLDivElement>,

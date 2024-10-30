@@ -2,12 +2,13 @@ import { gsap } from 'gsap';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { Rating } from './Rating';
 import SlidingTitle from './SlidingTitle';
 import type { BookData } from '../../api/book';
 import { getBookDataById } from '../../api/book';
 import { Button, Icon } from '../../components';
+
 import { useBookCoverAnimation, useRibbonAnimation } from 'hooks';
-import { Rating } from './Rating';
 
 export const BookModal = () => {
   const [book, setBook] = useState<BookData | null>(null);
