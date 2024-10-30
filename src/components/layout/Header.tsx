@@ -5,8 +5,8 @@ import { MenuButton } from './MenuButton';
 import LoginModal from 'components/common/Modal/LoginModal';
 import { supabase } from 'lib/supabase';
 import { PopularPosts } from 'pages/community';
-import { useAuthStore } from 'store/useAuthStore';
-import { useModalStore } from 'store/useModalStore';
+import { useAuthStore } from 'stores/useAuthStore';
+import { useModalStore } from 'stores/useModalStore';
 import { useIntroStore } from 'stores';
 
 export const Header = () => {

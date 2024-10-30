@@ -3,10 +3,10 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import { getUserInfo } from 'api/auth';
 import { supabase } from 'lib/supabase';
-import { useAuthStore } from 'store/useAuthStore';
 import { Layout } from 'components';
 import { ModalProvider, BackgroundColorProvider } from 'context';
 import { CommunityPage, MyPage, BookModal, HomePage } from 'pages';
+import { useAuthStore } from 'stores/useAuthStore';
 
 const router = createBrowserRouter([
   {

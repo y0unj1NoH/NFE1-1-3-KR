@@ -2,7 +2,7 @@ import { createPortal } from 'react-dom';
 
 import ModalWrapper from './ModalWrapper';
 
-import { useModalStore } from 'store/useModalStore';
+import { useModalStore } from 'stores/useModalStore';
 import type { ModalName } from 'types/modal';
 
 const ModalRenderer = () => {
