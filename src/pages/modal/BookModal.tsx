@@ -1,5 +1,5 @@
 import { gsap } from 'gsap';
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import SlidingTitle from './SlidingTitle';
@@ -13,6 +13,7 @@ export const BookModal = () => {
   const [initialized, setInitialized] = useState(false);
   const navigate = useNavigate();
   const bookmarkRef = useRef<HTMLDivElement>(null);
+  const coverRef = useRef<HTMLImageElement>(null);
 
   const bookId = '2173713'; // 임시 책 Id
   const backgroundColor = 'rgba(36, 56, 104, 0.5)'; // 임시 배경색 (투명도 50)
@@ -30,8 +31,56 @@ export const BookModal = () => {
       }
     };
 
-    fetchBookDetails();
+    void fetchBookDetails();
   }, [bookId]);
+
+  // 책 커버 마우스 호버 효과
+  useEffect(() => {
+    console.log('imgmouse');
+
+    const handleMouseMove = (event: MouseEvent) => {
+      if (!coverRef.current) return;
+
+      const { clientX, clientY } = event;
+      const { left, top, width, height } = coverRef.current.getBoundingClientRect();
+
+      const xPos = (clientX - left) / width;
+      const yPos = (clientY - top) / height;
+
+      const rotationX = (yPos - 0.5) * 20;
+      const rotationY = (xPos - 0.5) * -20;
+
+      gsap.to(coverRef.current, {
+        rotateX: rotationX,
+        rotateY: rotationY,
+        duration: 0.3,
+        ease: 'power1.out',
+      });
+    };
+
+    // 원래 상태로 복구
+    const handleMouseLeave = () => {
+      gsap.to(coverRef.current, {
+        rotateX: 0,
+        rotateY: 0,
+        duration: 0.5,
+        ease: 'power3.out',
+      });
+    };
+
+    const coverElement = coverRef.current;
+    if (coverElement) {
+      coverElement.addEventListener('mousemove', handleMouseMove);
+      coverElement.addEventListener('mouseleave', handleMouseLeave);
+    }
+
+    return () => {
+      if (coverElement) {
+        coverElement.removeEventListener('mousemove', handleMouseMove);
+        coverElement.removeEventListener('mouseleave', handleMouseLeave);
+      }
+    };
+  }, [initialized]);
 
   // 리본 초기 위치
   useEffect(() => {
@@ -103,12 +152,13 @@ export const BookModal = () => {
         <div className='w-[15%] flex items-center justify-center'>
           <SlidingTitle title={book.title} />
         </div>
-        <div className='w-[80%] flex items-center justify-center'>
-          <div className='relative flex flex-col items-center justify-center w-full h-full max-w-5xl p-12 overflow-y-auto'>
-            <div className='flex flex-col items-end gap-12 md:flex-row'>
+        <div className='w-[85%] flex items-center justify-center'>
+          <div className='relative flex flex-col items-center justify-center w-full h-full max-w-6xl p-4 overflow-y-auto'>
+            <div className='flex flex-col items-center gap-12 md:flex-row'>
               <img
                 alt={book.title}
                 className='object-cover w-full h-auto max-w-md rounded-lg shadow-xl md:max-w-lg'
+                ref={coverRef}
                 src={book.cover}
               />
               <div className='flex flex-col justify-end flex-1'>
