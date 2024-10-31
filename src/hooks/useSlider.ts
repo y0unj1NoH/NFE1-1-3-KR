@@ -12,9 +12,9 @@ import {
   handleClick,
   handleModalClick,
   handleWheel,
-} from 'utils/sliderUtils';
+} from 'utils';
 
-const useSlider = ({ data }: { data: BookData[] }) => {
+export const useSlider = ({ data }: { data: BookData[] }) => {
   const sliderTl = gsap.timeline({ paused: true, reversed: true });
   const tracker = { item: 0 };
 
@@ -59,5 +59,3 @@ const useSlider = ({ data }: { data: BookData[] }) => {
     };
   }, [data]);
 };
-
-export default useSlider;

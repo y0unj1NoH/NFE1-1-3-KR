@@ -1,6 +1,6 @@
 import SliderItem from './SliderItem';
-import useSlider from '../../hooks/useSlider';
 
+import { useSlider } from 'hooks';
 import type { BookData } from 'types';
 
 const Slider = ({ data }: { data: BookData[] }) => {
