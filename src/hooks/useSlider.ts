@@ -4,8 +4,7 @@ import { Flip } from 'gsap/Flip';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useEffect } from 'react';
 
-import type { BookData } from '../api/book';
-
+import type { BookData } from 'types';
 import {
   setupWheel,
   setupTimeline,

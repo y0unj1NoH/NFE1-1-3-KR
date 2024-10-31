@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint . --report-unused-disable-directives --max-warnings 0 --fix",
     "lint-fix": "eslint . --fix",
-    "format": "prettier --write ./src"
+    "format": "prettier --write ./src",
+    "generate-types": "dotenv -- npx supabase gen types typescript > ./src/types/supabase.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.6",
@@ -16,12 +17,16 @@
     "axios": "^1.7.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "framer-motion": "^11.11.10",
+    "gsap": "^3.12.5",
     "immer": "^10.1.1",
     "lodash-es": "^4.17.21",
     "nanoid": "^5.0.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-icons": "^5.3.0",
     "react-router-dom": "^6.27.0",
+    "supabase": "^1.207.9",
     "tailwind-merge": "^2.5.4",
     "zustand": "^5.0.0"
   },
@@ -35,6 +40,7 @@
     "@typescript-eslint/parser": "^8.9.0",
     "@vitejs/plugin-react": "^4.3.2",
     "autoprefixer": "^10.4.20",
+    "dotenv-cli": "^7.4.2",
     "eslint": "9",
     "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-typescript": "^3.6.3",

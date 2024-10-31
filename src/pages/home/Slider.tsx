@@ -1,6 +1,7 @@
 import SliderItem from './SliderItem';
-import type { BookData } from '../../api/book';
 import useSlider from '../../hooks/useSlider';
+
+import type { BookData } from 'types';
 
 const Slider = ({ data }: { data: BookData[] }) => {
   useSlider({ data });
@@ -16,7 +17,7 @@ const Slider = ({ data }: { data: BookData[] }) => {
                 alt='슬라이드 아이템'
                 backfaceColor='bg-[rgb(255,153,153)]'
                 key={index}
-                src={bookData.cover}
+                src={bookData.cover as string}
               />
             ))
           }
