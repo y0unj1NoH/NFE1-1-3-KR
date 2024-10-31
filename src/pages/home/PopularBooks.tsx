@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 
 import Slide from './Slide';
-import { getBookDataList, type BookData } from '../../api/book';
+
+import { getBookList } from 'api';
+import type { BookData } from 'types';
 
 const PopularBooks = () => {
   // TODO: 데이터 처리 훅으로 분리
@@ -10,7 +12,7 @@ const PopularBooks = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getBookDataList();
+        const result = await getBookList();
         setData(result);
       } catch (error) {
         console.error('Error fetching book data:', error);

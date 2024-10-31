@@ -1,8 +1,8 @@
 import { supabase } from 'lib/supabase';
-import type { BookData, SearchBookParams } from 'types';
+import type { BookData } from 'types';
 
-// get all book datalist
-const getBookDataList = async (): Promise<BookData[]> => {
+// get all book list
+const getBookList = async (): Promise<BookData[]> => {
   try {
     const { data, error } = await supabase.from('books').select('*');
 
@@ -19,11 +19,7 @@ const getBookDataList = async (): Promise<BookData[]> => {
 };
 
 // get single book data
-interface GetBookParams {
-  bookId: string;
-}
-
-const getBookDataById = async ({ bookId }: GetBookParams): Promise<BookData> => {
+const getBookDataById = async ({ bookId }: { bookId: string }): Promise<BookData> => {
   try {
     const { data, error } = await supabase.from('books').select('*').eq('id', bookId).single();
 
@@ -40,7 +36,7 @@ const getBookDataById = async ({ bookId }: GetBookParams): Promise<BookData> => 
 };
 
 // search book data
-const searchBook = async ({ bookTitle }: SearchBookParams): Promise<BookData[]> => {
+const searchBook = async ({ bookTitle }: { bookTitle: string }): Promise<BookData[]> => {
   try {
     const { data, error } = await supabase.from('books').select('*').eq('title', bookTitle);
 
@@ -56,4 +52,4 @@ const searchBook = async ({ bookTitle }: SearchBookParams): Promise<BookData[]> 
   }
 };
 
-export { getBookDataList, getBookDataById, searchBook };
+export { getBookList, getBookDataById, searchBook };
