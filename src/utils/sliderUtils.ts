@@ -127,7 +127,7 @@ export const handleDrag = (
       startRotation = this.rotation as number;
     },
     onDrag: function () {
-      rotateSlider(this.target as HTMLElement, this.rotation as number, 0.1, 'power2.out');
+      rotateSlider(this.target as HTMLDivElement, this.rotation as number, 0.1, 'power2.out');
     },
     onDragEnd: function () {
       const rotationDiff = this.rotation - startRotation;
@@ -144,7 +144,7 @@ export const handleDrag = (
       setActiveImage(images, next);
 
       const finalRotation = startRotation + distance * AnglePerImage;
-      rotateSlider(this.target as HTMLElement, finalRotation, 1, 'power4.out');
+      rotateSlider(this.target as HTMLDivElement, finalRotation, 1, 'power4.out');
     },
   });
 };
@@ -238,7 +238,11 @@ export const handleModalClick = (
       ease: 'sine.inOut',
       onComplete: () => {
         activeCard.dataset.flipId = 'wheel__card';
-        animation.to(faces, { rotationY: 0 });
+        animation.to(faces, { rotationY: 0 }).eventCallback('onComplete', () => {
+          // Ensure the state is updated after the animation completes
+          activeCard.dataset.flipId = '';
+        });
+        // animation.to(faces, { rotationY: 0 });
       },
     });
   });
