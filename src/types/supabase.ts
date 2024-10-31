@@ -45,47 +45,97 @@ export type Database = {
         }
         Relationships: []
       }
+      comment: {
+        Row: {
+          comment_id: string
+          content: string
+          created_at: string
+          post_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          comment_id?: string
+          content: string
+          created_at?: string
+          post_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          comment_id?: string
+          content?: string
+          created_at?: string
+          post_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comment_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["post_id"]
+          },
+          {
+            foreignKeyName: "comment_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "userinfo"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       posts: {
         Row: {
           content: string
           created_at: string
-          id: string
+          post_id: string
           title: string
           updated_at: string
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           content: string
           created_at?: string
-          id?: string
+          post_id?: string
           title: string
           updated_at?: string
-          user_id?: string | null
+          user_id: string
         }
         Update: {
           content?: string
           created_at?: string
-          id?: string
+          post_id?: string
           title?: string
           updated_at?: string
-          user_id?: string | null
+          user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "posts_user_id_fkey1"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "userinfo"
+            referencedColumns: ["user_id"]
+          },
+        ]
       }
       userinfo: {
         Row: {
-          id: string
           profile_url: string | null
+          user_id: string
           username: string | null
         }
         Insert: {
-          id: string
           profile_url?: string | null
+          user_id: string
           username?: string | null
         }
         Update: {
-          id?: string
           profile_url?: string | null
+          user_id?: string
           username?: string | null
         }
         Relationships: []
