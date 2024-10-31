@@ -252,7 +252,7 @@ export const handleWheel = (
   tl: gsap.core.Timeline,
   tracker: { item: number },
 ) => {
-  const direction = deltaY > 0 ? 1 : -1;
+  const direction = deltaY > 0 ? -1 : 1;
   const total = images.length;
 
   gsap.to(tl, {
