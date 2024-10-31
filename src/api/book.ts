@@ -1,16 +1,5 @@
 import { supabase } from 'lib/supabase';
-
-export interface BookData {
-  id: string;
-  title: string;
-  author: string;
-  description: string;
-  rating_info: string;
-  cover: string;
-  category_name: string;
-  isbn: string;
-  isbn13: string;
-}
+import type { BookData } from 'types';
 
 // get all book datalist
 export const getBookDataList = async (): Promise<BookData[]> => {

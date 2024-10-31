@@ -6,7 +6,7 @@ export const getUserInfo = async (userId: string): Promise<UserInfo> => {
     const { data: userInfo, error } = await supabase
       .from('userinfo')
       .select('*')
-      .eq('id', userId)
+      .eq('user_id', userId)
       .single<UserInfo>();
 
     if (error) throw error;
