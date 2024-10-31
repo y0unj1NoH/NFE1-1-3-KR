@@ -21,7 +21,7 @@ const useSlider = ({ data }: { data: BookData[] }) => {
 
   useEffect(() => {
     const wheel = document.querySelector<HTMLDivElement>('.wheel');
-    const images = gsap.utils.toArray<HTMLElement>('.wheel__card');
+    const images = gsap.utils.toArray<HTMLDivElement>('.wheel__card');
     const modal = document.querySelector<HTMLDivElement>('.modal')!;
 
     if (!wheel || !images.length) {

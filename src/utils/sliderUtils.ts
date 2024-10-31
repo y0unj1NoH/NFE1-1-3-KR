@@ -9,13 +9,13 @@ const snap = (length: number) => {
 };
 
 // TODO: 기능 구현 완료 후 삭제 예정
-const setActiveImage = (images: HTMLElement[], index: number) => {
+const setActiveImage = (images: HTMLDivElement[], index: number) => {
   document.querySelector('.wheel__card.active')?.classList.remove('active');
   images[index].classList.add('active');
 };
 
 const rotateSlider = (
-  target: HTMLElement,
+  target: HTMLDivElement,
   rotation: number,
   duration: number,
   ease: string,
@@ -30,7 +30,7 @@ const rotateSlider = (
 };
 
 const moveWheel = (
-  images: HTMLElement[],
+  images: HTMLDivElement[],
   amount: number,
   tl: gsap.core.Timeline,
   tracker: { item: number },
@@ -52,7 +52,7 @@ const moveWheel = (
   });
 };
 
-export const setupWheel = (wheel: HTMLElement, images: HTMLElement[]) => {
+export const setupWheel = (wheel: HTMLDivElement, images: HTMLDivElement[]) => {
   const radius = wheel.offsetWidth / 2;
   const center = wheel.offsetWidth / 2;
   const slice = (2 * Math.PI) / images.length;
@@ -113,7 +113,7 @@ export const setupTimeline = (total: number, tl: gsap.core.Timeline, tracker: { 
 };
 
 export const handleDrag = (
-  images: HTMLElement[],
+  images: HTMLDivElement[],
   tl: gsap.core.Timeline,
   tracker: { item: number },
 ) => {
@@ -150,7 +150,7 @@ export const handleDrag = (
 };
 
 export const handleClick = (
-  images: HTMLElement[],
+  images: HTMLDivElement[],
   tl: gsap.core.Timeline,
   tracker: { item: number },
   modal: HTMLDivElement,
@@ -214,9 +214,9 @@ const handleActiveClick = (card: AnimatedHTMLDivElement, modal: HTMLDivElement) 
 };
 
 export const handleModalClick = (
-  images: HTMLElement[],
+  images: HTMLDivElement[],
   tracker: { item: number },
-  modal: HTMLElement,
+  modal: HTMLDivElement,
 ) => {
   const activeCard = images[tracker.item] as AnimatedHTMLDivElement;
   const faces = activeCard.querySelector('.faces');
@@ -249,7 +249,7 @@ export const handleModalClick = (
 
 export const handleWheel = (
   deltaY: number,
-  images: HTMLElement[],
+  images: HTMLDivElement[],
   tl: gsap.core.Timeline,
   tracker: { item: number },
 ) => {
