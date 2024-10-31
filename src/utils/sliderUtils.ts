@@ -1,7 +1,6 @@
 import { gsap } from 'gsap';
 import { Draggable } from 'gsap/Draggable';
 import { Flip } from 'gsap/Flip';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 const wrapProgress = gsap.utils.wrap(0, 1);
 
@@ -9,6 +8,7 @@ const snap = (length: number) => {
   return gsap.utils.snap(1 / length);
 };
 
+// TODO: 기능 구현 완료 후 삭제 예정
 const setActiveImage = (images: HTMLElement[], index: number) => {
   document.querySelector('.wheel__card.active')?.classList.remove('active');
   images[index].classList.add('active');
@@ -188,13 +188,11 @@ interface AnimatedHTMLDivElement extends HTMLDivElement {
 }
 
 const handleActiveClick = (card: AnimatedHTMLDivElement, modal: HTMLDivElement) => {
-  console.log(card, modal);
   const faces = card.querySelector('.faces');
-  console.log(faces);
 
   const animation = gsap.timeline({ paused: true });
   animation.to(faces, { rotationY: 180 });
-  // animation.set(card, { opacity: 0 });
+  animation.set(card, { opacity: 0 });
   animation.add(function () {
     card.dataset.flipId = 'wheel__card';
     const state = Flip.getState([card, modal], {
@@ -202,7 +200,6 @@ const handleActiveClick = (card: AnimatedHTMLDivElement, modal: HTMLDivElement) 
     });
 
     modal.classList.add('active');
-    console.log('modal done');
 
     Flip.from(state, {
       duration: 0.25,
@@ -247,4 +244,24 @@ export const handleModalClick = (
 
   activeCard.animation = animation;
   activeCard.animation.play();
+};
+
+export const handleWheel = (
+  deltaY: number,
+  images: HTMLElement[],
+  tl: gsap.core.Timeline,
+  tracker: { item: number },
+) => {
+  const direction = deltaY > 0 ? 1 : -1;
+  const total = images.length;
+
+  gsap.to(tl, {
+    progress: snap(total)(tl.progress() + direction / total),
+    modifiers: {
+      progress: wrapProgress,
+    },
+  });
+
+  const next = (tracker.item - direction + total) % total;
+  setActiveImage(images, next);
 };
