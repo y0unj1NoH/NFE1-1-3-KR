@@ -16,7 +16,7 @@ const SliderItem = ({ src, alt, backfaceColor = 'bg-[rgb(255,153,153)]' }: Slide
         <div
           className={`absolute w-full h-full shadow-xl ${backfaceColor} [transform:rotateY(180deg)] [backface-visibility:hidden]`}
         >
-          뭔가 이상하다
+          Test
         </div>
       </div>
     </div>
