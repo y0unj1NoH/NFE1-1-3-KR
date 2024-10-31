@@ -7,15 +7,17 @@ const getPostList = async () => {
       .from('posts')
       .select(
         `
-          post_id,
-          user_id,
-          title,
-          content,
-          created_at,
-          updated_at,
+          *,
           userinfo (
             username,
             profile_url
+          ),
+          books (
+            id,
+            title,
+            author,
+            isbn,
+            cover
           )
         `,
       )
@@ -35,22 +37,20 @@ const getPostById = async (postId: string) => {
       .from('posts')
       .select(
         `
-          post_id,
-          user_id,
-          title,
-          content,
-          created_at,
-          updated_at,
+          *,
           userinfo (
             username,
             profile_url
           ),
+          books (
+            id,
+            title,
+            author,
+            isbn,
+            cover
+          ),
           comment (
-            comment_id,
-            user_id,
-            content,
-            created_at,
-            updated_at,
+            *,
             userinfo (
               username,
               profile_url
