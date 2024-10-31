@@ -152,6 +152,7 @@ export const handleClick = (
   images: HTMLElement[],
   tl: gsap.core.Timeline,
   tracker: { item: number },
+  modal: HTMLDivElement,
 ) => {
   const total = images.length;
   const step = 1 / total;
@@ -161,7 +162,7 @@ export const handleClick = (
       const currentActive = tracker.item;
 
       if (i === currentActive) {
-        return;
+        handleActiveClick(el as AnimatedHTMLDivElement, modal);
       }
 
       setActiveImage(images, i);
@@ -180,4 +181,70 @@ export const handleClick = (
       }
     });
   });
+};
+
+interface AnimatedHTMLDivElement extends HTMLDivElement {
+  animation?: gsap.core.Timeline;
+}
+
+const handleActiveClick = (card: AnimatedHTMLDivElement, modal: HTMLDivElement) => {
+  console.log(card, modal);
+  const faces = card.querySelector('.faces');
+  console.log(faces);
+
+  const animation = gsap.timeline({ paused: true });
+  animation.to(faces, { rotationY: 180 });
+  // animation.set(card, { opacity: 0 });
+  animation.add(function () {
+    card.dataset.flipId = 'wheel__card';
+    const state = Flip.getState([card, modal], {
+      props: 'borderRadius, aspectRatio, boxShadow',
+    });
+
+    modal.classList.add('active');
+    console.log('modal done');
+
+    Flip.from(state, {
+      duration: 0.25,
+      ease: 'sine.inOut',
+      absolute: true,
+    });
+  });
+
+  card.animation = animation;
+  card.animation.play();
+};
+
+export const handleModalClick = (
+  images: HTMLElement[],
+  tracker: { item: number },
+  modal: HTMLElement,
+) => {
+  const activeCard = images[tracker.item] as AnimatedHTMLDivElement;
+  const faces = activeCard.querySelector('.faces');
+
+  const animation = gsap.timeline({ paused: true });
+  animation.set(activeCard, { opacity: 1 });
+  animation.add(function () {
+    activeCard.dataset.flipId = 'wheel__card';
+
+    const state = Flip.getState([modal, activeCard], {
+      props: 'borderRadius, aspectRatio, boxShadow',
+    });
+
+    modal.classList.remove('active');
+
+    Flip.from(state, {
+      duration: 1,
+      absolute: true,
+      ease: 'sine.inOut',
+      onComplete: () => {
+        activeCard.dataset.flipId = 'wheel__card';
+        animation.to(faces, { rotationY: 0 });
+      },
+    });
+  });
+
+  activeCard.animation = animation;
+  activeCard.animation.play();
 };

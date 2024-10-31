@@ -6,15 +6,22 @@ import { useEffect } from 'react';
 
 import type { BookData } from '../api/book';
 
-import { setupWheel, setupTimeline, handleDrag, handleClick } from 'utils/sliderUtils';
+import {
+  setupWheel,
+  setupTimeline,
+  handleDrag,
+  handleClick,
+  handleModalClick,
+} from 'utils/sliderUtils';
 
 const useSlider = ({ data }: { data: BookData[] }) => {
   const sliderTl = gsap.timeline({ paused: true, reversed: true });
   const tracker = { item: 0 };
 
   useEffect(() => {
-    const wheel = document.querySelector<HTMLElement>('.wheel');
+    const wheel = document.querySelector<HTMLDivElement>('.wheel');
     const images = gsap.utils.toArray<HTMLElement>('.wheel__card');
+    const modal = document.querySelector<HTMLDivElement>('.modal');
 
     if (!wheel || !images.length) {
       return;
@@ -26,7 +33,16 @@ const useSlider = ({ data }: { data: BookData[] }) => {
 
     setupTimeline(images.length, sliderTl, tracker);
     handleDrag(images, sliderTl, tracker);
-    handleClick(images, sliderTl, tracker);
+
+    // TODO: 모달 파트 수정 필요
+    let handleModalClose: () => void;
+    if (modal) {
+      handleClick(images, sliderTl, tracker, modal);
+      handleModalClose = () => {
+        handleModalClick(images, tracker, modal);
+      };
+      modal.addEventListener('click', handleModalClose);
+    }
 
     const handleResize = () => {
       setupWheel(wheel, images);
@@ -36,6 +52,9 @@ const useSlider = ({ data }: { data: BookData[] }) => {
 
     return () => {
       window.removeEventListener('resize', handleResize);
+      if (modal) {
+        modal.addEventListener('click', handleModalClose);
+      }
     };
   }, [data]);
 };

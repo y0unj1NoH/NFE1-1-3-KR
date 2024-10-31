@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import Slider from './Slider';
 import { getBookDataList, type BookData } from '../../api/book';
 
+import './styles.css';
+
 const PopularBooks = () => {
   // TODO: 데이터 처리 훅으로 분리
   const [data, setData] = useState<BookData[]>([]);
@@ -24,6 +26,7 @@ const PopularBooks = () => {
   return (
     <>
       <Slider data={data} />
+      <div className='modal' data-flip-id='wheel__card'></div>
     </>
   );
 };
