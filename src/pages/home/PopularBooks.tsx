@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Slider from './Slider';
 import { getBookDataList, type BookData } from '../../api/book';
 
+// TODO: 모달 에러 수정 시 삭제 예정
 import './styles.css';
 
 const PopularBooks = () => {
