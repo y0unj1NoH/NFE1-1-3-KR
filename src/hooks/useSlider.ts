@@ -56,7 +56,7 @@ export const useSlider = ({ data }: { data: BookData[] }) => {
     setupTimeline(images.length, sliderTl, tracker);
     handleDrag(images, sliderTl, tracker);
     handleClick(images, sliderTl, tracker, modal);
-  }, [wheel, images, sliderTl, tracker, modal]);
+  }, [images]);
 
   useEffect(() => {
     window.addEventListener('resize', handleResize);
