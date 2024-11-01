@@ -87,32 +87,81 @@ export type Database = {
           },
         ]
       }
+      post_likes: {
+        Row: {
+          created_at: string
+          id: string
+          post_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          post_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          post_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "post_likes_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["post_id"]
+          },
+          {
+            foreignKeyName: "post_likes_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "userinfo"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       posts: {
         Row: {
+          book_id: string | null
           content: string
           created_at: string
+          likes_count: number
           post_id: string
           title: string
           updated_at: string
           user_id: string
         }
         Insert: {
+          book_id?: string | null
           content: string
           created_at?: string
+          likes_count?: number
           post_id?: string
           title: string
           updated_at?: string
           user_id: string
         }
         Update: {
+          book_id?: string | null
           content?: string
           created_at?: string
+          likes_count?: number
           post_id?: string
           title?: string
           updated_at?: string
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "posts_book_id_fkey"
+            columns: ["book_id"]
+            isOneToOne: false
+            referencedRelation: "books"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "posts_user_id_fkey1"
             columns: ["user_id"]

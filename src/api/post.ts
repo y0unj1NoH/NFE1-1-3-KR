@@ -33,36 +33,55 @@ const getPostList = async () => {
 
 const getPostById = async (postId: string) => {
   try {
-    const { data, error } = await supabase
-      .from('posts')
-      .select(
-        `
-          *,
-          userinfo (
-            username,
-            profile_url
-          ),
-          books (
-            id,
-            title,
-            author,
-            isbn,
-            cover
-          ),
-          comment (
+    const user = await supabase.auth.getUser();
+    const userId = user.data.user?.id;
+
+    const [postResponse, likeResponse] = await Promise.all([
+      supabase
+        .from('posts')
+        .select(
+          `
             *,
             userinfo (
               username,
               profile_url
+            ),
+            books (
+              id,
+              title,
+              author,
+              isbn,
+              cover
+            ),
+            comment (
+              *,
+              userinfo (
+                username,
+                profile_url
+              )
             )
-          )
-        `,
-      )
-      .eq('post_id', postId)
-      .single();
+          `,
+        )
+        .eq('post_id', postId)
+        .single(),
 
-    if (error) throw error;
-    return data;
+      // 로그인한 경우만 좋아요 여부 확인
+      userId
+        ? supabase
+            .from('post_likes')
+            .select('*')
+            .eq('post_id', postId)
+            .eq('user_id', userId)
+            .maybeSingle()
+        : null,
+    ]);
+
+    if (postResponse.error) throw postResponse.error;
+
+    return {
+      ...postResponse.data,
+      isLiked: Boolean(likeResponse?.data),
+    };
   } catch (error) {
     console.error('Error fetching post:', error);
     throw error;
@@ -71,7 +90,13 @@ const getPostById = async (postId: string) => {
 
 const createPost = async (formData: CreatePostFormData) => {
   try {
-    const { data, error } = await supabase.from('posts').insert(formData).select();
+    const user = await supabase.auth.getUser();
+    const userId = user.data.user?.id;
+
+    const { data, error } = await supabase
+      .from('posts')
+      .insert({ user_id: userId, ...formData })
+      .select();
 
     if (error) throw error;
     return data;
