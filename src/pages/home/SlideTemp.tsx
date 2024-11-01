@@ -1,18 +1,23 @@
-import { useRef } from 'react';
+import { forwardRef, useEffect } from 'react';
 
 import PopularBooks from './PopularBooks';
 
-import { useIntersectionObserver, useSetBackgroundColor } from 'hooks';
+import { useSetBackgroundColor } from 'hooks';
+import { useIntroStore } from 'stores';
 
-export const SlideTemp = () => {
-  const ref = useRef<HTMLDivElement>(null);
-  const isVisible = useIntersectionObserver(ref);
+export const SlideTemp = forwardRef<HTMLDivElement, { isVisible: boolean }>(
+  ({ isVisible }, ref) => {
+    useSetBackgroundColor('bg-secondary', isVisible);
+    const { setIsVisible } = useIntroStore();
 
-  useSetBackgroundColor('bg-secondary', isVisible);
+    useEffect(() => {
+      setIsVisible(false);
+    }, [setIsVisible, isVisible]);
 
-  return (
-    <div className='h-[calc(100vh-6rem)] w-full overflow-hidden relative' ref={ref}>
-      <PopularBooks />
-    </div>
-  );
-};
+    return (
+      <div className='h-[calc(100vh-6rem)] w-full overflow-hidden relative' ref={ref}>
+        <PopularBooks />
+      </div>
+    );
+  },
+);

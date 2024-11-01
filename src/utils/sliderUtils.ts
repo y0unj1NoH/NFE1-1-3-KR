@@ -44,12 +44,15 @@ const moveWheel = (
 
   setActiveImage(images, next);
 
+  console.log('실행 전: ', tl.progress());
+
   gsap.to(tl, {
     progress: snap(total)(tl.progress() + amount),
     modifiers: {
       progress: wrapProgress,
     },
   });
+  console.log('실행 후: ', tl.progress());
 };
 
 export const setupWheel = (wheel: HTMLDivElement, images: HTMLDivElement[]) => {
@@ -104,7 +107,7 @@ export const setupTimeline = (total: number, tl: gsap.core.Timeline, tracker: { 
   );
 
   gsap.to(tl, {
-    duration: 1,
+    duration: 2,
     progress: snap(total)(tl.progress() - 1),
     modifiers: {
       progress: wrapProgress,
@@ -133,12 +136,16 @@ export const handleDrag = (
       const rotationDiff = this.rotation - startRotation;
       const distance = Math.round(rotationDiff / AnglePerImage);
 
+      console.log('실행 전: ', tl.progress());
+
       gsap.to(tl, {
         progress: snap(total)(tl.progress() + distance / total),
         modifiers: {
           progress: wrapProgress,
         },
       });
+
+      console.log('실행 후: ', tl.progress());
 
       const next = (tracker.item - distance + total) % total;
       setActiveImage(images, next);
@@ -260,10 +267,15 @@ export const handleWheel = (
   const direction = deltaY > 0 ? -1 : 1;
   const total = images.length;
 
+  console.log('실행 전: ', tl.progress());
+  // TODO: 스크롤 이벤트가 제대로 작동하지 않음
   gsap.to(tl, {
     progress: snap(total)(tl.progress() + direction / total),
     modifiers: {
       progress: wrapProgress,
+    },
+    onComplete: () => {
+      console.log('실행 후: ', tl.progress());
     },
   });
 
