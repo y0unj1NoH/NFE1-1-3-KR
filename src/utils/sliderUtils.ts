@@ -104,7 +104,6 @@ export const setupTimeline = (total: number, tl: gsap.core.Timeline, tracker: { 
   );
 
   gsap.to(tl, {
-    duration: 1,
     progress: snap(total)(tl.progress() - 1),
     modifiers: {
       progress: wrapProgress,
