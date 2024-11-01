@@ -44,12 +44,15 @@ const moveWheel = (
 
   setActiveImage(images, next);
 
+  console.log('실행 전: ', tl.progress());
+
   gsap.to(tl, {
     progress: snap(total)(tl.progress() + amount),
     modifiers: {
       progress: wrapProgress,
     },
   });
+  console.log('실행 후: ', tl.progress());
 };
 
 export const setupWheel = (wheel: HTMLDivElement, images: HTMLDivElement[]) => {
@@ -133,12 +136,16 @@ export const handleDrag = (
       const rotationDiff = this.rotation - startRotation;
       const distance = Math.round(rotationDiff / AnglePerImage);
 
+      console.log('실행 전: ', tl.progress());
+
       gsap.to(tl, {
         progress: snap(total)(tl.progress() + distance / total),
         modifiers: {
           progress: wrapProgress,
         },
       });
+
+      console.log('실행 후: ', tl.progress());
 
       const next = (tracker.item - distance + total) % total;
       setActiveImage(images, next);
@@ -260,12 +267,14 @@ export const handleWheel = (
   const direction = deltaY > 0 ? -1 : 1;
   const total = images.length;
 
+  console.log('실행 전: ', tl.progress());
   gsap.to(tl, {
     progress: snap(total)(tl.progress() + direction / total),
     modifiers: {
       progress: wrapProgress,
     },
   });
+  console.log('실행 후: ', tl.progress());
 
   const next = (tracker.item - direction + total) % total;
   setActiveImage(images, next);
