@@ -3,7 +3,13 @@ import type { CommentFormData, UpdateCommentParams } from 'types';
 
 const createComment = async (formData: CommentFormData) => {
   try {
-    const { data, error } = await supabase.from('comment').insert(formData).select();
+    const user = await supabase.auth.getUser();
+    const userId = user.data.user?.id;
+
+    const { data, error } = await supabase
+      .from('comment')
+      .insert({ user_id: userId, ...formData })
+      .select();
 
     if (error) {
       throw error;
