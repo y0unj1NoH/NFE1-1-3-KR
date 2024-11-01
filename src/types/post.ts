@@ -2,7 +2,7 @@ import type { Database } from './supabase';
 
 type PostData = Database['public']['Tables']['posts']['Row'];
 
-export interface CreatePostFormData extends Pick<PostData, 'title' | 'content' | 'user_id'> {
+export interface CreatePostFormData extends Pick<PostData, 'title' | 'content'> {
   book_id?: string;
 }
 
