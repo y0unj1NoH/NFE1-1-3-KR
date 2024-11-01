@@ -44,15 +44,12 @@ const moveWheel = (
 
   setActiveImage(images, next);
 
-  console.log('실행 전: ', tl.progress());
-
   gsap.to(tl, {
     progress: snap(total)(tl.progress() + amount),
     modifiers: {
       progress: wrapProgress,
     },
   });
-  console.log('실행 후: ', tl.progress());
 };
 
 export const setupWheel = (wheel: HTMLDivElement, images: HTMLDivElement[]) => {
@@ -209,6 +206,9 @@ const handleActiveClick = (card: AnimatedHTMLDivElement, modal: HTMLDivElement) 
       duration: 0.25,
       ease: 'sine.inOut',
       absolute: true,
+      onComplete: () => {
+        console.log('modal open');
+      },
     });
   });
 
@@ -268,7 +268,6 @@ export const handleWheel = (
     modifiers: {
       progress: wrapProgress,
     },
-
   });
 
   const next = (tracker.item - direction + total) % total;
