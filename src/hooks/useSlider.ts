@@ -2,8 +2,9 @@ import { gsap } from 'gsap';
 import { Draggable } from 'gsap/Draggable';
 import { Flip } from 'gsap/Flip';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useEffect } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
+import { useIntersectionObserver } from 'hooks';
 import type { BookData } from 'types';
 import {
   setupWheel,
@@ -18,44 +19,70 @@ export const useSlider = ({ data }: { data: BookData[] }) => {
   const sliderTl = gsap.timeline({ paused: true, reversed: true });
   const tracker = { item: 0 };
 
-  useEffect(() => {
-    const wheel = document.querySelector<HTMLDivElement>('.wheel');
-    const images = gsap.utils.toArray<HTMLDivElement>('.wheel__card');
-    const modal = document.querySelector<HTMLDivElement>('.modal')!;
+  const wheel = document.querySelector<HTMLDivElement>('.wheel');
+  const modal = document.querySelector<HTMLDivElement>('.modal')!;
+  const [images, setImages] = useState<HTMLDivElement[]>(
+    gsap.utils.toArray<HTMLDivElement>('.wheel__card'),
+  );
 
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const isIntersecting = useIntersectionObserver(sliderRef);
+
+  const handleModalClose = useCallback(() => {
+    handleModalClick(images, tracker, modal);
+  }, [images, tracker, modal]);
+
+  const handleResize = useCallback(() => {
+    setupWheel(wheel as HTMLDivElement, images);
+  }, [wheel, images]);
+
+  const handleScroll = useCallback(
+    (event: WheelEvent) => {
+      handleWheel(event.deltaY, images, sliderTl, tracker);
+    },
+    [images, sliderTl, tracker],
+  );
+
+  useEffect(() => {
+    setImages(gsap.utils.toArray<HTMLDivElement>('.wheel__card'));
+  }, [data]);
+
+  useEffect(() => {
     if (!wheel || !images.length) {
       return;
     }
-
-    setupWheel(wheel, images);
-
     gsap.registerPlugin(ScrollTrigger, Draggable, Flip);
-
+    setupWheel(wheel, images);
     setupTimeline(images.length, sliderTl, tracker);
     handleDrag(images, sliderTl, tracker);
     handleClick(images, sliderTl, tracker, modal);
+  }, [wheel, images, sliderTl, tracker, modal]);
 
-    // TODO: 모달 파트 수정 필요
-    const handleModalClose = () => {
-      handleModalClick(images, tracker, modal);
-    };
-
-    const handleResize = () => {
-      setupWheel(wheel, images);
-    };
-
-    const handleScroll = (event: WheelEvent) => {
-      handleWheel(event.deltaY, images, sliderTl, tracker);
-    };
-
-    modal.addEventListener('click', handleModalClose);
+  useEffect(() => {
     window.addEventListener('resize', handleResize);
-    window.addEventListener('wheel', handleScroll);
+    if (modal) {
+      modal.addEventListener('click', handleModalClose);
+    }
 
     return () => {
       window.removeEventListener('resize', handleResize);
-      window.removeEventListener('wheel', handleScroll);
-      modal.addEventListener('click', handleModalClose);
+      if (modal) {
+        modal.removeEventListener('click', handleModalClose);
+      }
     };
-  }, [data]);
+  }, [handleModalClose, handleResize, modal]);
+
+  useEffect(() => {
+    console.log('isIntersecting: ', isIntersecting);
+    if (isIntersecting) {
+      window.addEventListener('wheel', handleScroll);
+    } else {
+      window.removeEventListener('wheel', handleScroll);
+    }
+    return () => {
+      window.removeEventListener('wheel', handleScroll);
+    };
+  }, [isIntersecting, handleScroll]);
+
+  return { sliderRef };
 };
