@@ -268,13 +268,16 @@ export const handleWheel = (
   const total = images.length;
 
   console.log('실행 전: ', tl.progress());
+  // TODO: 스크롤 이벤트가 제대로 작동하지 않음
   gsap.to(tl, {
     progress: snap(total)(tl.progress() + direction / total),
     modifiers: {
       progress: wrapProgress,
     },
+    onComplete: () => {
+      console.log('실행 후: ', tl.progress());
+    },
   });
-  console.log('실행 후: ', tl.progress());
 
   const next = (tracker.item - direction + total) % total;
   setActiveImage(images, next);

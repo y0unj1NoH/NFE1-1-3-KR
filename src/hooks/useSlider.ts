@@ -38,23 +38,9 @@ export const useSlider = ({ data }: { data: BookData[] }) => {
 
   const handleScroll = useCallback(
     (event: WheelEvent) => {
-      // handleWheel(event.deltaY, images, sliderTl, tracker);
-      const total = images.length;
-
-      const direction = event.deltaY > 0 ? -1 : 1;
-      console.log('실행 전: ', sliderTl.progress());
-
-      gsap.to(sliderTl, {
-        progress: gsap.utils.snap(1 / total)(sliderTl.progress() + direction / total),
-        modifiers: {
-          progress: gsap.utils.wrap(0, 1),
-        },
-        onComplete: () => {
-          console.log('실행 후: ', sliderTl.progress());
-        },
-      });
+      handleWheel(event.deltaY, images, sliderTl, tracker);
     },
-    [images, sliderTl],
+    [images, sliderTl, tracker],
   );
 
   useEffect(() => {
