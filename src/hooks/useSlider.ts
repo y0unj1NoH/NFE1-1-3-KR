@@ -40,7 +40,7 @@ export const useSlider = ({ data }: { data: BookData[] }) => {
     (event: WheelEvent) => {
       handleWheel(event.deltaY, images, sliderTl, tracker);
     },
-    [images, sliderTl, tracker],
+    [images],
   );
 
   useEffect(() => {
