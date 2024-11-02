@@ -1,12 +1,26 @@
 import SliderItem from './SliderItem';
 
 import { useSlider } from 'hooks';
+import { BookModal } from 'pages';
+import { useState } from 'react';
 import type { BookData } from 'types';
 
 import './styles.css';
 
 const Slider = ({ data }: { data: BookData[] }) => {
   const { sliderRef } = useSlider({ data });
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedBookId, setSelectedBookId] = useState<string | null>(null);
+
+  const openModal = (bookId: string) => {
+    setSelectedBookId(bookId);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    setSelectedBookId(null);
+  };
 
   return (
     <>
@@ -18,6 +32,22 @@ const Slider = ({ data }: { data: BookData[] }) => {
         </div>
       </div>
       <div className='modal' data-flip-id='wheel__card'></div>
+      {/* {
+            // TODO: 이미지에 따른 모달 창 색상값 설정
+            data.slice(0, 14).map((bookData, index) => (
+              <SliderItem
+                alt='슬라이드 아이템'
+                backfaceColor='bg-[rgb(255,153,153)]'
+                key={index}
+                bookId={bookData.id}
+                src={bookData.cover as string}
+                onClick={() => openModal(bookData.id)}
+              />
+            ))
+          }
+        </div>
+      </div>
+      {isModalOpen && <BookModal bookId={selectedBookId || ''} onClose={closeModal} />} */}
     </>
   );
 };
