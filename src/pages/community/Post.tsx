@@ -1,3 +1,4 @@
+import { Profile } from 'components';
 import type { PostDTO } from 'types';
 
 export const Post = ({ post }: { post: PostDTO }) => {
@@ -10,11 +11,7 @@ export const Post = ({ post }: { post: PostDTO }) => {
       />
       <div className='flex flex-col items-start w-full h-full gap-8 px-2'>
         <div className='inline-flex items-center self-stretch justify-start gap-4'>
-          <img
-            alt='user-profile'
-            className='w-10 h-10 relative rounded-[100px]'
-            src={post.userinfo?.profile_url || '/default-userprofile.png'}
-          />
+          <Profile index={+post.userinfo.username!.slice(-1)} size={10} />
           <div className='text-[#333333] text-base font-normal leading-snug'>
             {post.userinfo?.username}
           </div>
