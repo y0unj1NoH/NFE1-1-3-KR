@@ -7,17 +7,22 @@ import { getBookDataById } from '../../api/book';
 import { Button, Icon } from '../../components';
 
 import { useBookCoverAnimation, useRibbonAnimation } from 'hooks';
-import { BookData } from 'types';
+import type { BookData } from 'types';
 
-export const BookModal = ({ bookId, onClose }: { bookId: string; onClose: () => void }) => {
+export const BookModal = ({
+  bookId,
+  backgroundColor,
+  onClose,
+}: {
+  bookId: string;
+  backgroundColor: string;
+  onClose: () => void;
+}) => {
   const [book, setBook] = useState<BookData | null>(null);
   const [isBookmarkOpen, setBookmarkOpen] = useState(false);
   const [initialized, setInitialized] = useState(false);
   const bookmarkRef = useRef<HTMLDivElement>(null);
   const coverRef = useRef<HTMLImageElement>(null);
-
-  // const bookId = '2173713'; // 임시 책 Id
-  const backgroundColor = 'rgba(36, 56, 104, 0.5)'; // 임시 배경색 (투명도 50)
 
   useBookCoverAnimation(coverRef, initialized);
   useRibbonAnimation(bookmarkRef, isBookmarkOpen, initialized);

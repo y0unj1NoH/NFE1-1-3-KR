@@ -1,8 +1,9 @@
+import { useCallback, useState } from 'react';
+
 import SliderItem from './SliderItem';
 
 import { useSlider } from 'hooks';
 import { BookModal } from 'pages';
-import { useState } from 'react';
 import type { BookData } from 'types';
 
 import './styles.css';
@@ -11,15 +12,18 @@ const Slider = ({ data }: { data: BookData[] }) => {
   const { sliderRef } = useSlider({ data });
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedBookId, setSelectedBookId] = useState<string | null>(null);
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
 
-  const openModal = (bookId: string) => {
+  const openModal = (bookId: string, bookColor: string) => {
     setSelectedBookId(bookId);
+    setSelectedColor(bookColor);
     setModalOpen(true);
   };
 
   const closeModal = () => {
     setModalOpen(false);
     setSelectedBookId(null);
+    setSelectedColor(null);
   };
 
   return (
@@ -27,27 +31,31 @@ const Slider = ({ data }: { data: BookData[] }) => {
       <div className='slider absolute bottom-0 w-full h-[35vh]' ref={sliderRef}>
         <div className='wheel absolute top-0 flex items-center justify-center w-[1000vw] aspect-[1/1] max-w-[2000px] max-h-[2000px] left-1/2 transform -translate-x-1/2'>
           {data.slice(0, 14).map((bookData, index) => {
-            return <SliderItem alt='슬라이드 아이템' key={index} src={bookData.cover as string} />;
+            return (
+              <SliderItem
+                alt='슬라이드 아이템'
+                bookId={bookData.id}
+                key={index}
+                onCardClick={openModal}
+                src={bookData.cover as string}
+              />
+            );
           })}
         </div>
       </div>
-      <div className='modal' data-flip-id='wheel__card'></div>
-      {/* {
-            // TODO: 이미지에 따른 모달 창 색상값 설정
-            data.slice(0, 14).map((bookData, index) => (
-              <SliderItem
-                alt='슬라이드 아이템'
-                backfaceColor='bg-[rgb(255,153,153)]'
-                key={index}
-                bookId={bookData.id}
-                src={bookData.cover as string}
-                onClick={() => openModal(bookData.id)}
-              />
-            ))
-          }
-        </div>
+      <div
+        className='modal'
+        data-flip-id='wheel__card'
+        style={{ display: selectedBookId ? 'block' : 'none' }}
+      >
+        {isModalOpen && selectedBookId && (
+          <BookModal
+            backgroundColor={selectedColor || 'transparent'}
+            bookId={selectedBookId || ''}
+            onClose={closeModal}
+          />
+        )}
       </div>
-      {isModalOpen && <BookModal bookId={selectedBookId || ''} onClose={closeModal} />} */}
     </>
   );
 };
