@@ -1,5 +1,5 @@
 import gsap from 'gsap';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { FixedSizeList as List, type ListChildComponentProps } from 'react-window';
 
 import { DetailPost } from './DetailPost';
@@ -15,6 +15,21 @@ export const ContentsWrapper = () => {
   const listRef = useRef<List>(null);
 
   const { data: posts } = usePostList();
+
+  const [listHeight, setListHeight] = useState(window.innerHeight * 0.75);
+
+  const updateListHeight = () => {
+    if (posts) {
+      setListHeight(window.innerHeight * 0.75);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', updateListHeight);
+    return () => {
+      window.removeEventListener('resize', updateListHeight);
+    };
+  }, [posts]);
 
   const Row = ({ index, style }: ListChildComponentProps) => {
     const post = posts?.[index];
@@ -57,7 +72,7 @@ export const ContentsWrapper = () => {
         <div className='w-full h-full p-4'>
           {posts ? (
             <List
-              height={Math.min(650, posts.length * 256)}
+              height={listHeight}
               itemCount={posts.length}
               itemSize={256}
               ref={listRef}
