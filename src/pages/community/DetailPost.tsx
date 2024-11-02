@@ -31,9 +31,6 @@ export const DetailPost = ({
     openModal('EDIT', { component: EditPostModal });
   };
 
-  // fe6ac9d2-7ea5-4c67-ba82-bd7966ca2fa1
-  // 4efdc249-6f38-4671-845a-9cc79ea39994
-
   const handleLike = () => {
     if (post?.isLiked) {
       unlikePost();

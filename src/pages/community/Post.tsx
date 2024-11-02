@@ -8,7 +8,7 @@ export const Post = ({ post }: { post: PostDTO }) => {
         className='h-[193px] rounded object-cover aspect-[200/295]'
         src={post.books?.cover || '/default-bookcover.png'}
       />
-      <div className='flex-col items-start flex w-full h-full gap-[1.5rem] px-2'>
+      <div className='flex flex-col items-start w-full h-full gap-8 px-2'>
         <div className='inline-flex items-center self-stretch justify-start gap-4'>
           <img
             alt='user-profile'
@@ -19,7 +19,7 @@ export const Post = ({ post }: { post: PostDTO }) => {
             {post.userinfo?.username}
           </div>
         </div>
-        <div className='inline-flex flex-col items-start justify-center w-full gap-2 px-2'>
+        <div className='inline-flex flex-col items-start justify-center w-full gap-4 px-2'>
           {post.books != null && (
             <span className='text-[#333333] text-xs font-normal leading-none'>
               &lt;{post.books.title}&gt; - {post.books.author?.replace(/\(Authors?\)/g, '').trim()}

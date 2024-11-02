@@ -7,10 +7,12 @@ import { Post } from './Post';
 import { WritePost } from './WritePost';
 
 import 'styles/scroll.css';
+import { TopButton } from 'components';
 import { usePostList, useIntersectionObserver } from 'hooks';
 
 export const ContentsWrapper = () => {
   const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
+  const listRef = useRef<List>(null);
 
   const { data: posts } = usePostList();
 
@@ -40,8 +42,14 @@ export const ContentsWrapper = () => {
     );
   };
 
+  const scrollToTop = () => {
+    if (listRef.current) {
+      listRef.current.scrollTo(0);
+    }
+  };
+
   return (
-    <div className='w-full h-full p-2'>
+    <div className='relative w-full h-full p-2 '>
       <WritePost />
       {selectedPostId != null ? (
         <DetailPost onClose={setSelectedPostId} postId={selectedPostId} />
@@ -52,6 +60,7 @@ export const ContentsWrapper = () => {
               height={Math.min(650, posts.length * 256)}
               itemCount={posts.length}
               itemSize={256}
+              ref={listRef}
               width='100%'
             >
               {Row}
@@ -59,6 +68,7 @@ export const ContentsWrapper = () => {
           ) : null}
         </div>
       )}
+      <TopButton onClick={scrollToTop} />
     </div>
   );
 };

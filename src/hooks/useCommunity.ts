@@ -1,6 +1,14 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { createComment, deletePost, getPostById, getPostList, createPost, updatePost } from 'api';
+import {
+  createComment,
+  deletePost,
+  getPostById,
+  getPostList,
+  createPost,
+  updatePost,
+  getUserInfo,
+} from 'api';
 import { addLike, removeLike } from 'api/postLike';
 import { useSearchBookStore } from 'stores';
 
@@ -14,6 +22,12 @@ export const usePost = (postId: string) =>
   useQuery({
     queryKey: ['post', postId],
     queryFn: () => getPostById(postId),
+  });
+
+export const useUserInfo = (userId: string) =>
+  useQuery({
+    queryKey: ['user', userId],
+    queryFn: () => getUserInfo(userId),
   });
 
 export const useCreatePost = (content: string, bookId: string | undefined) => {
