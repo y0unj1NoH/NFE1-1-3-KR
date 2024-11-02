@@ -200,15 +200,18 @@ const handleActiveClick = (card: AnimatedHTMLDivElement, modal: HTMLDivElement) 
       props: 'borderRadius, aspectRatio, boxShadow',
     });
 
-    modal.classList.add('active');
+    const cardColor = card.getAttribute('data-color');
+    if (cardColor) {
+      modal.style.backgroundColor = cardColor;
+    }
+
+    modal.style.opacity = '1';
+    modal.style.pointerEvents = 'all';
 
     Flip.from(state, {
       duration: 0.25,
       ease: 'sine.inOut',
       absolute: true,
-      onComplete: () => {
-        console.log('modal open');
-      },
     });
   });
 
@@ -218,10 +221,10 @@ const handleActiveClick = (card: AnimatedHTMLDivElement, modal: HTMLDivElement) 
 
 export const handleModalClick = (
   images: HTMLDivElement[],
-  tracker: { item: number },
+  trackerItem: number,
   modal: HTMLDivElement,
 ) => {
-  const activeCard = images[tracker.item] as AnimatedHTMLDivElement;
+  const activeCard = images[trackerItem] as AnimatedHTMLDivElement;
   const faces = activeCard.querySelector('.faces');
 
   const animation = gsap.timeline({ paused: true });
@@ -229,23 +232,35 @@ export const handleModalClick = (
   animation.add(function () {
     activeCard.dataset.flipId = 'wheel__card';
 
-    const state = Flip.getState([modal, activeCard], {
-      props: 'borderRadius, aspectRatio, boxShadow',
-    });
+    const cardRect = activeCard.getBoundingClientRect();
+    const modalRect = modal.getBoundingClientRect();
 
-    modal.classList.remove('active');
+    const originalX = modalRect.left;
+    const originalY = modalRect.top;
 
-    Flip.from(state, {
-      duration: 1,
-      absolute: true,
+    const cardCenterX = cardRect.left;
+    const cardCenterY = cardRect.top;
+
+    gsap.to(modal, {
+      duration: 0.4,
+      x: cardCenterX - originalX,
+      y: cardCenterY - originalY,
+      width: cardRect.width,
+      height: cardRect.height,
       ease: 'sine.inOut',
       onComplete: () => {
-        activeCard.dataset.flipId = 'wheel__card';
-        animation.to(faces, { rotationY: 0 }).eventCallback('onComplete', () => {
-          // Ensure the state is updated after the animation completes
-          activeCard.dataset.flipId = '';
+        modal.style.opacity = '0';
+        modal.style.pointerEvents = 'none';
+        modal.style.width = '100%';
+        modal.style.height = '100vh';
+
+        gsap.set(modal, {
+          x: originalX - modalRect.left,
+          y: originalY - modalRect.top,
         });
-        // animation.to(faces, { rotationY: 0 });
+
+        animation.to(faces, { rotationY: 0 });
+        activeCard.dataset.flipId = '';
       },
     });
   });

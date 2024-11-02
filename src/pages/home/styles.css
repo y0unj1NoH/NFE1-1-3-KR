@@ -8,11 +8,9 @@
   height: 100vh;
   pointer-events: none;
   z-index: 999;
-  background-color: rgb(255, 153, 153);
 }
 
 .modal.active {
-  /* display: grid; */
   opacity: 1;
   pointer-events: all;
 }
