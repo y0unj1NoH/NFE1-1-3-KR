@@ -1,7 +1,15 @@
 import { useState, useRef, useEffect } from 'react';
 
 import { EditPostModal } from 'components';
-import { useCreateComment, useDeletePost, useLikePost, usePost, useUnlikePost } from 'hooks';
+import {
+  useCreateComment,
+  useDeletePost,
+  useLikePost,
+  usePost,
+  useUnlikePost,
+  useDeleteComment,
+  useUpdateComment,
+} from 'hooks';
 import { useAuthStore, useModalStore, usePostStore } from 'stores';
 
 export const DetailPost = ({
@@ -12,6 +20,8 @@ export const DetailPost = ({
   onClose: (id: string | null) => void;
 }) => {
   const [isSetting, setIsSetting] = useState(false);
+  const [isCommentEdit, setIsCommentEdit] = useState(false);
+  const [selectedComment, setSelectedComment] = useState('');
   const { userInfo } = useAuthStore();
   const [comment, setComment] = useState('');
   const { setPostId, setPostContent } = usePostStore();
@@ -22,6 +32,8 @@ export const DetailPost = ({
   const { mutate: deletePostById } = useDeletePost(postId, onClose);
   const { mutate: likePost } = useLikePost(postId);
   const { mutate: unlikePost } = useUnlikePost(postId);
+  const { mutate: updateComment } = useUpdateComment(postId);
+  const { mutate: deleteComment } = useDeleteComment(postId);
 
   const openModal = useModalStore(state => state.openModal);
 
@@ -160,11 +172,39 @@ export const DetailPost = ({
                   className='relative w-8 h-8 rounded-2xl'
                   src={com.userinfo?.profile_url || '/default-userprofile.png'}
                 />
-                <div className='inline-flex flex-col items-center justify-center gap-1 grow shrink basis-0'>
-                  <div className="self-stretch text-[#1c1c1c] text-xs font-normal font-['Inknut Antiqua'] leading-none">
-                    {com.userinfo?.username}
+                <div className='inline-flex flex-col items-center justify-between gap-1 grow shrink basis-0'>
+                  <div className='self-stretch text-[#1c1c1c] text-xs font-normal leading-none flex justify-between'>
+                    <span>{com.userinfo?.username}</span>
+                    {com.user_id === userInfo?.user_id && (
+                      <div className='flex gap-2'>
+                        <button
+                          onClick={() => {
+                            setComment(com.content);
+                            setIsCommentEdit(true);
+                            setSelectedComment(com.comment_id);
+                          }}
+                        >
+                          <img
+                            alt='edit-comment'
+                            className='object-contain w-3 h-3 cursor-pointer'
+                            src='/edit-pencil.svg'
+                          />
+                        </button>
+                        <button
+                          onClick={() => {
+                            deleteComment(com.comment_id);
+                          }}
+                        >
+                          <img
+                            alt='delete-comment'
+                            className='object-contain w-3 h-3 cursor-pointer'
+                            src='/bin.svg'
+                          />
+                        </button>
+                      </div>
+                    )}
                   </div>
-                  <div className="self-stretch text-[#505050] text-xs font-normal font-['Inknut Antiqua'] leading-none">
+                  <div className='self-stretch text-[#505050] text-xs font-normal leading-none'>
                     {com.content}
                   </div>
                 </div>
@@ -191,7 +231,10 @@ export const DetailPost = ({
           <div
             className='px-5 py-2 bg-[#243868] rounded-[100px] justify-center items-center gap-2.5 flex text-white text-sm'
             onClick={() => {
-              createNewComment({ postId, comment });
+              if (isCommentEdit) {
+                updateComment({ comment_id: selectedComment, content: comment });
+                setIsCommentEdit(false);
+              } else createNewComment({ postId, comment });
               setComment('');
             }}
           >

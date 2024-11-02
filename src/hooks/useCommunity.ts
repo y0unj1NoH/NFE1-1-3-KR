@@ -2,6 +2,8 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 import {
   createComment,
+  updateComment,
+  deleteComment,
   deletePost,
   getPostById,
   getPostList,
@@ -103,6 +105,39 @@ export const useCreateComment = (postId: string) => {
     },
     onError: error => {
       console.error('Error creating post:', error);
+    },
+  });
+};
+
+export const useUpdateComment = (postId: string) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ comment_id, content }: { comment_id: string; content: string }) =>
+      updateComment({ comment_id, content }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['post', postId] }).catch(error => {
+        console.error('Error invalidating queries:', error);
+      });
+    },
+    onError: error => {
+      console.error('Error updating comment:', error);
+    },
+  });
+};
+
+export const useDeleteComment = (postId: string) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (commentId: string) => deleteComment(commentId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['post', postId] }).catch(error => {
+        console.error('Error invalidating queries:', error);
+      });
+    },
+    onError: error => {
+      console.error('Error deleting comment:', error);
     },
   });
 };
