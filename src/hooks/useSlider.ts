@@ -38,7 +38,7 @@ export const useSlider = ({ data }: { data: BookData[] }) => {
 
   const handleScroll = useCallback(
     (event: WheelEvent) => {
-      handleWheel(event.deltaY, images, sliderTl, tracker);
+      handleWheel(event.deltaY, images, sliderTl);
     },
     [images],
   );
