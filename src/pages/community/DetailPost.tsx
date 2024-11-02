@@ -57,7 +57,7 @@ export const DetailPost = ({
       >
         <img alt='close-button' className='object-contain w-full h-full' src='/chevron-left.svg' />
       </button>
-      {userInfo?.user_id && (
+      {userInfo?.user_id === post?.user_id && (
         <button
           className='absolute top-[2rem] right-[1rem] flex items-center justify-center w-6 h-6 rounded-full bg-primary p-[0.15rem]'
           onClick={() => {
