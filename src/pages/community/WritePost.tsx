@@ -14,8 +14,8 @@ export const WritePost = ({ edit = false }: { edit?: boolean }) => {
 
   const [content, setContent] = useState(postContent || '');
 
-  const { mutate: createNewPost } = useCreatePost(content, bookId);
-  const { mutate: updatePostContent } = useUpdatePost(postId as string, content);
+  const { mutate: createNewPost } = useCreatePost();
+  const { mutate: updatePostContent } = useUpdatePost(postId as string);
 
   return (
     <div className='p-2 rounded-[60px] border-2 border-[#243868] justify-between items-start inline-flex w-full'>
@@ -50,12 +50,18 @@ export const WritePost = ({ edit = false }: { edit?: boolean }) => {
           className='py-2.5 px-5 bg-[#243868] rounded-[100px] justify-center items-center gap-2.5 flex cursor-pointer'
           onClick={() => {
             if (edit) {
-              updatePostContent();
+              updatePostContent({ postId: postId as string, content });
               closeModal('EDIT');
             } else {
-              createNewPost();
+              createNewPost(
+                { content, bookId },
+                {
+                  onSuccess: () => {
+                    setContent('');
+                  },
+                },
+              );
             }
-            setContent('');
           }}
         >
           <div className='text-sm font-normal leading-tight text-white'>Post</div>

@@ -32,12 +32,12 @@ export const useUserInfo = (userId: string) =>
     queryFn: () => getUserInfo(userId),
   });
 
-export const useCreatePost = (content: string, bookId: string | undefined) => {
+export const useCreatePost = () => {
   const queryClient = useQueryClient();
   const { setBookId } = useSearchBookStore();
 
   return useMutation({
-    mutationFn: () =>
+    mutationFn: ({ content, bookId }: { content: string; bookId: string | undefined }) =>
       createPost({
         title: '',
         content: content,
@@ -55,15 +55,18 @@ export const useCreatePost = (content: string, bookId: string | undefined) => {
   });
 };
 
-export const useUpdatePost = (postId: string, content: string) => {
+export const useUpdatePost = (postId: string) => {
   const queryClient = useQueryClient();
   const { setPostContent } = usePostStore();
 
   return useMutation({
-    mutationFn: () =>
+    mutationFn: ({ postId, content }: { postId: string; content: string }) =>
       updatePost({ postId: postId ?? '', formData: { title: '', content: content } }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['post', postId] }).catch(error => {
+        console.error('Error invalidating queries:', error);
+      });
+      queryClient.invalidateQueries({ queryKey: ['postList'] }).catch(error => {
         console.error('Error invalidating queries:', error);
       });
       setPostContent('');
