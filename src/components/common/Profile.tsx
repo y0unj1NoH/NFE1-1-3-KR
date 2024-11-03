@@ -1,13 +1,9 @@
 import { getRandomProfile } from 'utils';
 
-export const Profile = ({ size, index }: { size: number; index: number }) => {
-  const { profile, color } = getRandomProfile(index);
+export const Profile = ({ index }: { index: number }) => {
+  const { profile } = getRandomProfile(index);
 
   return (
-    <div
-      className={`bg-[${color}] w-[${size}] h-[${size}] p-2 flex items-center justify-center rounded-full`}
-    >
-      <img alt='user-profile' src={profile} />
-    </div>
+    <img alt='user-profile' className={`object-contain w-[2.5rem] h-[2.5rem]`} src={profile} />
   );
 };

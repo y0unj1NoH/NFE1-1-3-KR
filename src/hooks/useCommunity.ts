@@ -12,7 +12,7 @@ import {
   getUserInfo,
 } from 'api';
 import { addLike, removeLike } from 'api/postLike';
-import { useSearchBookStore } from 'stores';
+import { useSearchBookStore, usePostStore } from 'stores';
 
 export const usePostList = () =>
   useQuery({
@@ -57,6 +57,7 @@ export const useCreatePost = (content: string, bookId: string | undefined) => {
 
 export const useUpdatePost = (postId: string, content: string) => {
   const queryClient = useQueryClient();
+  const { setPostContent } = usePostStore();
 
   return useMutation({
     mutationFn: () =>
@@ -65,6 +66,7 @@ export const useUpdatePost = (postId: string, content: string) => {
       queryClient.invalidateQueries({ queryKey: ['post', postId] }).catch(error => {
         console.error('Error invalidating queries:', error);
       });
+      setPostContent('');
     },
     onError: error => {
       console.error('Error updating post:', error);

@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 
-import { EditPostModal } from 'components';
+import { EditPostModal, Profile } from 'components';
 import {
   useCreateComment,
   useDeletePost,
@@ -117,11 +117,7 @@ export const DetailPost = ({
             }}
           >
             <div className='flex items-center w-full gap-4' id='user'>
-              <img
-                alt='user-profile'
-                className='relative w-10 h-10 rounded-full'
-                src={post?.userinfo?.profile_url || '/default-userprofile.png'}
-              />
+              <Profile index={+post?.userinfo?.username!.slice(-1)} />
               <div className='text-[#1c1c1c] text-base font-normal leading-snug'>
                 {post?.userinfo?.username}
               </div>
@@ -167,11 +163,7 @@ export const DetailPost = ({
                 className='px-2 py-2 w-full bg-[#fcfcfc] rounded justify-start items-start gap-2.5 inline-flex'
                 key={com.comment_id}
               >
-                <img
-                  alt='user-profile'
-                  className='relative w-8 h-8 rounded-2xl'
-                  src={com.userinfo?.profile_url || '/default-userprofile.png'}
-                />
+                <Profile index={+com.userinfo?.username.slice(-1)} />
                 <div className='inline-flex flex-col items-center justify-between gap-1 grow shrink basis-0'>
                   <div className='self-stretch text-[#1c1c1c] text-xs font-normal leading-none flex justify-between'>
                     <span>{com.userinfo?.username}</span>
@@ -214,11 +206,7 @@ export const DetailPost = ({
         </div>
         <div className='w-[80%] px-2 py-1 rounded-[60px] border border-[#243868] justify-start items-center gap-2.5 inline-flex'>
           <div className='flex items-center justify-start w-full gap-4'>
-            <img
-              alt="user's profile"
-              className='w-10 h-10 relative rounded-[100px] border border-[#ecf0f5]'
-              src={userInfo?.profile_url || '/default-userprofile.png'}
-            />
+            {userInfo?.username && <Profile index={+userInfo.username.slice(-1)} />}
             <input
               className='px-0.5 py-2 justify-start items-center gap-2.5 flex w-full'
               onChange={e => {
