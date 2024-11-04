@@ -23,28 +23,28 @@ export const ContentsContainer = ({ childNode }: { childNode: ReactNode }) => {
             <Cloud
               driftAmount={50}
               duration={30}
-              initialX={-600}
+              initialX={100}
               initialY={10}
               src='/bg/cloud-4.svg'
             />
             <Cloud
               driftAmount={10}
               duration={38}
-              initialX={-1600}
+              initialX={-100}
               initialY={330}
               src='/bg/cloud-5.svg'
             />
             <Cloud
               driftAmount={20}
               duration={25}
-              initialX={-900}
+              initialX={-90}
               initialY={520}
               src='/bg/cloud-1.svg'
             />
             <Cloud
               driftAmount={30}
               duration={28}
-              initialX={-1300}
+              initialX={-130}
               initialY={700}
               src='/bg/cloud-3.svg'
             />

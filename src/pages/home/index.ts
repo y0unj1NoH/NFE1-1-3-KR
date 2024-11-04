@@ -1,2 +1,3 @@
-export * from './SearchableBookList';
 export * from './HomePage';
+export * from './SearchPage';
+export * from './Main';
