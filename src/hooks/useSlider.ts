@@ -66,20 +66,13 @@ export const useSlider = ({ data }: { data: BookData[] }) => {
 
   useEffect(() => {
     window.addEventListener('resize', handleResize);
-    if (modal) {
-      modal.addEventListener('click', handleModalClose);
-    }
 
     return () => {
       window.removeEventListener('resize', handleResize);
-      if (modal) {
-        modal.removeEventListener('click', handleModalClose);
-      }
     };
-  }, [handleModalClose, handleResize, modal]);
+  }, [handleResize]);
 
   useEffect(() => {
-    // console.log('isIntersecting: ', isIntersecting);
     if (isIntersecting) {
       window.addEventListener('wheel', handleScroll);
     } else {
