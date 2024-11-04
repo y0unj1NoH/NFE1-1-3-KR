@@ -1,2 +1,2 @@
-export * from './PopularBooks';
+export * from './SearchableBookList';
 export * from './HomePage';

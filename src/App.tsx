@@ -7,7 +7,7 @@ import { Layout } from 'components';
 import ModalRenderer from 'components/common/Modal/ModalRenderer';
 import { ModalProvider, BackgroundColorProvider } from 'context';
 import { supabase } from 'lib/supabase';
-import { CommunityPage, MyPage, BookModal, HomePage, PopularBooks } from 'pages';
+import { CommunityPage, MyPage, BookModal, HomePage, SearchableBookList } from 'pages';
 import { useAuthStore } from 'stores';
 
 const router = createBrowserRouter([
@@ -22,7 +22,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/search',
-        element: <PopularBooks />,
+        element: <SearchableBookList />,
       },
       {
         path: '/book/:id',

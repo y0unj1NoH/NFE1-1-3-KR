@@ -2,7 +2,7 @@ import Slider from './Slider';
 
 import { useBookList, useSetBackgroundColor } from 'hooks';
 
-export const PopularBooks = () => {
+export const SearchableBookList = () => {
   const { data, isEmpty } = useBookList();
   useSetBackgroundColor('bg-secondary', true);
 
