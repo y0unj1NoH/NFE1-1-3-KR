@@ -9,8 +9,8 @@ import { Layout, ModalRenderer, ProtectedRoutes } from 'components';
 import { ModalProvider, BackgroundColorProvider } from 'context';
 import { supabase } from 'lib/supabase';
 import { CommunityPage, MyPage, BookModal, HomePage, DetailPage } from 'pages';
-import { useAuthStore } from 'stores';
 import 'styles/toast.css';
+import { fetchAndSetBookmarks, useAuthStore } from 'stores';
 
 const router = createBrowserRouter([
   {
@@ -62,6 +62,7 @@ function App() {
 
           const userInfo = await getUserInfo(session.user.id);
           setUserInfo(userInfo);
+          fetchAndSetBookmarks();
         }
       } catch (error) {
         console.error('Auth initialization error:', error);
