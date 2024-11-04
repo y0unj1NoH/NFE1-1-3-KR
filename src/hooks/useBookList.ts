@@ -27,9 +27,9 @@ export const useBookList = () => {
     [fetchSearchBooks],
   );
 
-  useEffect(() => {
-    resetQuery();
-  }, [resetQuery]);
+  // useEffect(() => {
+  //   resetQuery();
+  // }, [resetQuery]);
 
   useEffect(() => {
     if (query) {

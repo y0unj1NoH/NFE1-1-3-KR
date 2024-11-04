@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type KeyboardEvent } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Button, Icon } from 'components/common';
@@ -16,6 +16,12 @@ export const MenuButton = () => {
     setIsClick(false);
   };
 
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleButtonClick('/search');
+    }
+  };
+
   return (
     <>
       <Button
@@ -30,7 +36,6 @@ export const MenuButton = () => {
       </Button>
       <Button
         onClick={() => {
-          handleButtonClick('/search');
           setIsStretchSearch(true);
         }}
         position={isClick ? 'search' : 'default'}
@@ -38,13 +43,22 @@ export const MenuButton = () => {
         variant='white'
       >
         <>
-          <Icon alt='search' src='/menu/Search.svg' />
+          <Icon
+            alt='search'
+            onClick={() => {
+              if (isStretchSearch) {
+                handleButtonClick('/search');
+              }
+            }}
+            src='/menu/Search.svg'
+          />
           {isStretchSearch && (
             <input
               className='w-full focus:out'
               onChange={e => {
                 setQuery(e.target.value);
               }}
+              onKeyDown={handleKeyDown}
               placeholder='search'
               type='text'
               value={query}
