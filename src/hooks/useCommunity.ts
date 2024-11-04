@@ -1,4 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
 
 import {
   createComment,
@@ -48,9 +49,11 @@ export const useCreatePost = () => {
         console.error('Error invalidating queries:', error);
       });
       setBookId(undefined);
+      toast.success('Post created successfully!');
     },
     onError: error => {
       console.error('Error creating post:', error);
+      toast.error('Post created Failed.');
     },
   });
 };
@@ -81,9 +84,11 @@ export const useUpdatePost = (postId: string) => {
         console.error('Error invalidating queries:', error);
       });
       setPostContent(undefined);
+      toast.success('Post edited successfully!');
     },
     onError: error => {
       console.error('Error updating post:', error);
+      toast.error('Post edited failed.');
     },
   });
 };
@@ -97,10 +102,13 @@ export const useDeletePost = (postId: string, onClose: (id: string | null) => vo
       queryClient.invalidateQueries({ queryKey: ['postList'] }).catch(error => {
         console.error('Error invalidating queries:', error);
       });
+
+      toast.success('Post deleted successfully!');
       onClose(null);
     },
     onError: error => {
       console.error('Error deleting post:', error);
+      toast.error('Post deleted failed.');
     },
   });
 };
@@ -118,9 +126,11 @@ export const useCreateComment = (postId: string) => {
       queryClient.invalidateQueries({ queryKey: ['post', postId] }).catch(error => {
         console.error('Error invalidating queries:', error);
       });
+      toast.success('Comment created successfully!');
     },
     onError: error => {
       console.error('Error creating post:', error);
+      toast.error('Comment created failed.');
     },
   });
 };
@@ -135,9 +145,11 @@ export const useUpdateComment = (postId: string) => {
       queryClient.invalidateQueries({ queryKey: ['post', postId] }).catch(error => {
         console.error('Error invalidating queries:', error);
       });
+      toast.success('Comment edited successfully!');
     },
     onError: error => {
       console.error('Error updating comment:', error);
+      toast.error('Comment edited failed.');
     },
   });
 };
@@ -151,9 +163,11 @@ export const useDeleteComment = (postId: string) => {
       queryClient.invalidateQueries({ queryKey: ['post', postId] }).catch(error => {
         console.error('Error invalidating queries:', error);
       });
+      toast.success('Comment deleted successfully!');
     },
     onError: error => {
       console.error('Error deleting comment:', error);
+      toast.error('Comment deleted failed.');
     },
   });
 };

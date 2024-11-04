@@ -206,7 +206,10 @@ export const DetailPost = ({
             ),
           )}
         </div>
-        <div className='w-[80%] px-2 py-1 rounded-[60px] border border-[#243868] justify-start items-center gap-2.5 inline-flex'>
+        <div
+          className='w-[80%] px-2 py-1 rounded-[60px] border border-[#243868] justify-start items-center gap-2.5 inline-flex'
+          style={{ borderColor: isCommentEdit ? '#afa18b' : '#243868' }}
+        >
           <div className='flex items-center justify-start w-full gap-4'>
             {userInfo?.username && <Profile index={+userInfo.username.slice(-1)} />}
             <input
@@ -227,8 +230,9 @@ export const DetailPost = ({
               } else createNewComment({ postId, comment });
               setComment('');
             }}
+            style={{ backgroundColor: isCommentEdit ? '#afa18b' : '#243868' }}
           >
-            Post
+            {isCommentEdit ? 'Edit' : 'Post'}
           </div>
         </div>
       </div>
