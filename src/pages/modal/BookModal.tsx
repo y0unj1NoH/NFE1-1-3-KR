@@ -1,25 +1,28 @@
 import { gsap } from 'gsap';
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import { Rating } from './Rating';
 import SlidingTitle from './SlidingTitle';
-import type { BookData } from '../../api/book';
 import { getBookDataById } from '../../api/book';
 import { Button, Icon } from '../../components';
 
 import { useBookCoverAnimation, useRibbonAnimation } from 'hooks';
+import type { BookData } from 'types';
 
-export const BookModal = () => {
+export const BookModal = ({
+  bookId,
+  backgroundColor,
+  onClose,
+}: {
+  bookId: string;
+  backgroundColor: string;
+  onClose: () => void;
+}) => {
   const [book, setBook] = useState<BookData | null>(null);
   const [isBookmarkOpen, setBookmarkOpen] = useState(false);
   const [initialized, setInitialized] = useState(false);
-  const navigate = useNavigate();
   const bookmarkRef = useRef<HTMLDivElement>(null);
   const coverRef = useRef<HTMLImageElement>(null);
-
-  const bookId = '2173713'; // 임시 책 Id
-  const backgroundColor = 'rgba(36, 56, 104, 0.5)'; // 임시 배경색 (투명도 50)
 
   useBookCoverAnimation(coverRef, initialized);
   useRibbonAnimation(bookmarkRef, isBookmarkOpen, initialized);
@@ -27,7 +30,7 @@ export const BookModal = () => {
   useEffect(() => {
     const fetchBookDetails = async () => {
       try {
-        const data = await getBookDataById(bookId);
+        const data = await getBookDataById({ bookId });
         setBook(data);
         console.log(data);
       } catch (error) {
@@ -50,7 +53,7 @@ export const BookModal = () => {
 
   if (!book) return <p>Loading...</p>;
 
-  const author = book.author.split(' (')[0];
+  const author = book.author?.split(' (')[0] || '';
   const formatCategory = (category: string) =>
     category
       .split('/')
@@ -79,22 +82,22 @@ export const BookModal = () => {
         />
 
         <div className='w-[15%] flex items-center justify-center'>
-          <SlidingTitle title={book.title} />
+          <SlidingTitle title={book.title || '제목 없음'} />
         </div>
         <div className='w-[85%] flex items-center justify-center'>
           <div className='relative flex flex-col items-center justify-center w-full h-full max-w-6xl p-4 overflow-y-auto'>
             <div className='flex flex-col items-center gap-12 md:flex-row'>
               <img
-                alt={book.title}
+                alt={book.title || '표지 없음'}
                 className='object-cover w-full h-auto max-w-md rounded-lg shadow-xl md:max-w-lg'
                 ref={coverRef}
-                src={book.cover}
+                src={book.cover || '/Logo.svg'}
               />
               <div className='flex flex-col justify-end flex-1'>
                 <div>
                   <p className='mb-4 text-h4'>{book.title}</p>
                   <p className='mb-2 text-h5'>{author}</p>
-                  <div className='mb-4 text-body1'>{formatCategory(book.category_name)}</div>
+                  <div className='mb-4 text-body1'>{formatCategory(book.category_name || '')}</div>
                   <div className='flex items-center mb-6'>
                     <Rating rating={Number(book.rating_info)} />
                     <span className='text-[#DD0000] text-body1 ml-2'>{book.rating_info}</span>
@@ -104,12 +107,7 @@ export const BookModal = () => {
               </div>
             </div>
           </div>
-          <Button
-            onClick={() => {
-              navigate('/');
-            }}
-            position='default'
-          >
+          <Button onClick={onClose} position='default'>
             <>
               <Icon alt='Close' src='/icon/X.svg' />
             </>
