@@ -1,7 +1,7 @@
 import { useState, type KeyboardEvent } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { Button, Icon } from 'components/common';
+import { Button, Icon, HeaderProfile } from 'components';
 import { useSearchQueryStore } from 'stores';
 
 export const MenuButton = () => {
@@ -85,7 +85,7 @@ export const MenuButton = () => {
         position={isClick && !isStretchSearch ? 'profile' : 'default'}
         variant='white'
       >
-        <Icon alt='profile' src='/menu/Profile.svg' />
+        <HeaderProfile />
       </Button>
     </>
   );

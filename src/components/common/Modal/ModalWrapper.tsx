@@ -8,7 +8,7 @@ interface ModalWrapperProps {
   onClose: () => void;
 }
 
-const ModalWrapper = ({ children, onClose }: ModalWrapperProps) => {
+export const ModalWrapper = ({ children, onClose }: ModalWrapperProps) => {
   const { isVisible, handleClose } = useModalAnimation(onClose);
 
   const handleContainerClick = (e: React.MouseEvent) => {
@@ -54,5 +54,3 @@ const ModalWrapper = ({ children, onClose }: ModalWrapperProps) => {
     </AnimatePresence>
   );
 };
-
-export default ModalWrapper;

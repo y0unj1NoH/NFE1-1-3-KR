@@ -12,6 +12,7 @@ import {
   getUserInfo,
 } from 'api';
 import { addLike, removeLike } from 'api/postLike';
+import { CustomToast } from 'components';
 import { useSearchBookStore, usePostStore } from 'stores';
 
 export const usePostList = () =>
@@ -48,9 +49,11 @@ export const useCreatePost = () => {
         console.error('Error invalidating queries:', error);
       });
       setBookId(undefined);
+      CustomToast.success('Post created successfully!');
     },
     onError: error => {
       console.error('Error creating post:', error);
+      CustomToast.error('Post created Failed.');
     },
   });
 };
@@ -60,8 +63,19 @@ export const useUpdatePost = (postId: string) => {
   const { setPostContent } = usePostStore();
 
   return useMutation({
-    mutationFn: ({ postId, content }: { postId: string; content: string }) =>
-      updatePost({ postId: postId ?? '', formData: { title: '', content: content } }),
+    mutationFn: ({
+      postId,
+      content,
+      bookId,
+    }: {
+      postId: string;
+      content: string;
+      bookId?: string;
+    }) =>
+      updatePost({
+        postId: postId ?? '',
+        formData: { title: '', content: content, book_id: bookId },
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['post', postId] }).catch(error => {
         console.error('Error invalidating queries:', error);
@@ -69,15 +83,17 @@ export const useUpdatePost = (postId: string) => {
       queryClient.invalidateQueries({ queryKey: ['postList'] }).catch(error => {
         console.error('Error invalidating queries:', error);
       });
-      setPostContent('');
+      setPostContent(undefined);
+      CustomToast.success('Post edited successfully!');
     },
     onError: error => {
       console.error('Error updating post:', error);
+      CustomToast.error('Post edited failed.');
     },
   });
 };
 
-export const useDeletePost = (postId: string, onClose: (id: string | null) => void) => {
+export const useDeletePost = (postId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -86,10 +102,12 @@ export const useDeletePost = (postId: string, onClose: (id: string | null) => vo
       queryClient.invalidateQueries({ queryKey: ['postList'] }).catch(error => {
         console.error('Error invalidating queries:', error);
       });
-      onClose(null);
+
+      CustomToast.success('Post deleted successfully!');
     },
     onError: error => {
       console.error('Error deleting post:', error);
+      CustomToast.error('Post deleted failed.');
     },
   });
 };
@@ -107,9 +125,11 @@ export const useCreateComment = (postId: string) => {
       queryClient.invalidateQueries({ queryKey: ['post', postId] }).catch(error => {
         console.error('Error invalidating queries:', error);
       });
+      CustomToast.success('Comment created successfully!');
     },
     onError: error => {
       console.error('Error creating post:', error);
+      CustomToast.error('Comment created failed.');
     },
   });
 };
@@ -124,9 +144,11 @@ export const useUpdateComment = (postId: string) => {
       queryClient.invalidateQueries({ queryKey: ['post', postId] }).catch(error => {
         console.error('Error invalidating queries:', error);
       });
+      CustomToast.success('Comment edited successfully!');
     },
     onError: error => {
       console.error('Error updating comment:', error);
+      CustomToast.error('Comment edited failed.');
     },
   });
 };
@@ -140,9 +162,11 @@ export const useDeleteComment = (postId: string) => {
       queryClient.invalidateQueries({ queryKey: ['post', postId] }).catch(error => {
         console.error('Error invalidating queries:', error);
       });
+      CustomToast.success('Comment deleted successfully!');
     },
     onError: error => {
       console.error('Error deleting comment:', error);
+      CustomToast.error('Comment deleted failed.');
     },
   });
 };

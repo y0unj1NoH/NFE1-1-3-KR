@@ -1,14 +1,16 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-import { getUserInfo } from 'api/auth';
-import { Layout } from 'components';
-import ModalRenderer from 'components/common/Modal/ModalRenderer';
+import { getUserInfo } from 'api';
+import { Layout, ModalRenderer, ProtectedRoutes } from 'components';
 import { ModalProvider, BackgroundColorProvider } from 'context';
 import { supabase } from 'lib/supabase';
-import { CommunityPage, MyPage, BookModal, HomePage, SearchableBookList } from 'pages';
+import { CommunityPage, MyPage, BookModal, HomePage, DetailPage, SearchableBookList } from 'pages';
 import { useAuthStore } from 'stores';
+import 'styles/toast.css';
 
 const router = createBrowserRouter([
   {
@@ -29,7 +31,15 @@ const router = createBrowserRouter([
         element: <></>,
       },
       { path: '/community', element: <CommunityPage /> },
-      { path: '/profile', element: <MyPage /> },
+      { path: '/community/:id', element: <DetailPage /> },
+      {
+        path: '/profile',
+        element: (
+          <ProtectedRoutes>
+            <MyPage />
+          </ProtectedRoutes>
+        ),
+      },
       { path: '/modal', element: <BookModal /> },
     ],
   },
@@ -95,6 +105,7 @@ function App() {
         <ModalProvider>
           <RouterProvider router={router} />
           <ModalRenderer />
+          <ToastContainer />
         </ModalProvider>
       </BackgroundColorProvider>
     </QueryClientProvider>
