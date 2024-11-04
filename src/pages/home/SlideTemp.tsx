@@ -1,6 +1,6 @@
 import { forwardRef, useEffect } from 'react';
 
-import PopularBooks from './PopularBooks';
+import { PopularBooks } from './PopularBooks';
 
 import { useSetBackgroundColor } from 'hooks';
 import { useIntroStore } from 'stores';

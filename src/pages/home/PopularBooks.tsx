@@ -1,11 +1,14 @@
 import Slider from './Slider';
 
-import { useBookList } from 'hooks';
+import { useBookList, useSetBackgroundColor } from 'hooks';
 
-const PopularBooks = () => {
+export const PopularBooks = () => {
   const { data, isEmpty } = useBookList();
+  useSetBackgroundColor('bg-secondary', true);
 
-  return <>{isEmpty ? <div>No results found</div> : <Slider data={data || []} />}</>;
+  return (
+    <div className='h-[calc(100vh-6rem)] w-full overflow-hidden relative'>
+      {isEmpty ? <div>No results found</div> : <Slider data={data || []} />}
+    </div>
+  );
 };
-
-export default PopularBooks;

@@ -30,6 +30,7 @@ export const MenuButton = () => {
       </Button>
       <Button
         onClick={() => {
+          handleButtonClick('/search');
           setIsStretchSearch(true);
         }}
         position={isClick ? 'search' : 'default'}
