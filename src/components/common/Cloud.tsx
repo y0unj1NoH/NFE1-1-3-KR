@@ -11,29 +11,47 @@ interface CloudProps {
 
 export const Cloud = ({ src, duration, initialX, initialY, driftAmount }: CloudProps) => {
   const cloudRef = useRef<HTMLDivElement>(null);
+  const hasAnimated = useRef(false); // 첫 애니메이션 실행 확인
 
   useEffect(() => {
-    const startX = initialX - 200;
-    const endX = window.innerWidth;
-    if (cloudRef.current) {
-      const tl = gsap.timeline({ repeat: -1, repeatRefresh: true });
+    const cloudElement = cloudRef.current;
 
-      tl.fromTo(
-        cloudRef.current,
-        { x: startX, y: initialY },
-        { x: endX, duration, ease: 'none' },
-      ).to(
-        cloudRef.current,
+    if (!cloudElement) return;
+
+    const endX = window.innerWidth;
+    const leftStartX = -600; // 첫 이동 후 시작 점
+
+    const animateCloud = () => {
+      if (!cloudRef.current) return;
+
+      gsap.fromTo(
+        cloudElement,
+        { x: hasAnimated.current ? leftStartX : initialX, y: initialY },
         {
-          y: initialY + driftAmount,
-          yoyo: true,
-          repeat: -1,
-          duration: 3,
-          ease: 'sine.inOut',
+          x: endX,
+          duration,
+          ease: 'none',
+          onComplete: () => {
+            hasAnimated.current = true;
+            animateCloud();
+          },
         },
-        0,
       );
-    }
+
+      gsap.to(cloudElement, {
+        y: initialY + driftAmount,
+        yoyo: true,
+        repeat: -1,
+        duration: 3,
+        ease: 'sine.inOut',
+      });
+    };
+
+    animateCloud();
+
+    return () => {
+      gsap.killTweensOf(cloudElement);
+    };
   }, [duration, initialX, initialY, driftAmount]);
 
   return (
@@ -46,9 +64,6 @@ export const Cloud = ({ src, duration, initialX, initialY, driftAmount }: CloudP
         backgroundImage: `url(${src})`,
         backgroundSize: 'contain',
         backgroundRepeat: 'no-repeat',
-        // filter: 'blur(1px)',
-        // opacity: 0.7,
-        // boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
       }}
     />
   );
