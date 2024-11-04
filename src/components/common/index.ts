@@ -4,6 +4,7 @@ export * from './Background';
 export * from './Cloud';
 export * from './Modal';
 export * from './TopButton';
+export * from './HeaderProfile';
 export * from './Profile';
 export * from './Modal';
 export * from './DropdownMeu';
