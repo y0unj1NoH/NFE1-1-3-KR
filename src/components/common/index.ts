@@ -7,5 +7,5 @@ export * from './TopButton';
 export * from './HeaderProfile';
 export * from './Profile';
 export * from './Modal';
-export * from './DropdownMeu';
+export * from './DropdownMenu';
 export * from './ProtectedRoutes';
