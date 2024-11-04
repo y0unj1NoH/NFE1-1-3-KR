@@ -2,12 +2,14 @@ import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Button, Icon } from 'components/common';
+import { useSearchQueryStore } from 'stores';
 
 export const MenuButton = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isClick, setIsClick] = useState(false);
   const [isStretchSearch, setIsStretchSearch] = useState(false);
+  const { query, setQuery } = useSearchQueryStore();
 
   const handleButtonClick = (pathname: string) => {
     navigate(pathname);
@@ -37,7 +39,15 @@ export const MenuButton = () => {
         <>
           <Icon alt='search' src='/menu/Search.svg' />
           {isStretchSearch && (
-            <input className='w-full focus:out' placeholder='search' type='text' />
+            <input
+              className='w-full focus:out'
+              onChange={e => {
+                setQuery(e.target.value);
+              }}
+              placeholder='search'
+              type='text'
+              value={query}
+            />
           )}
         </>
       </Button>
