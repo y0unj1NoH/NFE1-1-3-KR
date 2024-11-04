@@ -38,9 +38,7 @@ const SliderItem = ({ src, alt, bookId, onCardClick }: SliderItemProps) => {
         <div
           className={`absolute w-full h-full shadow-xl [transform:rotateY(180deg)] [backface-visibility:hidden]`}
           style={{ backgroundColor: bookColor }}
-        >
-          Test
-        </div>
+        ></div>
       </div>
     </div>
   );

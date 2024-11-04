@@ -61,8 +61,8 @@ export const BookModal = ({
       .join(' ');
 
   return (
-    <div className='fixed inset-0 z-50 bg-white z-[10000]'>
-      <div className='relative flex w-full h-full' style={{ backgroundColor }}>
+    <div className='modal-content fixed inset-0 z-[10000]' style={{ backgroundColor }}>
+      <div className=' relative flex w-full h-full'>
         <div
           className='absolute top-0'
           onClick={() => {

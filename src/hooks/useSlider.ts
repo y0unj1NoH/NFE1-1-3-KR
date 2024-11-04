@@ -60,26 +60,19 @@ export const useSlider = ({ data }: { data: BookData[] }) => {
     gsap.registerPlugin(ScrollTrigger, Draggable, Flip);
     setupWheel(wheel, images);
     setupTimeline(images.length, sliderTl, tracker);
-    handleDrag(images, sliderTl, tracker);
+    handleDrag(images, sliderTl);
     handleClick(images, sliderTl, tracker, modal);
   }, [images]);
 
   useEffect(() => {
     window.addEventListener('resize', handleResize);
-    if (modal) {
-      modal.addEventListener('click', handleModalClose);
-    }
 
     return () => {
       window.removeEventListener('resize', handleResize);
-      if (modal) {
-        modal.removeEventListener('click', handleModalClose);
-      }
     };
-  }, [handleModalClose, handleResize, modal]);
+  }, [handleResize]);
 
   useEffect(() => {
-    // console.log('isIntersecting: ', isIntersecting);
     if (isIntersecting) {
       window.addEventListener('wheel', handleScroll);
     } else {
@@ -90,5 +83,5 @@ export const useSlider = ({ data }: { data: BookData[] }) => {
     };
   }, [isIntersecting, handleScroll]);
 
-  return { sliderRef };
+  return { sliderRef, handleModalClose };
 };
