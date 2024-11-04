@@ -1,11 +1,10 @@
 import { createPortal } from 'react-dom';
 
-import ModalWrapper from './ModalWrapper';
+import { ModalWrapper } from 'components';
+import { useModalStore } from 'stores';
+import type { ModalName } from 'types';
 
-import { useModalStore } from 'stores/useModalStore';
-import type { ModalName } from 'types/modal';
-
-const ModalRenderer = () => {
+export const ModalRenderer = () => {
   const { closeModal, openedModals } = useModalStore();
   const element = document.getElementById('modal') as Element;
 
@@ -30,5 +29,3 @@ const ModalRenderer = () => {
 
   return createPortal(<>{renderModal}</>, element);
 };
-
-export default ModalRenderer;

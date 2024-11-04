@@ -29,7 +29,7 @@ export const LoginModal = () => {
 
   return (
     <div className='flex items-center justify-center'>
-      <div className='w-full max-w-md p-8 bg-white rounded-lg'>
+      <div className='max-w-md w-full bg-white rounded-lg px-[5rem] pb-[2rem]'>
         {/* Header */}
         <div className='mb-8 text-center'>
           <h2 className='mb-2 text-2xl font-bold text-gray-900'>로그인</h2>
