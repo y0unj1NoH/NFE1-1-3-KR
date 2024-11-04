@@ -8,7 +8,7 @@ import { getUserInfo } from 'api';
 import { Layout, ModalRenderer, ProtectedRoutes } from 'components';
 import { ModalProvider, BackgroundColorProvider } from 'context';
 import { supabase } from 'lib/supabase';
-import { CommunityPage, MyPage, BookModal, HomePage } from 'pages';
+import { CommunityPage, MyPage, BookModal, HomePage, DetailPage } from 'pages';
 import { useAuthStore } from 'stores';
 import 'styles/toast.css';
 
@@ -27,6 +27,7 @@ const router = createBrowserRouter([
         element: <></>,
       },
       { path: '/community', element: <CommunityPage /> },
+      { path: '/community/:id', element: <DetailPage /> },
       {
         path: '/profile',
         element: (

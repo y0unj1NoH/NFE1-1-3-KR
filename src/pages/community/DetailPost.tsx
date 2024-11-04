@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { Profile, CustomToast } from 'components';
 import {
@@ -12,13 +13,7 @@ import {
 } from 'hooks';
 import { useAuthStore, usePostStore, useSearchBookStore } from 'stores';
 
-export const DetailPost = ({
-  postId,
-  onClose,
-}: {
-  postId: string;
-  onClose: (id: string | null) => void;
-}) => {
+export const DetailPost = ({ postId }: { postId: string }) => {
   const [isSetting, setIsSetting] = useState(false);
   const [isCommentEdit, setIsCommentEdit] = useState(false);
   const [selectedComment, setSelectedComment] = useState('');
@@ -26,11 +21,12 @@ export const DetailPost = ({
   const [comment, setComment] = useState('');
   const { setPostId, setPostContent } = usePostStore();
   const { setBookId } = useSearchBookStore();
+  const navigate = useNavigate();
 
   const { data: post } = usePost(postId);
 
   const { mutate: createNewComment } = useCreateComment(postId);
-  const { mutate: deletePostById } = useDeletePost(postId, onClose);
+  const { mutate: deletePostById } = useDeletePost(postId);
   const { mutate: likePost } = useLikePost(postId);
   const { mutate: unlikePost } = useUnlikePost(postId);
   const { mutate: updateComment } = useUpdateComment(postId);
@@ -64,7 +60,7 @@ export const DetailPost = ({
       <button
         className='absolute top-[2rem] left-[1rem] flex items-center justify-center w-6 h-6'
         onClick={() => {
-          onClose(null);
+          navigate('/community');
           setPostContent(undefined);
         }}
       >
@@ -95,6 +91,7 @@ export const DetailPost = ({
           <span
             onClick={() => {
               deletePostById();
+              navigate('/community');
             }}
           >
             delete

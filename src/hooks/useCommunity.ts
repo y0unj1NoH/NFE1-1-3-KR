@@ -93,7 +93,7 @@ export const useUpdatePost = (postId: string) => {
   });
 };
 
-export const useDeletePost = (postId: string, onClose: (id: string | null) => void) => {
+export const useDeletePost = (postId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -104,7 +104,6 @@ export const useDeletePost = (postId: string, onClose: (id: string | null) => vo
       });
 
       CustomToast.success('Post deleted successfully!');
-      onClose(null);
     },
     onError: error => {
       console.error('Error deleting post:', error);
