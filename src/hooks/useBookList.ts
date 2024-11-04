@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { useEffect } from 'react';
+import debounce from 'lodash.debounce';
+import { useCallback, useEffect } from 'react';
 
 import { getBookList, searchBook } from 'api';
 import { useSearchQueryStore } from 'stores';
@@ -19,17 +20,24 @@ export const useBookList = () => {
     enabled: false,
   });
 
+  const debouncedFetchSearchBooks = useCallback(
+    debounce(() => {
+      void fetchSearchBooks();
+    }, 300),
+    [fetchSearchBooks],
+  );
+
   useEffect(() => {
     resetQuery();
   }, [resetQuery]);
 
   useEffect(() => {
     if (query) {
-      void fetchSearchBooks();
+      void debouncedFetchSearchBooks();
     } else {
       void fetchPopularBooks();
     }
-  }, [query, fetchPopularBooks, fetchSearchBooks]);
+  }, [query, fetchPopularBooks, debouncedFetchSearchBooks]);
 
   const data = query ? searchResults : popularBooks;
   const isEmpty = query && (!data || data.length === 0);
