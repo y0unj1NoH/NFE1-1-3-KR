@@ -8,12 +8,6 @@ const snap = (length: number) => {
   return gsap.utils.snap(1 / length);
 };
 
-// TODO: 기능 구현 완료 후 삭제 예정
-const setActiveImage = (images: HTMLDivElement[], index: number) => {
-  document.querySelector('.wheel__card.active')?.classList.remove('active');
-  images[index].classList.add('active');
-};
-
 const rotateSlider = (
   target: HTMLDivElement,
   rotation: number,
@@ -29,22 +23,8 @@ const rotateSlider = (
   });
 };
 
-const moveWheel = (
-  images: HTMLDivElement[],
-  amount: number,
-  tl: gsap.core.Timeline,
-  tracker: { item: number },
-) => {
+const moveWheel = (images: HTMLDivElement[], amount: number, tl: gsap.core.Timeline) => {
   const total = images.length;
-
-  const progress = tl.progress();
-  tl.progress(wrapProgress(snap(total)(tl.progress() + amount)));
-  const next = tracker.item;
-  tl.progress(progress);
-
-  setActiveImage(images, next);
-
-  console.log('실행 전: ', tl.progress());
 
   gsap.to(tl, {
     progress: snap(total)(tl.progress() + amount),
@@ -52,7 +32,6 @@ const moveWheel = (
       progress: wrapProgress,
     },
   });
-  console.log('실행 후: ', tl.progress());
 };
 
 export const setupWheel = (wheel: HTMLDivElement, images: HTMLDivElement[]) => {
@@ -115,11 +94,7 @@ export const setupTimeline = (total: number, tl: gsap.core.Timeline, tracker: { 
   });
 };
 
-export const handleDrag = (
-  images: HTMLDivElement[],
-  tl: gsap.core.Timeline,
-  tracker: { item: number },
-) => {
+export const handleDrag = (images: HTMLDivElement[], tl: gsap.core.Timeline) => {
   const total = images.length;
   const AnglePerImage = 360 / total;
   let startRotation = 0;
@@ -136,19 +111,12 @@ export const handleDrag = (
       const rotationDiff = this.rotation - startRotation;
       const distance = Math.round(rotationDiff / AnglePerImage);
 
-      console.log('실행 전: ', tl.progress());
-
       gsap.to(tl, {
         progress: snap(total)(tl.progress() + distance / total),
         modifiers: {
           progress: wrapProgress,
         },
       });
-
-      console.log('실행 후: ', tl.progress());
-
-      const next = (tracker.item - distance + total) % total;
-      setActiveImage(images, next);
 
       const finalRotation = startRotation + distance * AnglePerImage;
       rotateSlider(this.target as HTMLDivElement, finalRotation, 1, 'power4.out');
@@ -173,18 +141,15 @@ export const handleClick = (
         handleActiveClick(el as AnimatedHTMLDivElement, modal);
       }
 
-      setActiveImage(images, i);
-
       const diff = currentActive - i;
-
       if (Math.abs(diff) < total / 2) {
-        moveWheel(images, diff * step, tl, tracker);
+        moveWheel(images, diff * step, tl);
       } else {
         const amt = total - Math.abs(diff);
         if (currentActive > i) {
-          moveWheel(images, amt * -step, tl, tracker);
+          moveWheel(images, amt * -step, tl);
         } else {
-          moveWheel(images, amt * step, tl, tracker);
+          moveWheel(images, amt * step, tl);
         }
       }
     });
@@ -207,7 +172,13 @@ const handleActiveClick = (card: AnimatedHTMLDivElement, modal: HTMLDivElement) 
       props: 'borderRadius, aspectRatio, boxShadow',
     });
 
-    modal.classList.add('active');
+    const cardColor = card.getAttribute('data-color');
+    if (cardColor) {
+      modal.style.backgroundColor = cardColor;
+    }
+
+    modal.style.opacity = '1';
+    modal.style.pointerEvents = 'all';
 
     Flip.from(state, {
       duration: 0.25,
@@ -222,34 +193,43 @@ const handleActiveClick = (card: AnimatedHTMLDivElement, modal: HTMLDivElement) 
 
 export const handleModalClick = (
   images: HTMLDivElement[],
-  tracker: { item: number },
+  trackerItem: number,
   modal: HTMLDivElement,
 ) => {
-  const activeCard = images[tracker.item] as AnimatedHTMLDivElement;
+  const activeCard = images[trackerItem] as AnimatedHTMLDivElement;
   const faces = activeCard.querySelector('.faces');
 
   const animation = gsap.timeline({ paused: true });
   animation.set(activeCard, { opacity: 1 });
   animation.add(function () {
-    activeCard.dataset.flipId = 'wheel__card';
+    const cardRect = activeCard.getBoundingClientRect();
+    const modalRect = modal.getBoundingClientRect();
 
-    const state = Flip.getState([modal, activeCard], {
-      props: 'borderRadius, aspectRatio, boxShadow',
-    });
+    const originalX = modalRect.left;
+    const originalY = modalRect.top;
 
-    modal.classList.remove('active');
+    const cardCenterX = cardRect.left;
+    const cardCenterY = cardRect.top;
 
-    Flip.from(state, {
-      duration: 1,
-      absolute: true,
+    gsap.to(modal, {
+      duration: 0.4,
+      x: cardCenterX - originalX,
+      y: cardCenterY - originalY,
+      width: cardRect.width,
+      height: cardRect.height,
       ease: 'sine.inOut',
       onComplete: () => {
-        activeCard.dataset.flipId = 'wheel__card';
-        animation.to(faces, { rotationY: 0 }).eventCallback('onComplete', () => {
-          // Ensure the state is updated after the animation completes
-          activeCard.dataset.flipId = '';
+        modal.style.opacity = '0';
+        modal.style.pointerEvents = 'none';
+        modal.style.width = '100%';
+        modal.style.height = '100vh';
+
+        gsap.set(modal, {
+          x: originalX - modalRect.left,
+          y: originalY - modalRect.top,
         });
-        // animation.to(faces, { rotationY: 0 });
+
+        animation.to(faces, { rotationY: 0 });
       },
     });
   });
@@ -258,27 +238,14 @@ export const handleModalClick = (
   activeCard.animation.play();
 };
 
-export const handleWheel = (
-  deltaY: number,
-  images: HTMLDivElement[],
-  tl: gsap.core.Timeline,
-  tracker: { item: number },
-) => {
+export const handleWheel = (deltaY: number, images: HTMLDivElement[], tl: gsap.core.Timeline) => {
   const direction = deltaY > 0 ? -1 : 1;
   const total = images.length;
 
-  console.log('실행 전: ', tl.progress());
-  // TODO: 스크롤 이벤트가 제대로 작동하지 않음
   gsap.to(tl, {
     progress: snap(total)(tl.progress() + direction / total),
     modifiers: {
       progress: wrapProgress,
     },
-    onComplete: () => {
-      console.log('실행 후: ', tl.progress());
-    },
   });
-
-  const next = (tracker.item - direction + total) % total;
-  setActiveImage(images, next);
 };

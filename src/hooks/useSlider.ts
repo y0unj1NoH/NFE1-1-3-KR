@@ -35,8 +35,8 @@ export const useSlider = ({ data }: { data: BookData[] }) => {
   // };
 
   const handleModalClose = useCallback(() => {
-    handleModalClick(images, tracker, modal);
-  }, [images, tracker, modal]);
+    handleModalClick(images, tracker.item, modal);
+  }, [images, tracker.item, modal]);
 
   const handleResize = useCallback(() => {
     setupWheel(wheel as HTMLDivElement, images);
@@ -44,7 +44,7 @@ export const useSlider = ({ data }: { data: BookData[] }) => {
 
   const handleScroll = useCallback(
     (event: WheelEvent) => {
-      handleWheel(event.deltaY, images, sliderTl, tracker);
+      handleWheel(event.deltaY, images, sliderTl);
     },
     [images],
   );
@@ -79,7 +79,7 @@ export const useSlider = ({ data }: { data: BookData[] }) => {
   }, [handleModalClose, handleResize, modal]);
 
   useEffect(() => {
-    console.log('isIntersecting: ', isIntersecting);
+    // console.log('isIntersecting: ', isIntersecting);
     if (isIntersecting) {
       window.addEventListener('wheel', handleScroll);
     } else {

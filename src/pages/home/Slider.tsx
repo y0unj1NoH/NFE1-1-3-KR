@@ -6,8 +6,6 @@ import { useSlider } from 'hooks';
 import { BookModal } from 'pages';
 import type { BookData } from 'types';
 
-import './styles.css';
-
 const Slider = ({ data }: { data: BookData[] }) => {
   const { sliderRef } = useSlider({ data });
   const [isModalOpen, setModalOpen] = useState(false);
@@ -44,7 +42,7 @@ const Slider = ({ data }: { data: BookData[] }) => {
         </div>
       </div>
       <div
-        className='modal'
+        className='modal absolute opacity-0 top-0 left-0 w-full h-screen pointer-events-none z-[999]'
         data-flip-id='wheel__card'
         style={{ display: selectedBookId ? 'block' : 'none' }}
       >
@@ -55,8 +53,7 @@ const Slider = ({ data }: { data: BookData[] }) => {
             onClose={closeModal}
           />
         )}
-      </div>
-    </>
+      </div>    </>
   );
 };
 
