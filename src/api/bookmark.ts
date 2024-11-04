@@ -1,10 +1,21 @@
 import { supabase } from 'lib/supabase';
 import type { BookMarkReturn } from 'types';
 
-const getBookMarkList = async (): Promise<BookMarkReturn[]> => {
+// const getBookMarkList = async (): Promise<BookMarkReturn[]> => {
+//   const { data, error } = await supabase
+//     .from('bookmarks')
+//     .select('*, books(*)')
+//     .returns<BookMarkReturn[]>();
+
+//   if (error) throw error;
+//   return data;
+// };
+
+const getBookMarkList = async (userId: string): Promise<BookMarkReturn[]> => {
   const { data, error } = await supabase
     .from('bookmarks')
     .select('*, books(*)')
+    .eq('user_id', userId)
     .returns<BookMarkReturn[]>();
 
   if (error) throw error;
