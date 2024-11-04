@@ -1,9 +1,17 @@
+import { useNavigate } from 'react-router-dom';
+
 import { Profile } from 'components';
 import type { PostDTO } from 'types';
 
 export const Post = ({ post }: { post: PostDTO }) => {
+  const navigate = useNavigate();
   return (
-    <div className='max-h-[16rem] h-full w-full px-2 py-[1.875rem] border-b border-[#243868] justify-center items-center gap-2 inline-flex cursor-pointer'>
+    <div
+      className='max-h-[16rem] h-full w-full px-2 py-[1.875rem] border-b border-[#243868] justify-center items-center gap-2 inline-flex cursor-pointer'
+      onClick={() => {
+        navigate(`/community/${post.post_id}`);
+      }}
+    >
       {post.books && (
         <img
           alt='book-cover'

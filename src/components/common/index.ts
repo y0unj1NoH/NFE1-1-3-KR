@@ -9,3 +9,4 @@ export * from './Profile';
 export * from './Modal';
 export * from './DropdownMenu';
 export * from './ProtectedRoutes';
+export * from './CustomToast';

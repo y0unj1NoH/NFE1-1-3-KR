@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { EditPostModal, Profile } from 'components';
+import { Profile, CustomToast } from 'components';
 import {
   useCreateComment,
   useDeletePost,
@@ -10,37 +11,32 @@ import {
   useDeleteComment,
   useUpdateComment,
 } from 'hooks';
-import { useAuthStore, useModalStore, usePostStore } from 'stores';
+import { useAuthStore, usePostStore, useSearchBookStore } from 'stores';
 
-export const DetailPost = ({
-  postId,
-  onClose,
-}: {
-  postId: string;
-  onClose: (id: string | null) => void;
-}) => {
+export const DetailPost = ({ postId }: { postId: string }) => {
   const [isSetting, setIsSetting] = useState(false);
   const [isCommentEdit, setIsCommentEdit] = useState(false);
   const [selectedComment, setSelectedComment] = useState('');
   const { userInfo } = useAuthStore();
   const [comment, setComment] = useState('');
   const { setPostId, setPostContent } = usePostStore();
+  const { setBookId } = useSearchBookStore();
+  const navigate = useNavigate();
 
   const { data: post } = usePost(postId);
 
   const { mutate: createNewComment } = useCreateComment(postId);
-  const { mutate: deletePostById } = useDeletePost(postId, onClose);
+  const { mutate: deletePostById } = useDeletePost(postId);
   const { mutate: likePost } = useLikePost(postId);
   const { mutate: unlikePost } = useUnlikePost(postId);
   const { mutate: updateComment } = useUpdateComment(postId);
   const { mutate: deleteComment } = useDeleteComment(postId);
 
-  const openModal = useModalStore(state => state.openModal);
-
   const handleEdit = () => {
     setPostId(postId);
     setPostContent(post?.content as string);
-    openModal('EDIT', { component: EditPostModal });
+    setBookId(undefined);
+    CustomToast.info('Edit your review on this post');
   };
 
   const handleLike = () => {
@@ -64,7 +60,8 @@ export const DetailPost = ({
       <button
         className='absolute top-[2rem] left-[1rem] flex items-center justify-center w-6 h-6'
         onClick={() => {
-          onClose(null);
+          navigate('/community');
+          setPostContent(undefined);
         }}
       >
         <img alt='close-button' className='object-contain w-full h-full' src='/chevron-left.svg' />
@@ -94,6 +91,7 @@ export const DetailPost = ({
           <span
             onClick={() => {
               deletePostById();
+              navigate('/community');
             }}
           >
             delete
@@ -204,7 +202,10 @@ export const DetailPost = ({
             ),
           )}
         </div>
-        <div className='w-[80%] px-2 py-1 rounded-[60px] border border-[#243868] justify-start items-center gap-2.5 inline-flex'>
+        <div
+          className='w-[80%] px-2 py-1 rounded-[60px] border border-[#243868] justify-start items-center gap-2.5 inline-flex'
+          style={{ borderColor: isCommentEdit ? '#afa18b' : '#243868' }}
+        >
           <div className='flex items-center justify-start w-full gap-4'>
             {userInfo?.username && <Profile index={+userInfo.username.slice(-1)} />}
             <input
@@ -225,8 +226,9 @@ export const DetailPost = ({
               } else createNewComment({ postId, comment });
               setComment('');
             }}
+            style={{ backgroundColor: isCommentEdit ? '#afa18b' : '#243868' }}
           >
-            Post
+            {isCommentEdit ? 'Edit' : 'Post'}
           </div>
         </div>
       </div>

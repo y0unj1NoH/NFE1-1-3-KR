@@ -1,12 +1,10 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { MenuButton } from './MenuButton';
 
-import { PopularPosts } from 'pages/community';
 import { useIntroStore } from 'stores';
 
 export const Header = () => {
-  const location = useLocation();
   const navigate = useNavigate();
   const isVisible = useIntroStore(state => state.isVisible);
 
@@ -20,7 +18,6 @@ export const Header = () => {
       >
         <img alt='logo' className='object-contain' src='/Logo.svg' />
       </h1>
-      {location.pathname.startsWith('/community') && <PopularPosts />}
 
       {!isVisible && <MenuButton />}
     </div>

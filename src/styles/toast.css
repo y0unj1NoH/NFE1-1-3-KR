@@ -1,0 +1,15 @@
+.Toastify__progress-bar--success {
+  background-color: #243868 !important;
+}
+
+.Toastify__progress-bar--error {
+  background-color: #fd9579 !important;
+}
+
+.Toastify__progress-bar--info {
+  background-color: #c2955c !important;
+}
+
+.Toastify__progress-bar--warning {
+  background-color: #a5a5a5 !important;
+}
