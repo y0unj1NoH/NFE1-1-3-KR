@@ -57,10 +57,12 @@ const getBookDataById = async ({
   }
 };
 
-// search book data
-const searchBook = async ({ bookTitle }: { bookTitle: string }): Promise<BookData[]> => {
+const searchBook = async ({ query }: { query: string }): Promise<BookData[]> => {
   try {
-    const { data, error } = await supabase.from('books').select('*').eq('title', bookTitle);
+    const { data, error } = await supabase
+      .from('books')
+      .select('*')
+      .or(`title.ilike.%${query}%,author.ilike.%${query}%`);
 
     if (error) {
       console.error('Error searching books:', error);
@@ -74,4 +76,21 @@ const searchBook = async ({ bookTitle }: { bookTitle: string }): Promise<BookDat
   }
 };
 
-export { getBookList, getBookDataById, searchBook };
+const getPopularBooks = async (): Promise<BookData[]> => {
+  try {
+    const { data, error } = await supabase.from('books').select('*');
+    // .order('customerReviewRank', { ascending: false });
+    // .limit(14);
+    if (error) {
+      console.error('Error fetching books:', error);
+      throw error;
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Unexpected error while fetching books:', error);
+    throw error;
+  }
+};
+
+export { getBookList, getBookDataById, searchBook, getPopularBooks };

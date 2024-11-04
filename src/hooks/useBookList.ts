@@ -2,21 +2,21 @@ import { useQuery } from '@tanstack/react-query';
 import debounce from 'lodash.debounce';
 import { useCallback, useEffect } from 'react';
 
-import { getBookList, searchBook } from 'api';
+import { getPopularBooks, searchBook } from 'api';
 import { useSearchQueryStore } from 'stores';
 
 export const useBookList = () => {
   const { query, resetQuery } = useSearchQueryStore();
 
   const { data: popularBooks, refetch: fetchPopularBooks } = useQuery({
-    queryKey: ['books'],
-    queryFn: getBookList,
+    queryKey: ['popularBooks'],
+    queryFn: getPopularBooks,
     enabled: false,
   });
 
   const { data: searchResults, refetch: fetchSearchBooks } = useQuery({
     queryKey: ['searchBook', query],
-    queryFn: () => searchBook({ bookTitle: query }),
+    queryFn: () => searchBook({ query }),
     enabled: false,
   });
 
