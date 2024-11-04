@@ -1,7 +1,8 @@
 import { create } from 'zustand';
-import type { BookMarkReturn } from 'types';
-import { useAuthStore } from 'stores';
+
 import { getBookMarkList } from 'api';
+import { useAuthStore } from 'stores';
+import type { BookMarkReturn } from 'types';
 
 interface BookmarkState {
   bookmarks: BookMarkReturn[] | null;
@@ -12,12 +13,12 @@ interface BookmarkState {
 
 export const useBookMarkStore = create<BookmarkState>(set => ({
   bookmarks: null,
-  setBookmarks: bookmarks => set({ bookmarks }),
-  addBookmark: bookmark => set(state => ({ bookmarks: [...(state.bookmarks || []), bookmark] })),
+  setBookmarks: bookmarks => { set({ bookmarks }); },
+  addBookmark: bookmark => { set(state => ({ bookmarks: [...(state.bookmarks || []), bookmark] })); },
   removeBookmark: bookId =>
-    set(state => ({
+    { set(state => ({
       bookmarks: (state.bookmarks || []).filter(b => b.book_id !== bookId),
-    })),
+    })); },
 }));
 
 export const fetchAndSetBookmarks = async () => {

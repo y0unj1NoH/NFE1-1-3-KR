@@ -6,10 +6,10 @@ import SlidingTitle from './SlidingTitle';
 import { getBookDataById } from '../../api/book';
 import { Button, Icon } from '../../components';
 
-import { useBookCoverAnimation, useRibbonAnimation } from 'hooks';
-import type { BookData } from 'types';
 import { addBookMark, deleteBookMark } from 'api';
-import { useBookMarkStore } from 'stores';
+import { useBookCoverAnimation, useRibbonAnimation } from 'hooks';
+import { fetchAndSetBookmarks, useBookMarkStore } from 'stores';
+import type { BookData } from 'types';
 
 export const BookModal = ({
   bookId,
@@ -38,6 +38,7 @@ export const BookModal = ({
         await addBookMark({ bookId });
       }
       setBookmarkOpen(!isBookmarkOpen);
+      await fetchAndSetBookmarks();
     } catch (error) {
       console.error('Failed to toggle bookmark:', error);
     }
