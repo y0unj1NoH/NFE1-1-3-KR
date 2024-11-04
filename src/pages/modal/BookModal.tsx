@@ -81,7 +81,7 @@ export const BookModal = ({
       .join(' ');
 
   return (
-    <div className='modal-content fixed inset-0 z-[10000]' style={{ backgroundColor }}>
+    <div className='modal-content fixed inset-0 z-[999]' style={{ backgroundColor }}>
       <div className=' relative flex w-full h-full'>
         <div
           className='absolute top-0'

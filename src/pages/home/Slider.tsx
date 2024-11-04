@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import ReactDOM from 'react-dom';
 
 import SliderItem from './SliderItem';
 
@@ -42,18 +43,21 @@ const Slider = ({ data }: { data: BookData[] }) => {
           })}
         </div>
       </div>
-      <div
-        className='modal fixed inset-0 opacity-0 pointer-events-none z-[10000]'
-        data-flip-id='wheel__card'
-      >
-        {isModalOpen && selectedBookId && (
-          <BookModal
-            backgroundColor={selectedColor || 'transparent'}
-            bookId={selectedBookId || ''}
-            onClose={closeModal}
-          />
-        )}
-      </div>
+      {ReactDOM.createPortal(
+        <div
+          className='modal fixed inset-0 opacity-0 pointer-events-none z-[10000]'
+          data-flip-id='wheel__card'
+        >
+          {isModalOpen && selectedBookId && (
+            <BookModal
+              backgroundColor={selectedColor || 'transparent'}
+              bookId={selectedBookId || ''}
+              onClose={closeModal}
+            />
+          )}
+        </div>,
+        document.body,
+      )}
     </>
   );
 };

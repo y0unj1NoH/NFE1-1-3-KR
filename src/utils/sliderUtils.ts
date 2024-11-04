@@ -86,7 +86,7 @@ export const setupTimeline = (total: number, tl: gsap.core.Timeline, tracker: { 
   );
 
   gsap.to(tl, {
-    duration: 2,
+    duration: 1.5,
     progress: snap(total)(tl.progress() - 1),
     modifiers: {
       progress: wrapProgress,
@@ -180,7 +180,7 @@ const handleActiveClick = (card: AnimatedHTMLDivElement, modal: HTMLDivElement) 
     modal.style.pointerEvents = 'all';
 
     Flip.from(state, {
-      duration: 0.25,
+      duration: 0.4,
       ease: 'sine.inOut',
       absolute: true,
     });
