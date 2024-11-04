@@ -162,7 +162,6 @@ interface AnimatedHTMLDivElement extends HTMLDivElement {
 
 const handleActiveClick = (card: AnimatedHTMLDivElement, modal: HTMLDivElement) => {
   const faces = card.querySelector('.faces');
-
   const animation = gsap.timeline({ paused: true });
   animation.to(faces, { rotationY: 180 });
   animation.set(card, { opacity: 0 });
@@ -211,6 +210,9 @@ export const handleModalClick = (
     const cardCenterX = cardRect.left;
     const cardCenterY = cardRect.top;
 
+    const content = modal.querySelector('.modal-content') as HTMLDivElement;
+    content.style.opacity = '0';
+
     gsap.to(modal, {
       duration: 0.4,
       x: cardCenterX - originalX,
@@ -230,6 +232,7 @@ export const handleModalClick = (
         });
 
         animation.to(faces, { rotationY: 0 });
+        content.style.opacity = '1';
       },
     });
   });

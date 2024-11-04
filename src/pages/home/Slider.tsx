@@ -7,7 +7,7 @@ import { BookModal } from 'pages';
 import type { BookData } from 'types';
 
 const Slider = ({ data }: { data: BookData[] }) => {
-  const { sliderRef } = useSlider({ data });
+  const { sliderRef, handleModalClose } = useSlider({ data });
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedBookId, setSelectedBookId] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
@@ -22,6 +22,7 @@ const Slider = ({ data }: { data: BookData[] }) => {
     setModalOpen(false);
     setSelectedBookId(null);
     setSelectedColor(null);
+    handleModalClose();
   };
 
   return (
@@ -42,9 +43,8 @@ const Slider = ({ data }: { data: BookData[] }) => {
         </div>
       </div>
       <div
-        className='modal absolute opacity-0 top-0 left-0 w-full pointer-events-none z-[999]'
+        className='modal fixed inset-0 opacity-0 pointer-events-none z-[10000]'
         data-flip-id='wheel__card'
-        style={{ display: selectedBookId ? 'block' : 'none' }}
       >
         {isModalOpen && selectedBookId && (
           <BookModal
@@ -53,7 +53,7 @@ const Slider = ({ data }: { data: BookData[] }) => {
             onClose={closeModal}
           />
         )}
-      </div>{' '}
+      </div>
     </>
   );
 };

@@ -90,5 +90,5 @@ export const useSlider = ({ data }: { data: BookData[] }) => {
     };
   }, [isIntersecting, handleScroll]);
 
-  return { sliderRef };
+  return { sliderRef, handleModalClose };
 };
