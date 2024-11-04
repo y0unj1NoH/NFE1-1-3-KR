@@ -15,6 +15,7 @@ export const ButtonVariants = cva(
         coral: ' bg-menu-coral',
         gold: ' bg-gold-default ',
         white: 'bg-white border-solid border-2 border-gold-default ',
+        blue: ' bg-primary ',
       },
       position: {
         default: ' top-4 right-4 ',
