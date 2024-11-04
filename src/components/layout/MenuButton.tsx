@@ -9,7 +9,8 @@ export const MenuButton = () => {
   const navigate = useNavigate();
   const [isClick, setIsClick] = useState(false);
   const [isStretchSearch, setIsStretchSearch] = useState(false);
-  const { query, setQuery } = useSearchQueryStore();
+
+  const { query, setQuery, resetQuery } = useSearchQueryStore();
 
   const handleButtonClick = (pathname: string) => {
     navigate(pathname);
@@ -68,6 +69,7 @@ export const MenuButton = () => {
       </Button>
       <Button
         onClick={() => {
+          resetQuery();
           handleButtonClick('/community');
         }}
         position={isClick && !isStretchSearch ? 'community' : 'default'}
@@ -77,6 +79,7 @@ export const MenuButton = () => {
       </Button>
       <Button
         onClick={() => {
+          resetQuery();
           handleButtonClick('/profile');
         }}
         position={isClick && !isStretchSearch ? 'profile' : 'default'}

@@ -6,7 +6,7 @@ import { getPopularBooks, searchBook } from 'api';
 import { useSearchQueryStore } from 'stores';
 
 export const useBookList = () => {
-  const { query, resetQuery } = useSearchQueryStore();
+  const { query } = useSearchQueryStore();
 
   const { data: popularBooks, refetch: fetchPopularBooks } = useQuery({
     queryKey: ['popularBooks'],
@@ -26,10 +26,6 @@ export const useBookList = () => {
     }, 300),
     [fetchSearchBooks],
   );
-
-  // useEffect(() => {
-  //   resetQuery();
-  // }, [resetQuery]);
 
   useEffect(() => {
     if (query) {
