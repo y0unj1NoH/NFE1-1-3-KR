@@ -5,3 +5,6 @@ export * from './Cloud';
 export * from './Modal';
 export * from './TopButton';
 export * from './Profile';
+export * from './Modal';
+export * from './DropdownMeu';
+export * from './ProtectedRoutes';

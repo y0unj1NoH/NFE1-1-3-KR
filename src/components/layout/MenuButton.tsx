@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { Button, Icon } from 'components/common';
+import { Button, Icon, Profile } from 'components';
 
 export const MenuButton = () => {
   const location = useLocation();
@@ -50,14 +50,8 @@ export const MenuButton = () => {
       >
         <Icon alt='community' src='/menu/Community.svg' />
       </Button>
-      <Button
-        onClick={() => {
-          handleButtonClick('/profile');
-        }}
-        position={isClick && !isStretchSearch ? 'profile' : 'default'}
-        variant='white'
-      >
-        <Icon alt='profile' src='/menu/Profile.svg' />
+      <Button position={isClick && !isStretchSearch ? 'profile' : 'default'} variant='white'>
+        <Profile />
       </Button>
     </>
   );

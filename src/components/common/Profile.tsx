@@ -1,9 +1,81 @@
-import { getRandomProfile } from 'utils';
+import { IoMdLogIn } from 'react-icons/io';
+import { MdPersonOutline } from 'react-icons/md';
+import { PiSignOut } from 'react-icons/pi';
+import { useNavigate } from 'react-router-dom';
 
-export const Profile = ({ index }: { index: number }) => {
-  const { profile } = getRandomProfile(index);
+import { DropdownMenu, LoginModal } from 'components';
+import { useDropdownAnimation, useDropdown } from 'hooks';
+import { supabase } from 'lib/supabase';
+import { useAuthStore, useModalStore } from 'stores';
+
+const BeforeLogin = () => {
+  const openModal = useModalStore(state => state.openModal);
+
+  const handleLogin = () => {
+    openModal('LOGIN', { component: LoginModal });
+  };
 
   return (
-    <img alt='user-profile' className={`object-contain w-[2.5rem] h-[2.5rem]`} src={profile} />
+    <>
+      <IoMdLogIn className='fill-gold-default text-[1.7rem]' onClick={handleLogin} />
+    </>
   );
+};
+
+const AfterLogin = () => {
+  const userInfo = useAuthStore(state => state.userInfo);
+  const { isOpen, dropdownRef, toggleDropdown } = useDropdown(false);
+  const [shouldRenderProfile, handleTransitionEnd, triggerAnimation] = useDropdownAnimation(isOpen);
+
+  const navigate = useNavigate();
+
+  const handleLogOut = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+
+      if (error) {
+        throw error;
+      }
+      navigate('/', { replace: true });
+    } catch (error) {
+      console.error('로그아웃 에러:', error);
+      alert('로그아웃 중 문제가 발생했습니다.');
+    }
+  };
+
+  return (
+    <div
+      className='relative flex gap-1 items-center cursor-pointer'
+      onClick={toggleDropdown}
+      ref={dropdownRef}
+    >
+      {userInfo?.username}
+      {shouldRenderProfile && (
+        <DropdownMenu onTransitionEnd={handleTransitionEnd} triggerAnimation={triggerAnimation}>
+          <div className='list-none space-y-4 py-2'>
+            <li
+              className='flex items-center gap-1'
+              onClick={() => {
+                navigate('/profile');
+              }}
+            >
+              <MdPersonOutline className='fill-gold-default text-[1.7rem]' />
+              My page
+            </li>
+
+            <li className='flex items-center gap-1' onClick={handleLogOut}>
+              <PiSignOut className='fill-gold-default text-[1.7rem]' />
+              Sign out
+            </li>
+          </div>
+        </DropdownMenu>
+      )}
+    </div>
+  );
+};
+
+export const Profile = () => {
+  const userInfo = useAuthStore(state => state.userInfo);
+
+  return <>{userInfo ? <AfterLogin /> : <BeforeLogin />}</>;
 };
