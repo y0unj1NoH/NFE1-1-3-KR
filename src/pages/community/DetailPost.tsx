@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
-import { toast } from 'react-toastify';
 
-import { Profile } from 'components';
+import { Profile, CustomToast } from 'components';
 import {
   useCreateComment,
   useDeletePost,
@@ -41,7 +40,7 @@ export const DetailPost = ({
     setPostId(postId);
     setPostContent(post?.content as string);
     setBookId(undefined);
-    toast.info('Edit your review on this post');
+    CustomToast.info('Edit your review on this post');
   };
 
   const handleLike = () => {

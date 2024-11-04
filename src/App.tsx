@@ -10,6 +10,7 @@ import { ModalProvider, BackgroundColorProvider } from 'context';
 import { supabase } from 'lib/supabase';
 import { CommunityPage, MyPage, BookModal, HomePage } from 'pages';
 import { useAuthStore } from 'stores';
+import 'styles/toast.css';
 
 const router = createBrowserRouter([
   {
