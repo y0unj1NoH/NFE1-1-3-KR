@@ -60,7 +60,7 @@ export const useSlider = ({ data }: { data: BookData[] }) => {
     gsap.registerPlugin(ScrollTrigger, Draggable, Flip);
     setupWheel(wheel, images);
     setupTimeline(images.length, sliderTl, tracker);
-    handleDrag(images, sliderTl, tracker);
+    handleDrag(images, sliderTl);
     handleClick(images, sliderTl, tracker, modal);
   }, [images]);
 

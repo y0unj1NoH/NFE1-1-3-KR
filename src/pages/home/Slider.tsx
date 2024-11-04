@@ -42,7 +42,7 @@ const Slider = ({ data }: { data: BookData[] }) => {
         </div>
       </div>
       <div
-        className='modal absolute opacity-0 top-0 left-0 w-full h-screen pointer-events-none z-[999]'
+        className='modal absolute opacity-0 top-0 left-0 w-full pointer-events-none z-[999]'
         data-flip-id='wheel__card'
         style={{ display: selectedBookId ? 'block' : 'none' }}
       >
@@ -53,7 +53,8 @@ const Slider = ({ data }: { data: BookData[] }) => {
             onClose={closeModal}
           />
         )}
-      </div>    </>
+      </div>{' '}
+    </>
   );
 };
 
