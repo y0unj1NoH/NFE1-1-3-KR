@@ -8,6 +8,8 @@ import { Button, Icon } from '../../components';
 
 import { useBookCoverAnimation, useRibbonAnimation } from 'hooks';
 import type { BookData } from 'types';
+import { addBookMark, deleteBookMark } from 'api';
+import { useBookMarkStore } from 'stores';
 
 export const BookModal = ({
   bookId,
@@ -23,11 +25,28 @@ export const BookModal = ({
   const [initialized, setInitialized] = useState(false);
   const bookmarkRef = useRef<HTMLDivElement>(null);
   const coverRef = useRef<HTMLImageElement>(null);
+  const { bookmarks } = useBookMarkStore();
 
   useBookCoverAnimation(coverRef, initialized);
   useRibbonAnimation(bookmarkRef, isBookmarkOpen, initialized);
 
+  const toggleBookmark = async () => {
+    try {
+      if (isBookmarkOpen) {
+        await deleteBookMark({ bookId });
+      } else {
+        await addBookMark({ bookId });
+      }
+      setBookmarkOpen(!isBookmarkOpen);
+    } catch (error) {
+      console.error('Failed to toggle bookmark:', error);
+    }
+  };
+
   useEffect(() => {
+    const isBookmarked = bookmarks?.some(bookmark => bookmark.books?.id === bookId) ?? false;
+    setBookmarkOpen(isBookmarked);
+
     const fetchBookDetails = async () => {
       try {
         const data = await getBookDataById({ bookId });
@@ -41,7 +60,7 @@ export const BookModal = ({
     };
 
     void fetchBookDetails();
-  }, [bookId]);
+  }, [bookId, bookmarks]);
 
   // 리본 초기 위치
   useEffect(() => {
@@ -65,9 +84,7 @@ export const BookModal = ({
       <div className=' relative flex w-full h-full'>
         <div
           className='absolute top-0'
-          onClick={() => {
-            setBookmarkOpen(prev => !prev);
-          }}
+          onClick={toggleBookmark}
           ref={bookmarkRef}
           style={{
             right: '10%',
