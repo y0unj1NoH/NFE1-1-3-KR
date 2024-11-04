@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Profile } from 'components';
 import { useModalDispatch } from 'context';
 import { useCreatePost, useUpdatePost } from 'hooks';
 import { useAuthStore, useSearchBookStore, useModalStore, usePostStore } from 'stores';
 
-export const WritePost = ({ edit = false }: { edit?: boolean }) => {
+export const WritePost = () => {
   const dispatch = useModalDispatch();
   const userInfo = useAuthStore(state => state.userInfo);
   const { bookId } = useSearchBookStore();
@@ -16,6 +16,10 @@ export const WritePost = ({ edit = false }: { edit?: boolean }) => {
 
   const { mutate: createNewPost } = useCreatePost();
   const { mutate: updatePostContent } = useUpdatePost(postId as string);
+
+  useEffect(() => {
+    if (postContent) setContent(postContent);
+  }, [postContent]);
 
   return (
     <div className='p-2 rounded-[60px] border-2 border-[#243868] justify-between items-start inline-flex w-full'>
@@ -32,25 +36,30 @@ export const WritePost = ({ edit = false }: { edit?: boolean }) => {
         />
       </div>
       <div className='flex items-center justify-end h-full gap-5'>
-        {!edit && (
-          <div
-            className='flex items-center justify-start gap-2 cursor-pointer'
-            onClick={() => {
-              dispatch({ type: 'OPEN_MODAL' });
-            }}
-          >
-            <img alt='search-book' className='w-5 h-5' src='/bookmark-search.svg' />
+        <div
+          className='flex items-center justify-start gap-2 cursor-pointer'
+          onClick={() => {
+            dispatch({ type: 'OPEN_MODAL' });
+          }}
+        >
+          <img alt='search-book' className='w-5 h-5' src='/bookmark-search.svg' />
 
-            <button className='text-[#27364b] text-xs font-normal leading-none hidden md:block'>
-              Add Book
-            </button>
-          </div>
-        )}
+          <button className='text-[#27364b] text-xs font-normal leading-none hidden md:block'>
+            Add Book
+          </button>
+        </div>
         <div
           className='py-2.5 px-5 bg-[#243868] rounded-[100px] justify-center items-center gap-2.5 flex cursor-pointer'
           onClick={() => {
-            if (edit) {
-              updatePostContent({ postId: postId as string, content });
+            if (postContent) {
+              updatePostContent(
+                { postId: postId as string, content, bookId },
+                {
+                  onSuccess: () => {
+                    setContent('');
+                  },
+                },
+              );
               closeModal('EDIT');
             } else {
               createNewPost(

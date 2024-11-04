@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 
-import { EditPostModal, Profile } from 'components';
+import { Profile } from 'components';
 import {
   useCreateComment,
   useDeletePost,
@@ -10,7 +10,7 @@ import {
   useDeleteComment,
   useUpdateComment,
 } from 'hooks';
-import { useAuthStore, useModalStore, usePostStore } from 'stores';
+import { useAuthStore, usePostStore } from 'stores';
 
 export const DetailPost = ({
   postId,
@@ -35,12 +35,9 @@ export const DetailPost = ({
   const { mutate: updateComment } = useUpdateComment(postId);
   const { mutate: deleteComment } = useDeleteComment(postId);
 
-  const openModal = useModalStore(state => state.openModal);
-
   const handleEdit = () => {
     setPostId(postId);
     setPostContent(post?.content as string);
-    openModal('EDIT', { component: EditPostModal });
   };
 
   const handleLike = () => {

@@ -60,8 +60,19 @@ export const useUpdatePost = (postId: string) => {
   const { setPostContent } = usePostStore();
 
   return useMutation({
-    mutationFn: ({ postId, content }: { postId: string; content: string }) =>
-      updatePost({ postId: postId ?? '', formData: { title: '', content: content } }),
+    mutationFn: ({
+      postId,
+      content,
+      bookId,
+    }: {
+      postId: string;
+      content: string;
+      bookId?: string;
+    }) =>
+      updatePost({
+        postId: postId ?? '',
+        formData: { title: '', content: content, book_id: bookId },
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['post', postId] }).catch(error => {
         console.error('Error invalidating queries:', error);
@@ -69,7 +80,7 @@ export const useUpdatePost = (postId: string) => {
       queryClient.invalidateQueries({ queryKey: ['postList'] }).catch(error => {
         console.error('Error invalidating queries:', error);
       });
-      setPostContent('');
+      setPostContent(undefined);
     },
     onError: error => {
       console.error('Error updating post:', error);
