@@ -8,7 +8,7 @@ import { getUserInfo } from 'api';
 import { Layout, ModalRenderer, ProtectedRoutes } from 'components';
 import { ModalProvider, BackgroundColorProvider } from 'context';
 import { supabase } from 'lib/supabase';
-import { CommunityPage, MyPage, BookModal, HomePage, DetailPage } from 'pages';
+import { CommunityPage, MyPage, BookModal, HomePage, DetailPage, SearchableBookList } from 'pages';
 import 'styles/toast.css';
 import { fetchAndSetBookmarks, useAuthStore } from 'stores';
 
@@ -21,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <HomePage />,
+      },
+      {
+        path: '/search',
+        element: <SearchableBookList />,
       },
       {
         path: '/book/:id',

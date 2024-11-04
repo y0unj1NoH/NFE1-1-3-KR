@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, type KeyboardEvent } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Button, Icon, HeaderProfile } from 'components';
+import { useSearchQueryStore } from 'stores';
 
 export const MenuButton = () => {
   const location = useLocation();
@@ -9,9 +10,17 @@ export const MenuButton = () => {
   const [isClick, setIsClick] = useState(false);
   const [isStretchSearch, setIsStretchSearch] = useState(false);
 
+  const { query, setQuery, resetQuery } = useSearchQueryStore();
+
   const handleButtonClick = (pathname: string) => {
     navigate(pathname);
     setIsClick(false);
+  };
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleButtonClick('/search');
+    }
   };
 
   return (
@@ -35,14 +44,32 @@ export const MenuButton = () => {
         variant='white'
       >
         <>
-          <Icon alt='search' src='/menu/Search.svg' />
+          <Icon
+            alt='search'
+            onClick={() => {
+              if (isStretchSearch) {
+                handleButtonClick('/search');
+              }
+            }}
+            src='/menu/Search.svg'
+          />
           {isStretchSearch && (
-            <input className='w-full focus:out' placeholder='search' type='text' />
+            <input
+              className='w-full focus:out'
+              onChange={e => {
+                setQuery(e.target.value);
+              }}
+              onKeyDown={handleKeyDown}
+              placeholder='search'
+              type='text'
+              value={query}
+            />
           )}
         </>
       </Button>
       <Button
         onClick={() => {
+          resetQuery();
           handleButtonClick('/community');
         }}
         position={isClick && !isStretchSearch ? 'community' : 'default'}
@@ -50,7 +77,14 @@ export const MenuButton = () => {
       >
         <Icon alt='community' src='/menu/Community.svg' />
       </Button>
-      <Button position={isClick && !isStretchSearch ? 'profile' : 'default'} variant='white'>
+      <Button
+        onClick={() => {
+          resetQuery();
+          handleButtonClick('/profile');
+        }}
+        position={isClick && !isStretchSearch ? 'profile' : 'default'}
+        variant='white'
+      >
         <HeaderProfile />
       </Button>
     </>

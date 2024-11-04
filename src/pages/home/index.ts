@@ -1,2 +1,2 @@
-export { default as PopularBooks } from './PopularBooks';
+export * from './SearchableBookList';
 export * from './HomePage';

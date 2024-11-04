@@ -69,8 +69,9 @@ export const Button: FC<ButtonProps> = ({
 interface IconProps {
   src: string;
   alt: string;
+  onClick?: () => void;
 }
 
-export const Icon: FC<IconProps> = ({ src, alt }) => (
-  <img alt={alt} className='object-contain w-10 h-10' src={src} />
+export const Icon: FC<IconProps> = ({ src, alt, onClick }) => (
+  <img alt={alt} className='object-contain w-10 h-10' onClick={onClick} src={src} />
 );
