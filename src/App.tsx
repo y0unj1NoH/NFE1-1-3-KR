@@ -2,9 +2,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
-import { getUserInfo } from 'api/auth';
-import { Layout } from 'components';
-import ModalRenderer from 'components/common/Modal/ModalRenderer';
+import { getUserInfo } from 'api';
+import { Layout, ModalRenderer, ProtectedRoutes } from 'components';
 import { ModalProvider, BackgroundColorProvider } from 'context';
 import { supabase } from 'lib/supabase';
 import { CommunityPage, MyPage, BookModal, HomePage } from 'pages';
@@ -25,7 +24,14 @@ const router = createBrowserRouter([
         element: <></>,
       },
       { path: '/community', element: <CommunityPage /> },
-      { path: '/profile', element: <MyPage /> },
+      {
+        path: '/profile',
+        element: (
+          <ProtectedRoutes>
+            <MyPage />
+          </ProtectedRoutes>
+        ),
+      },
       { path: '/modal', element: <BookModal /> },
     ],
   },
