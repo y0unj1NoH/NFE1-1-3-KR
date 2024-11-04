@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 import { Profile } from 'components';
 import {
@@ -10,7 +11,7 @@ import {
   useDeleteComment,
   useUpdateComment,
 } from 'hooks';
-import { useAuthStore, usePostStore } from 'stores';
+import { useAuthStore, usePostStore, useSearchBookStore } from 'stores';
 
 export const DetailPost = ({
   postId,
@@ -25,6 +26,7 @@ export const DetailPost = ({
   const { userInfo } = useAuthStore();
   const [comment, setComment] = useState('');
   const { setPostId, setPostContent } = usePostStore();
+  const { setBookId } = useSearchBookStore();
 
   const { data: post } = usePost(postId);
 
@@ -38,6 +40,8 @@ export const DetailPost = ({
   const handleEdit = () => {
     setPostId(postId);
     setPostContent(post?.content as string);
+    setBookId(undefined);
+    toast.info('Edit your review on this post');
   };
 
   const handleLike = () => {
@@ -62,6 +66,7 @@ export const DetailPost = ({
         className='absolute top-[2rem] left-[1rem] flex items-center justify-center w-6 h-6'
         onClick={() => {
           onClose(null);
+          setPostContent(undefined);
         }}
       >
         <img alt='close-button' className='object-contain w-full h-full' src='/chevron-left.svg' />

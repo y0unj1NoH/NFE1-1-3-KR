@@ -1,6 +1,8 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { getUserInfo } from 'api';
 import { Layout, ModalRenderer, ProtectedRoutes } from 'components';
@@ -97,6 +99,7 @@ function App() {
         <ModalProvider>
           <RouterProvider router={router} />
           <ModalRenderer />
+          <ToastContainer />
         </ModalProvider>
       </BackgroundColorProvider>
     </QueryClientProvider>

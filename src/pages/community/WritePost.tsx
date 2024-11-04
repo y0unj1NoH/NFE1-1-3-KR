@@ -3,13 +3,12 @@ import { useEffect, useState } from 'react';
 import { Profile } from 'components';
 import { useModalDispatch } from 'context';
 import { useCreatePost, useUpdatePost } from 'hooks';
-import { useAuthStore, useSearchBookStore, useModalStore, usePostStore } from 'stores';
+import { useAuthStore, useSearchBookStore, usePostStore } from 'stores';
 
 export const WritePost = () => {
   const dispatch = useModalDispatch();
   const userInfo = useAuthStore(state => state.userInfo);
   const { bookId } = useSearchBookStore();
-  const { closeModal } = useModalStore();
   const { postId, postContent } = usePostStore();
 
   const [content, setContent] = useState(postContent || '');
@@ -19,10 +18,16 @@ export const WritePost = () => {
 
   useEffect(() => {
     if (postContent) setContent(postContent);
+    else setContent('');
   }, [postContent]);
 
   return (
-    <div className='p-2 rounded-[60px] border-2 border-[#243868] justify-between items-start inline-flex w-full'>
+    <div
+      className='p-2 rounded-[60px] border-2 border-[#243868] justify-between items-start inline-flex w-full'
+      style={{
+        borderColor: postContent ? '#afa18b' : '#243868',
+      }}
+    >
       <div className='flex items-center self-stretch justify-start gap-4 grow shrink basis-0'>
         {userInfo?.username ? <Profile index={+userInfo.username.slice(-1)} /> : null}
         <input
@@ -60,7 +65,6 @@ export const WritePost = () => {
                   },
                 },
               );
-              closeModal('EDIT');
             } else {
               createNewPost(
                 { content, bookId },
@@ -72,8 +76,11 @@ export const WritePost = () => {
               );
             }
           }}
+          style={{ backgroundColor: postContent ? '#afa18b' : '#243868' }}
         >
-          <div className='text-sm font-normal leading-tight text-white'>Post</div>
+          <div className='text-sm font-normal leading-tight text-white'>
+            {postContent ? 'Edit' : 'Post'}
+          </div>
         </div>
       </div>
     </div>
