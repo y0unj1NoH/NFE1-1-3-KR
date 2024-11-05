@@ -1,5 +1,5 @@
 import { gsap } from 'gsap';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
 import GridItem from './GridItem';
@@ -14,14 +14,10 @@ const Grid = ({ data }: { data: BookData[] }) => {
   const [selectedBookId, setSelectedBookId] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
 
-  gsap.utils
-    .toArray('.item')
-    .forEach(item => item.addEventListener('click', () => showDetails(item)));
-
-  window.addEventListener('load', () => {
+  useEffect(() => {
     gsap.to('.app', { autoAlpha: 1, duration: 0.2 });
     gsap.from('.item', { autoAlpha: 0, yPercent: 30, stagger: 0.04 });
-  });
+  }, []);
 
   const openModal = (bookId: string, bookColor: string) => {
     setSelectedBookId(bookId);
