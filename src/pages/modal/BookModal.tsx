@@ -4,11 +4,11 @@ import { useEffect, useRef, useState } from 'react';
 import { Rating } from './Rating';
 import SlidingTitle from './SlidingTitle';
 import { getBookDataById } from '../../api/book';
-import { Button, Icon } from '../../components';
 
 import { addBookMark, deleteBookMark } from 'api';
+import { Button, CustomToast, Icon } from 'components';
 import { useBookCoverAnimation, useRibbonAnimation } from 'hooks';
-import { fetchAndSetBookmarks, useBookMarkStore } from 'stores';
+import { fetchAndSetBookmarks, useAuthStore, useBookMarkStore } from 'stores';
 import type { BookData } from 'types';
 
 export const BookModal = ({
@@ -26,11 +26,16 @@ export const BookModal = ({
   const bookmarkRef = useRef<HTMLDivElement>(null);
   const coverRef = useRef<HTMLImageElement>(null);
   const { bookmarks } = useBookMarkStore();
+  const { isAuthenticated } = useAuthStore();
 
   useBookCoverAnimation(coverRef, initialized);
   useRibbonAnimation(bookmarkRef, isBookmarkOpen, initialized);
 
   const toggleBookmark = async () => {
+    if (!isAuthenticated) {
+      CustomToast.error('Login required!');
+      return;
+    }
     try {
       if (isBookmarkOpen) {
         await deleteBookMark({ bookId });
@@ -94,7 +99,6 @@ export const BookModal = ({
             height: '300px',
             backgroundColor: '#DD0000',
             cursor: 'pointer',
-            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
           }}
         />
 

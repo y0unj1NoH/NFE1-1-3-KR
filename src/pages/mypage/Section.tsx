@@ -1,4 +1,4 @@
-import { SectionTypes } from 'types';
+import type { SectionTypes } from 'types';
 
 interface SectionProps {
   title: string;
