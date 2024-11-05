@@ -20,4 +20,4 @@ const main = async () => {
   root.render(<App />);
 };
 
-await main();
+void main();
