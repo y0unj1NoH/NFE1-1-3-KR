@@ -6,7 +6,7 @@ export const Background = () => {
   useEffect(() => {
     const updateImageCount = () => {
       const screenWidth = window.innerWidth;
-      const imageWidth = 160;
+      const imageWidth = 10;
       const count = Math.floor(screenWidth / imageWidth);
       setImageCount(count);
     };
@@ -26,7 +26,7 @@ export const Background = () => {
         {Array.from({ length: imageCount + 1 }).map((_, index) => (
           <img
             alt='bg-ellipse'
-            className='w-[10rem] object-contain'
+            className='lg:w-[10rem] object-contain xs:w-[6rem]'
             key={index}
             src='/bg/Ellipse.svg'
           />

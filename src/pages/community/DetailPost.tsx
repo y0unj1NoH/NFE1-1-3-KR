@@ -56,9 +56,9 @@ export const DetailPost = ({ postId }: { postId: string }) => {
   }, [post?.comment?.length]);
 
   return (
-    <div className='relative flex items-end justify-center w-full h-full p-[4.5rem]'>
+    <div className='relative flex items-end justify-center w-full h-full md:p-[2.5rem] py-[2rem]'>
       <button
-        className='absolute top-[2rem] left-[1rem] flex items-center justify-center w-6 h-6'
+        className='absolute top-[1rem] left-[1rem] md:block hidden items-center justify-center w-6 h-6'
         onClick={() => {
           navigate('/community');
           setPostContent(undefined);
@@ -68,7 +68,7 @@ export const DetailPost = ({ postId }: { postId: string }) => {
       </button>
       {userInfo?.user_id === post?.user_id && (
         <button
-          className='absolute top-[2rem] right-[1rem] flex items-center justify-center w-6 h-6 rounded-full bg-primary p-[0.15rem]'
+          className='absolute md:top-[1rem] md:right-[1rem] top-[0.4rem] right-[0.2rem] flex items-center justify-center w-6 h-6 rounded-full bg-primary p-[0.15rem]'
           onClick={() => {
             setIsSetting(!isSetting);
           }}
@@ -98,40 +98,34 @@ export const DetailPost = ({ postId }: { postId: string }) => {
           </span>
         </div>
       )}
-      <div className='flex flex-col w-full h-full p-[2.5rem] items-center justify-between border-2 border-[#afa18b] rounded-[40px] gap-4'>
-        <div className='flex w-[80%] max-h-[50%] h-[15rem] gap-8'>
+      <div className='flex flex-col w-full h-full p-[2.5rem] items-center justify-between border-2 border-[#afa18b] rounded-[40px] gap-4 overflow-hidden'>
+        <div className='flex flex-col md:w-[80%] w-full gap-8 xs:flex-row'>
           {post?.books && (
             <img
               alt='bookcover'
-              className='h-full rounded object-cover aspect-[200/295]'
+              className='h-[195px] rounded xs:object-cover object-contain aspect-[200/295]'
               src={post?.books?.cover || '/default-bookcover.png'}
             />
           )}
-          <div
-            className='flex flex-col justify-between h-full py-4'
-            id='info'
-            style={{
-              width: post?.cover ? '50%' : '100%',
-            }}
-          >
-            <div className='flex items-center w-full gap-4' id='user'>
+          <div className='flex flex-col justify-center flex-grow gap-2 overflow-hidden' id='info'>
+            <div className='flex items-center flex-shrink-0 gap-2' id='user'>
               <Profile index={+post?.userinfo?.username!.slice(-1)} />
-              <div className='text-[#1c1c1c] text-base font-normal leading-snug'>
+              <div className='text-[#1c1c1c] text-xs font-normal leading-snug break-words max-w-full'>
                 {post?.userinfo?.username}
               </div>
             </div>
-            <div className='flex flex-col w-full gap-2' id='book'>
+            <div className='flex flex-col flex-shrink-0 gap-2' id='book'>
               {post?.books && (
-                <span className='text-[#1c1c1c] text-xs font-normal leading-none'>
+                <span className='text-[#1c1c1c] text-xs font-normal leading-none break-words max-w-full'>
                   &lt;{post?.books.title}&gt; -{' '}
                   {post?.books.author.replace(/\(Authors?\)/g, '').trim()}
                 </span>
               )}
-              <span className='text-[#1c1c1c] text-base font-medium leading-snug max-h-[5rem] overflow-y-auto'>
+              <span className='text-[#1c1c1c] text-sm md:text-base font-medium leading-snug break-words max-w-full'>
                 {post?.content}
               </span>
             </div>
-            <div className='py-1.5 flex justify-start items-center gap-2 w-full' id='icons'>
+            <div className='py-1.5 flex justify-start items-center gap-2' id='icons'>
               <button onClick={handleLike}>
                 <img alt='likes' src={post?.isLiked ? '/full-heart.svg' : '/empty-heart.svg'} />
               </button>
@@ -146,7 +140,7 @@ export const DetailPost = ({ postId }: { postId: string }) => {
           </div>
         </div>
         <div
-          className='h-[40%] w-[80%] overflow-y-auto gap-2 items-end flex flex-col'
+          className='xs:max-h-[40%] md:w-[80%] w-[100%] overflow-auto gap-2 items-end flex flex-col'
           id='comments'
           ref={commentsRef}
         >
@@ -158,13 +152,13 @@ export const DetailPost = ({ postId }: { postId: string }) => {
               userinfo: { username: string; profile_url: string };
             }) => (
               <div
-                className='px-2 py-2 w-full bg-[#fcfcfc] rounded justify-start items-start gap-2.5 inline-flex'
+                className='px-2 py-2 w-full bg-[#fcfcfc] rounded justify-start items-start gap-2.5 flex'
                 key={com.comment_id}
               >
                 <Profile index={+com.userinfo?.username.slice(-1)} />
-                <div className='inline-flex flex-col items-center justify-between gap-1 grow shrink basis-0'>
-                  <div className='self-stretch text-[#1c1c1c] text-xs font-normal leading-none flex justify-between'>
-                    <span>{com.userinfo?.username}</span>
+                <div className='flex flex-col items-start justify-between w-[calc(100%-3rem)] gap-1 break-words'>
+                  <div className='w-full text-[#1c1c1c] text-xs font-normal leading-none flex justify-between break-words'>
+                    <span className='break-words'>{com.userinfo?.username}</span>
                     {com.user_id === userInfo?.user_id && (
                       <div className='flex gap-2'>
                         <button
@@ -194,7 +188,7 @@ export const DetailPost = ({ postId }: { postId: string }) => {
                       </div>
                     )}
                   </div>
-                  <div className='self-stretch text-[#505050] text-xs font-normal leading-none'>
+                  <div className='w-full text-[#505050] text-xs font-normal leading-none break-words'>
                     {com.content}
                   </div>
                 </div>
@@ -203,13 +197,13 @@ export const DetailPost = ({ postId }: { postId: string }) => {
           )}
         </div>
         <div
-          className='w-[80%] px-2 py-1 rounded-[60px] border border-[#243868] justify-start items-center gap-2.5 inline-flex'
+          className='md:w-[80%] w-[100%] px-2 py-1 rounded-[60px] border border-[#243868] justify-start items-center gap-2.5 inline-flex'
           style={{ borderColor: isCommentEdit ? '#afa18b' : '#243868' }}
         >
-          <div className='flex items-center justify-start w-full gap-4'>
+          <div className='flex items-center justify-start w-full gap-4 break-words'>
             {userInfo?.username && <Profile index={+userInfo.username.slice(-1)} />}
             <input
-              className='px-0.5 py-2 justify-start items-center gap-2.5 flex w-full'
+              className='px-0.5 py-2 justify-start items-center gap-2.5 flex w-full text-xs sm:text-sm'
               onChange={e => {
                 setComment(e.target.value);
               }}
@@ -218,7 +212,7 @@ export const DetailPost = ({ postId }: { postId: string }) => {
             />
           </div>
           <div
-            className='px-5 py-2 bg-[#243868] rounded-[100px] justify-center items-center gap-2.5 flex text-white text-sm'
+            className='px-5 py-2 bg-[#243868] rounded-[100px] justify-center items-center gap-2.5 flex text-white text-xs sm:text-sm'
             onClick={() => {
               if (isCommentEdit) {
                 updateComment({ comment_id: selectedComment, content: comment });
