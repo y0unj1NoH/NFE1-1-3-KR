@@ -33,7 +33,7 @@ const Grid = ({ data }: { data: BookData[] }) => {
   };
 
   return (
-    <div className='app relative w-[80vw] mx-auto'>
+    <div className='app relative top-4 w-[70vw] mx-auto h-[calc(100vh-8rem)] overflow-y-auto pb-4'>
       <div className='gallery grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-[3.6%] gap-y-[2%] p-2.5'>
         {data.slice(0, 14).map((bookData, index) => {
           return (
