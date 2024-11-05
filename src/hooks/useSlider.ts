@@ -28,12 +28,6 @@ export const useSlider = ({ data }: { data: BookData[] }) => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const isIntersecting = useIntersectionObserver(sliderRef);
 
-  // const openModalWithDelay = () => {
-  //   setTimeout(() => {
-  //     modal.style.display = 'block';
-  //   }, 3000);
-  // };
-
   const handleModalClose = useCallback(() => {
     handleModalClick(images, tracker.item, modal);
   }, [images, tracker.item, modal]);
