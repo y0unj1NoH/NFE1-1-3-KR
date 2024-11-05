@@ -1,11 +1,43 @@
+import { gsap } from 'gsap';
+import { useState } from 'react';
+import ReactDOM from 'react-dom';
+
 import GridItem from './GridItem';
 
+import { useGrid } from 'hooks';
+import { BookModal } from 'pages';
 import type { BookData } from 'types';
 
 const Grid = ({ data }: { data: BookData[] }) => {
-  console.log('data:', data);
+  const { handleModalClose } = useGrid({ data });
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedBookId, setSelectedBookId] = useState<string | null>(null);
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
+
+  gsap.utils
+    .toArray('.item')
+    .forEach(item => item.addEventListener('click', () => showDetails(item)));
+
+  window.addEventListener('load', () => {
+    gsap.to('.app', { autoAlpha: 1, duration: 0.2 });
+    gsap.from('.item', { autoAlpha: 0, yPercent: 30, stagger: 0.04 });
+  });
+
+  const openModal = (bookId: string, bookColor: string) => {
+    setSelectedBookId(bookId);
+    setSelectedColor(bookColor);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    setSelectedBookId(null);
+    setSelectedColor(null);
+    handleModalClose();
+  };
+
   return (
-    <div className='relative w-[80vw] mx-auto'>
+    <div className='app relative w-[80vw] mx-auto'>
       <div className='gallery grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-[3.6%] gap-y-[2%] p-2.5'>
         {data.slice(0, 14).map((bookData, index) => {
           return (
@@ -13,12 +45,27 @@ const Grid = ({ data }: { data: BookData[] }) => {
               alt='Grid Item'
               bookId={bookData.id}
               key={index}
+              onCardClick={openModal}
               src={bookData.cover as string}
             />
           );
         })}
       </div>
-      <div className='modal fixed inset-0 opacity-0 pointer-events-none z-[999]'></div>
+      {ReactDOM.createPortal(
+        <div
+          className='modal fixed inset-0 opacity-0 pointer-events-none z-[10000]'
+          data-flip-id='gallery__item'
+        >
+          {isModalOpen && selectedBookId && (
+            <BookModal
+              backgroundColor={selectedColor || 'transparent'}
+              bookId={selectedBookId || ''}
+              onClose={closeModal}
+            />
+          )}
+        </div>,
+        document.body,
+      )}{' '}
     </div>
   );
 };
