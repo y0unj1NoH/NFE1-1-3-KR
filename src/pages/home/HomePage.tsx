@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 
 import { Intro } from './Intro';
-import { SlideTemp } from './SlideTemp';
+import { Main } from './Main';
 
 import { useIntersectionObserver } from 'hooks';
 
@@ -12,7 +12,7 @@ export const HomePage = () => {
   return (
     <div className='w-full h-full'>
       {!isVisible && <Intro />}
-      <SlideTemp isVisible={isVisible} ref={mainRef} />
+      <Main isVisible={isVisible} ref={mainRef} />
     </div>
   );
 };
