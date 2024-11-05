@@ -36,9 +36,17 @@ export const useBookList = () => {
   }, [query, fetchPopularBooks, debouncedFetchSearchBooks]);
 
   const data = query ? searchResults : popularBooks;
-  const isEmpty = query && (!data || data.length === 0);
 
-  return { data, isEmpty };
+  let dataType: 'popular' | 'searchResults' | 'noResults' = 'popular';
+  if (query) {
+    if (!data || data.length === 0) {
+      dataType = 'noResults';
+    } else {
+      dataType = 'searchResults';
+    }
+  }
+
+  return { data, dataType };
 };
 
 export default useBookList;
