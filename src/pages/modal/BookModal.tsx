@@ -52,7 +52,6 @@ export const BookModal = ({
       try {
         const data = await getBookDataById({ bookId });
         setBook(data);
-        console.log(data);
       } catch (error) {
         console.error('Failed to fetch book details:', error);
       } finally {

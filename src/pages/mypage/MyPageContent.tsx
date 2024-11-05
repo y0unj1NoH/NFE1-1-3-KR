@@ -5,9 +5,9 @@ import Section from './Section';
 
 import { getMyComment, getMyPost } from 'api/mypage';
 import { useAuthStore, useBookMarkStore } from 'stores';
-import { SectionTypes } from 'types';
+import type { SectionTypes } from 'types';
 
-export const MyPageContent = () => {
+export const MyPageContent = ({ openBookModal }: { openBookModal: (bookId: string) => void }) => {
   const { userInfo } = useAuthStore();
   const { bookmarks } = useBookMarkStore();
   const navigate = useNavigate();
@@ -42,7 +42,7 @@ export const MyPageContent = () => {
       }
     };
 
-    fetchMyData();
+    void fetchMyData();
   }, [navigate]);
 
   //   const linkedAccountItems = [
@@ -53,7 +53,9 @@ export const MyPageContent = () => {
     bookmarks?.map(bookmark => ({
       icon: <img className='w-16 h-24' src={bookmark.books?.cover || '/default-cover.jpg'} />,
       text: bookmark.books?.title || '제목 없음',
-      onClick: () => {},
+      onClick: () => {
+        openBookModal(bookmark.books?.id || '');
+      },
     })) || [];
 
   return (
