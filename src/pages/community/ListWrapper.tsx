@@ -75,7 +75,7 @@ export const ListWrapper = () => {
   return (
     <div className='relative w-full h-full p-2 '>
       <WritePost />
-      <div className='w-full h-full p-4' ref={containerRef}>
+      <div className='w-full h-full md:p-4' ref={containerRef}>
         {posts ? (
           <List
             height={listHeight}

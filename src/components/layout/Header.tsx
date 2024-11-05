@@ -9,7 +9,7 @@ export const Header = () => {
   const isVisible = useIntroStore(state => state.isVisible);
 
   return (
-    <div className='absolute flex items-center justify-center w-full h-[6rem] top-0 z-[900]'>
+    <div className='absolute flex items-center justify-center w-full h-[6rem] top-0 z-[20000]'>
       <h1
         className='absolute top-4 left-4 w-[3rem] h-[4rem] border-4 border-[#ef6767] flex items-center justify-center p-1 cursor-pointer'
         onClick={() => {
