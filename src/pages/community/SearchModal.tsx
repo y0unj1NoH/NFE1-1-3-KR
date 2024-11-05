@@ -10,27 +10,27 @@ export const SearchModal = () => {
   const { isOpen } = useModalState();
   const dispatch = useModalDispatch();
   const [bookTitle, setBookTitle] = useState<string>('');
-  const [searchTitle, setSearchTitle] = useState<string>('');
+  const [query, setQuery] = useState<string>('');
   const { setBookId, bookId } = useSearchBookStore();
 
   const { data: books, refetch: handleSearch } = useQuery({
-    queryKey: ['searchBook', searchTitle],
-    queryFn: () => searchBook({ bookTitle: searchTitle }),
+    queryKey: ['searchBook', query],
+    queryFn: () => searchBook({ query }),
     enabled: false,
   });
 
   useEffect(() => {
     const fetchData = async () => {
-      if (searchTitle) {
+      if (query) {
         await handleSearch();
       }
     };
     void fetchData();
-  }, [searchTitle, handleSearch]);
+  }, [query, handleSearch]);
 
   const handleKeyDown = (e: KeyboardEvent) => {
     if (e.key === 'Enter') {
-      setSearchTitle(bookTitle);
+      setQuery(bookTitle);
       setBookTitle('');
     }
   };
