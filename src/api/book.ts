@@ -78,9 +78,12 @@ const searchBook = async ({ query }: { query: string }): Promise<BookData[]> => 
 
 const getPopularBooks = async (): Promise<BookData[]> => {
   try {
-    const { data, error } = await supabase.from('books').select('*');
-    // .order('customerReviewRank', { ascending: false });
-    // .limit(14);
+    const { data, error } = await supabase
+      .from('books')
+      .select('*')
+      .order('rating_info', { ascending: false })
+      .limit(14);
+
     if (error) {
       console.error('Error fetching books:', error);
       throw error;
