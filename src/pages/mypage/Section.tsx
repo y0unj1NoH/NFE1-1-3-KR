@@ -1,8 +1,8 @@
-import type { ReactNode } from 'react';
+import type { SectionTypes } from 'types';
 
 interface SectionProps {
   title: string;
-  items: { icon: ReactNode; text: string }[];
+  items: SectionTypes[];
 }
 
 const Section = ({ title, items }: SectionProps) => {
@@ -14,6 +14,7 @@ const Section = ({ title, items }: SectionProps) => {
           <li key={index}>
             <div
               className='flex items-center gap-3 p-2 cursor-pointer hover:bg-gray-200 rounded'
+              onClick={item.onClick}
               style={{ borderBottom: '2px solid #9CA3AF' }}
             >
               {item.icon}

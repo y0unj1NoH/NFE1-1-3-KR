@@ -41,6 +41,7 @@ input:placeholder {
 html,
 body {
   max-width: 100dvw;
+  min-width: 375px;
   overflow-x: hidden;
   margin: 0 auto;
   font-family: 'Inknut Antiqua', sans-serif;

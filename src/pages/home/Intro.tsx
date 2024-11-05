@@ -60,21 +60,24 @@ export const Intro = () => {
   }, []);
 
   return (
-    <div className='h-[calc(100vh-6rem)] w-full relative flex items-center p-[8rem]' ref={pageRef}>
-      <div className='w-[234px] h-[234px] bg-[#c3634d] rounded-full absolute top-0 right-[6rem]' />
+    <div
+      className='h-[calc(100vh-6rem)] w-full relative flex items-center lg:p-[8rem] xs:p-[4rem] '
+      ref={pageRef}
+    >
+      <div className='lg:w-[234px] lg:h-[234px] w-[125px] h-[125px] bg-[#c3634d] rounded-full absolute top-0 right-[6rem]' />
       <img
         alt='cloud-1'
-        className='absolute right-[3rem] top-[23rem]'
+        className='absolute right-[3rem] lg:top-[23rem] xs:top-[10rem] lg:w-[300px] xs:w-[150px] object-contain'
         ref={cloud1Ref}
         src='/bg/cloud-1.svg'
       />
       <img
         alt='cloud-3'
-        className='absolute top-[10rem] right-[14rem]'
+        className='absolute lg:top-[10rem] xs:top-[5rem] right-[14rem] lg:w-[300px] xs:w-[150px] object-contain'
         ref={cloud3Ref}
         src='/bg/cloud-3.svg'
       />
-      <div className='text-white text-[4rem] translate-y-[-3rem] flex flex-col gap-4'>
+      <div className='text-white lg:text-[4rem] xs:text-[3rem] xxs:text-[2rem]  translate-y-[-3rem] flex flex-col gap-4'>
         {['DISCOVER', 'KOREAN STORIES', 'THAT TOUCH THE SOUL'].map((text, index) => (
           <p
             className={index === 0 ? 'translate-x-[2rem]' : index === 1 ? 'translate-x-[6rem]' : ''}
