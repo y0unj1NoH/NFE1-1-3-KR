@@ -24,8 +24,8 @@ const BeforeLogin = () => {
 
 const AfterLogin = () => {
   const userInfo = useAuthStore(state => state.userInfo);
-  const { isOpen, dropdownRef, toggleDropdown } = useDropdown(false);
-  const [shouldRenderProfile, handleTransitionEnd, triggerAnimation] = useDropdownAnimation(isOpen);
+  const { isOpen, dropdownRef, toggleDropdown } = useDropdown({ initialState: false });
+  const { shouldRender, handleTransitionEnd, triggerAnimation } = useDropdownAnimation(isOpen);
 
   const navigate = useNavigate();
 
@@ -45,14 +45,15 @@ const AfterLogin = () => {
 
   return (
     <div
-      className='relative flex gap-1 items-center cursor-pointer'
+      className='relative flex items-center cursor-pointer'
       onClick={toggleDropdown}
       ref={dropdownRef}
     >
       {userInfo?.username}
-      {shouldRenderProfile && (
+
+      {shouldRender && (
         <DropdownMenu onTransitionEnd={handleTransitionEnd} triggerAnimation={triggerAnimation}>
-          <div className='list-none space-y-4 py-2'>
+          <ul className='list-none space-y-4 py-2'>
             <li
               className='flex items-center gap-1'
               onClick={() => {
@@ -67,7 +68,7 @@ const AfterLogin = () => {
               <PiSignOut className='fill-gold-default text-[1.7rem]' />
               Sign out
             </li>
-          </div>
+          </ul>
         </DropdownMenu>
       )}
     </div>
