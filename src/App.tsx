@@ -100,7 +100,7 @@ function App() {
         <ModalProvider>
           <RouterProvider router={router} />
           <ModalRenderer />
-          <ToastContainer />
+          <ToastContainer style={{ zIndex: 10001 }} />
         </ModalProvider>
       </BackgroundColorProvider>
     </QueryClientProvider>
