@@ -66,7 +66,6 @@ function App() {
 
           const userInfo = await getUserInfo(session.user.id);
           setUserInfo(userInfo);
-          fetchAndSetBookmarks();
         }
       } catch (error) {
         console.error('Auth initialization error:', error);
@@ -78,26 +77,22 @@ function App() {
 
     void initializeAuth();
 
-    const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
+    const { data } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_OUT') {
+        setSession(null);
         reset();
-      } else if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+      } else if (session) {
         setSession(session);
-
-        if (session) {
-          try {
-            const userInfo = await getUserInfo(session.user.id);
-            setUserInfo(userInfo);
-          } catch (error) {
-            console.error('Error fetching user info:', error);
-          }
-        }
       }
     });
 
     return () => {
       data.subscription.unsubscribe();
     };
+  }, []);
+
+  useEffect(() => {
+    fetchAndSetBookmarks();
   }, []);
 
   return (
