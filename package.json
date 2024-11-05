@@ -23,7 +23,6 @@
     "gsap": "^3.12.5",
     "immer": "^10.1.1",
     "lodash-es": "^4.17.21",
-    "lodash.debounce": "^4.0.8",
     "nanoid": "^5.0.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
