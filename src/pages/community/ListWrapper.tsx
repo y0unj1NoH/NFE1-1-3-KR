@@ -11,21 +11,38 @@ import { usePostList, useIntersectionObserver } from 'hooks';
 
 export const ListWrapper = () => {
   const listRef = useRef<List>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const { data: posts } = usePostList();
 
-  const [listHeight, setListHeight] = useState(window.innerHeight * 0.75);
-
-  const updateListHeight = () => {
-    if (posts) {
-      setListHeight(window.innerHeight * 0.75);
-    }
-  };
+  const [listHeight, setListHeight] = useState(0);
 
   useEffect(() => {
+    if (containerRef.current) {
+      setListHeight(containerRef.current.getBoundingClientRect().height * 0.9);
+    }
+  }, [containerRef]);
+
+  useEffect(() => {
+    const handleResizeAndZoom = (event: WheelEvent) => {
+      if (event.ctrlKey) {
+        updateListHeight();
+      }
+    };
+
+    const updateListHeight = () => {
+      if (posts && containerRef.current) {
+        const containerHeight = containerRef.current.getBoundingClientRect().height;
+        setListHeight(containerHeight * 0.9);
+      }
+    };
+
     window.addEventListener('resize', updateListHeight);
+    window.addEventListener('wheel', handleResizeAndZoom);
+
     return () => {
       window.removeEventListener('resize', updateListHeight);
+      window.removeEventListener('wheel', handleResizeAndZoom);
     };
   }, [posts]);
 
@@ -58,7 +75,7 @@ export const ListWrapper = () => {
   return (
     <div className='relative w-full h-full p-2 '>
       <WritePost />
-      <div className='w-full h-full p-4'>
+      <div className='w-full h-full p-4' ref={containerRef}>
         {posts ? (
           <List
             height={listHeight}
