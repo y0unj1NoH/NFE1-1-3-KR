@@ -62,7 +62,7 @@ export const SearchModal = () => {
             <img alt='close' src='/close.svg' />
           </button>
         </div>
-        <div className='self-stretch h-[135px] flex-col justify-start items-start gap-2 flex w-full'>
+        <div className='self-stretch h-[135px] flex-col justify-start items-start gap-2 flex w-full overflow-scroll'>
           <div className="text-black/50 text-[11px] font-medium font-['Manrope']">Results</div>
           <div className='self-stretch h-28 flex-col justify-start items-start gap-0.5 flex'>
             {books?.length == 0 && (
