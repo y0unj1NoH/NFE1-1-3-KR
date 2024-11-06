@@ -11,7 +11,7 @@ export const handleItemClick = (item: AnimatedHTMLDivElement, modal: HTMLDivElem
   animation.to(faces, { rotationY: 180 });
   animation.set(item, { opacity: 0 });
   animation.add(function () {
-    item.dataset.flipId = 'gallery__item';
+    item.dataset.flipId = 'item';
     const state = Flip.getState([item, modal], {
       props: 'borderRadius, aspectRatio, boxShadow',
     });
@@ -33,9 +33,10 @@ export const handleItemClick = (item: AnimatedHTMLDivElement, modal: HTMLDivElem
 
   item.animation = animation;
   item.animation.play();
+  console.log('done');
 };
 
-export const handleModalClick2 = (
+export const handleModalClick = (
   images: HTMLDivElement[],
   activeIndex: number,
   modal: HTMLDivElement,

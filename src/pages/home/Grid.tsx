@@ -50,7 +50,7 @@ const Grid = ({ data }: { data: BookData[] }) => {
       {ReactDOM.createPortal(
         <div
           className='modal fixed inset-0 opacity-0 pointer-events-none z-[10000]'
-          data-flip-id='gallery__item'
+          data-flip-id='item'
         >
           {isModalOpen && selectedBookId && (
             <BookModal
@@ -61,7 +61,7 @@ const Grid = ({ data }: { data: BookData[] }) => {
           )}
         </div>,
         document.body,
-      )}{' '}
+      )}
     </div>
   );
 };

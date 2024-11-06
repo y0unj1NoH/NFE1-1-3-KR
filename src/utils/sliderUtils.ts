@@ -2,6 +2,8 @@ import { gsap } from 'gsap';
 import { Draggable } from 'gsap/Draggable';
 import { Flip } from 'gsap/Flip';
 
+import { handleItemClick } from 'utils';
+
 const wrapProgress = gsap.utils.wrap(0, 1);
 
 const snap = (length: number) => {
@@ -124,6 +126,10 @@ export const handleDrag = (images: HTMLDivElement[], tl: gsap.core.Timeline) => 
   });
 };
 
+interface AnimatedHTMLDivElement extends HTMLDivElement {
+  animation?: gsap.core.Timeline;
+}
+
 export const handleClick = (
   images: HTMLDivElement[],
   tl: gsap.core.Timeline,
@@ -138,7 +144,7 @@ export const handleClick = (
       const currentActive = tracker.item;
 
       if (i === currentActive) {
-        handleActiveClick(el as AnimatedHTMLDivElement, modal);
+        handleItemClick(el as AnimatedHTMLDivElement, modal);
       }
 
       const diff = currentActive - i;
@@ -154,91 +160,6 @@ export const handleClick = (
       }
     });
   });
-};
-
-interface AnimatedHTMLDivElement extends HTMLDivElement {
-  animation?: gsap.core.Timeline;
-}
-
-const handleActiveClick = (card: AnimatedHTMLDivElement, modal: HTMLDivElement) => {
-  const faces = card.querySelector('.faces');
-  const animation = gsap.timeline({ paused: true });
-  animation.to(faces, { rotationY: 180 });
-  animation.set(card, { opacity: 0 });
-  animation.add(function () {
-    card.dataset.flipId = 'wheel__card';
-    const state = Flip.getState([card, modal], {
-      props: 'borderRadius, aspectRatio, boxShadow',
-    });
-
-    const cardColor = card.getAttribute('data-color');
-    if (cardColor) {
-      modal.style.backgroundColor = cardColor;
-    }
-
-    modal.style.opacity = '1';
-    modal.style.pointerEvents = 'all';
-
-    Flip.from(state, {
-      duration: 0.4,
-      ease: 'sine.inOut',
-      absolute: true,
-    });
-  });
-
-  card.animation = animation;
-  card.animation.play();
-};
-
-export const handleModalClick = (
-  images: HTMLDivElement[],
-  trackerItem: number,
-  modal: HTMLDivElement,
-) => {
-  const activeCard = images[trackerItem] as AnimatedHTMLDivElement;
-  const faces = activeCard.querySelector('.faces');
-
-  const animation = gsap.timeline({ paused: true });
-  animation.set(activeCard, { opacity: 1 });
-  animation.add(function () {
-    const cardRect = activeCard.getBoundingClientRect();
-    const modalRect = modal.getBoundingClientRect();
-
-    const originalX = modalRect.left;
-    const originalY = modalRect.top;
-
-    const cardCenterX = cardRect.left;
-    const cardCenterY = cardRect.top;
-
-    const content = modal.querySelector('.modal-content') as HTMLDivElement;
-    content.style.opacity = '0';
-
-    gsap.to(modal, {
-      duration: 0.4,
-      x: cardCenterX - originalX,
-      y: cardCenterY - originalY,
-      width: cardRect.width,
-      height: cardRect.height,
-      ease: 'sine.inOut',
-      onComplete: () => {
-        modal.style.opacity = '0';
-        modal.style.pointerEvents = 'none';
-        modal.style.width = '100%';
-        modal.style.height = '100vh';
-
-        gsap.set(modal, {
-          x: originalX - modalRect.left,
-          y: originalY - modalRect.top,
-        });
-
-        animation.to(faces, { rotationY: 0 });
-        content.style.opacity = '1';
-      },
-    });
-  });
-
-  activeCard.animation = animation;
-  activeCard.animation.play();
 };
 
 export const handleWheel = (deltaY: number, images: HTMLDivElement[], tl: gsap.core.Timeline) => {

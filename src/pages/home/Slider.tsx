@@ -46,7 +46,7 @@ const Slider = ({ data }: { data: BookData[] }) => {
       {ReactDOM.createPortal(
         <div
           className='modal fixed inset-0 opacity-0 pointer-events-none z-[10000]'
-          data-flip-id='wheel__card'
+          data-flip-id='item'
         >
           {isModalOpen && selectedBookId && (
             <BookModal
