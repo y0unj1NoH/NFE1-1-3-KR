@@ -10,12 +10,12 @@
 
 ### Contents
 
-👀 [Project Overview](#👀-Project-Overview) <br />
-👥 [Member](#👥-Member) <br />
-✨ [Features](#✨-Features) <br />
-📂 [Project Structure](#📂-Project-Structure) <br />
-🛠️ [Tech Stack](#🛠️-Tech-Stack) <br />
-🚀 [Future Roadmap](#🚀-Future-Roadmap) <br />
+👀 [Project Overview](#%f0%9f%91%80-project-overview) <br />
+👥 [Member](#%f0%9f%91%a5-member) <br />
+✨ [Features](#%e2%9c%a8-features) <br />
+📂 [Project Structure](#%f0%9f%93%82-project-structure) <br />
+🛠️ [Tech Stack](#%f0%9f%9b%a0%ef%b8%8f-tech-stack) <br />
+🚀 [Future Roadmap](#%f0%9f%9a%80-future-roadmap) <br />
 
 ---
 
