@@ -5,7 +5,8 @@ interface AnimatedHTMLDivElement extends HTMLDivElement {
   animation?: gsap.core.Timeline;
 }
 
-export const handleItemClick = (item: AnimatedHTMLDivElement, modal: HTMLDivElement) => {
+export const handleItemClick = (item: AnimatedHTMLDivElement) => {
+  const modal = document.querySelector('.modal') as HTMLDivElement;
   const faces = item.querySelector('.faces');
   const animation = gsap.timeline({ paused: true });
   animation.to(faces, { rotationY: 180 });

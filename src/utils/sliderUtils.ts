@@ -1,6 +1,5 @@
 import { gsap } from 'gsap';
 import { Draggable } from 'gsap/Draggable';
-import { Flip } from 'gsap/Flip';
 
 import { handleItemClick } from 'utils';
 
@@ -134,7 +133,6 @@ export const handleClick = (
   images: HTMLDivElement[],
   tl: gsap.core.Timeline,
   tracker: { item: number },
-  modal: HTMLDivElement,
 ) => {
   const total = images.length;
   const step = 1 / total;
@@ -144,7 +142,7 @@ export const handleClick = (
       const currentActive = tracker.item;
 
       if (i === currentActive) {
-        handleItemClick(el as AnimatedHTMLDivElement, modal);
+        handleItemClick(el as AnimatedHTMLDivElement);
       }
 
       const diff = currentActive - i;
