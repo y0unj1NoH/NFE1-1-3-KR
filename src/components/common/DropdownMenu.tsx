@@ -1,35 +1,33 @@
-import type { VariantProps } from 'class-variance-authority';
-import { cva } from 'class-variance-authority';
-
 import { cn } from 'utils';
 
-const dropdownMenuVariants = cva(
-  `absolute flex flex-col p-2 bg-white shadow-md rounded-lg border border-gray-200 z-10 transition-all duration-300`,
-  {
-    variants: {
-      env: {
-        pc: 'w-[200px] right-0 top-[60px] rounded-lg border',
-        mobile: 'top-[70px] right-0 rounded-b-lg',
-      },
-    },
-    defaultVariants: {
-      env: 'pc',
-    },
-  },
-);
-
-interface DropdownMenuProps
-  extends VariantProps<typeof dropdownMenuVariants>,
-    React.HTMLProps<HTMLDivElement> {
-  children?: React.ReactNode;
+interface DropdownMenuProps {
+  children: React.ReactNode;
+  onTransitionEnd: () => void;
   triggerAnimation: boolean;
+  className?: string;
 }
 
-export const DropdownMenu = ({ env, children, triggerAnimation, className }: DropdownMenuProps) => {
-  const animationClasses = triggerAnimation
+export const DropdownMenu = ({
+  children,
+  onTransitionEnd,
+  triggerAnimation,
+  className,
+}: DropdownMenuProps) => {
+  const animationClass = triggerAnimation
     ? 'opacity-100 translate-y-0'
     : 'opacity-0 -translate-y-4';
+
   return (
-    <div className={cn(dropdownMenuVariants({ env }), animationClasses, className)}>{children}</div>
+    <div
+      className={cn(
+        'absolute flex flex-col bg-white shadow-md border border-gray-200 z-10',
+        'transition-all duration-300 w-[200px] p-4 rounded-lg right-[20px] top-[50px]',
+        animationClass,
+        className,
+      )}
+      onTransitionEnd={onTransitionEnd}
+    >
+      {children}
+    </div>
   );
 };
