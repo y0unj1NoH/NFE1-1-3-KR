@@ -28,8 +28,8 @@ const moveWheel = (
   images: HTMLDivElement[],
   amount: number,
   tl: gsap.core.Timeline,
-  tracker: { item: number },
-  setActiveIndex: (item: number) => void,
+  tracker: { index: number },
+  setActiveIndex: (index: number) => void,
 ) => {
   const total = images.length;
 
@@ -39,8 +39,7 @@ const moveWheel = (
       progress: wrapProgress,
     },
     onComplete: () => {
-      console.log(tracker.item);
-      setActiveIndex(tracker.item);
+      setActiveIndex(tracker.index);
     },
   });
 };
@@ -65,7 +64,11 @@ export const setupWheel = (wheel: HTMLDivElement, images: HTMLDivElement[]) => {
   });
 };
 
-export const setupTimeline = (total: number, tl: gsap.core.Timeline, tracker: { item: number }) => {
+export const setupTimeline = (
+  total: number,
+  tl: gsap.core.Timeline,
+  tracker: { index: number },
+) => {
   const wrapTracker = gsap.utils.wrap(0, total);
 
   tl.to(
@@ -82,11 +85,11 @@ export const setupTimeline = (total: number, tl: gsap.core.Timeline, tracker: { 
   tl.to(
     tracker,
     {
-      item: total,
+      index: total,
       duration: 1,
       ease: 'none',
       modifiers: {
-        item(value: number) {
+        index(value: number) {
           return wrapTracker(total - Math.round(value));
         },
       },
@@ -106,8 +109,8 @@ export const setupTimeline = (total: number, tl: gsap.core.Timeline, tracker: { 
 export const handleDrag = (
   images: HTMLDivElement[],
   tl: gsap.core.Timeline,
-  tracker: { item: number },
-  setActiveIndex: (item: number) => void,
+  tracker: { index: number },
+  setActiveIndex: (index: number) => void,
 ) => {
   const total = images.length;
   const AnglePerImage = 360 / total;
@@ -131,8 +134,7 @@ export const handleDrag = (
           progress: wrapProgress,
         },
         onComplete: () => {
-          console.log(tracker.item);
-          setActiveIndex(tracker.item);
+          setActiveIndex(tracker.index);
         },
       });
 
@@ -149,15 +151,15 @@ interface AnimatedHTMLDivElement extends HTMLDivElement {
 export const handleClick = (
   images: HTMLDivElement[],
   tl: gsap.core.Timeline,
-  tracker: { item: number },
-  setActiveIndex: (item: number) => void,
+  tracker: { index: number },
+  setActiveIndex: (index: number) => void,
 ) => {
   const total = images.length;
   const step = 1 / total;
 
   images.forEach((el, i) => {
     el.addEventListener('click', function () {
-      const currentActive = tracker.item;
+      const currentActive = tracker.index;
 
       if (i === currentActive) {
         handleItemClick(el as AnimatedHTMLDivElement);
@@ -182,8 +184,8 @@ export const handleWheel = (
   deltaY: number,
   images: HTMLDivElement[],
   tl: gsap.core.Timeline,
-  tracker: { item: number },
-  setActiveIndex: (item: number) => void,
+  tracker: { index: number },
+  setActiveIndex: (index: number) => void,
 ) => {
   const direction = deltaY > 0 ? -1 : 1;
   const total = images.length;
@@ -194,8 +196,7 @@ export const handleWheel = (
       progress: wrapProgress,
     },
     onComplete: () => {
-      console.log(tracker.item);
-      setActiveIndex(tracker.item);
+      setActiveIndex(tracker.index);
     },
   });
 };

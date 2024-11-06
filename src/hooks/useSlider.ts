@@ -21,7 +21,7 @@ export const useSlider = ({ data }: { data: BookData[] }) => {
   const { setActiveItem } = useBookModalStore();
 
   const sliderTl = gsap.timeline({ paused: true, reversed: true });
-  const tracker = { item: 0 };
+  const tracker = { index: 0 };
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
   useEffect(() => {
