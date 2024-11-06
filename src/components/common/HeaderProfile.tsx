@@ -3,7 +3,7 @@ import { MdPersonOutline } from 'react-icons/md';
 import { PiSignOut } from 'react-icons/pi';
 import { useNavigate } from 'react-router-dom';
 
-import { DropdownMenu, LoginModal } from 'components';
+import { DropdownMenu, LoginModal, Profile } from 'components';
 import { useDropdownAnimation, useDropdown } from 'hooks';
 import { supabase } from 'lib/supabase';
 import { useAuthStore, useModalStore } from 'stores';
@@ -45,14 +45,14 @@ const AfterLogin = () => {
 
   return (
     <div
-      className='relative flex gap-1 items-center cursor-pointer'
+      className='relative flex items-center gap-1 cursor-pointer'
       onClick={toggleDropdown}
       ref={dropdownRef}
     >
-      {userInfo?.username}
+      <Profile index={userInfo?.username ? +userInfo.username.slice(-1) : 0} />
       {shouldRenderProfile && (
         <DropdownMenu onTransitionEnd={handleTransitionEnd} triggerAnimation={triggerAnimation}>
-          <div className='list-none space-y-4 py-2'>
+          <div className='py-2 space-y-4 list-none'>
             <li
               className='flex items-center gap-1'
               onClick={() => {

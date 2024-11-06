@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Section from './Section';
 
 import { getMyComment, getMyPost } from 'api/mypage';
+import { Profile } from 'components';
 import { useAuthStore, useBookMarkStore } from 'stores';
 import type { SectionTypes } from 'types';
 
@@ -21,7 +22,7 @@ export const MyPageContent = ({ openBookModal }: { openBookModal: (bookId: strin
         const [posts, comments] = await Promise.all([getMyPost(), getMyComment()]);
 
         const postData = posts.map(post => ({
-          icon: <img src='/icon/post.svg' />,
+          icon: <img alt='post-icon' src='/Icon/post.svg' />,
           text: post.books?.title || '제목 없음',
           onClick: () => {
             navigate(`/community/${post.post_id}`);
@@ -30,7 +31,7 @@ export const MyPageContent = ({ openBookModal }: { openBookModal: (bookId: strin
         setPostItems(postData);
 
         const commentData = comments.map(comment => ({
-          icon: <img src='/icon/comment.svg' />,
+          icon: <img alt='comment-icon' src='/Icon/comment.svg' />,
           text: comment.content || '내용 없음',
           onClick: () => {
             navigate(`/community/${comment.post_id}`);
@@ -51,7 +52,13 @@ export const MyPageContent = ({ openBookModal }: { openBookModal: (bookId: strin
 
   const bookmarkItems =
     bookmarks?.map(bookmark => ({
-      icon: <img className='w-16 h-24' src={bookmark.books?.cover || '/default-cover.jpg'} />,
+      icon: (
+        <img
+          alt='bookcover'
+          className='w-16 h-24'
+          src={bookmark.books?.cover || '/default-cover.jpg'}
+        />
+      ),
       text: bookmark.books?.title || '제목 없음',
       onClick: () => {
         openBookModal(bookmark.books?.id || '');
@@ -61,9 +68,9 @@ export const MyPageContent = ({ openBookModal }: { openBookModal: (bookId: strin
   return (
     <div className='w-full items-center flex flex-col h-[80vh] overflow-y-scroll'>
       <div className='flex flex-col items-center my-4 mb-10'>
-        <img alt='Profile' className='w-24 h-24 rounded-full' src={'/default-profile.png'} />
-        <p className='text-body1 mt-2'>{userInfo?.username || '사용자명 없음'}</p>
-        <p className='text-subtitle1 text-gray-500'>{userInfo?.user_id || 'ID 없음'}</p>
+        <Profile index={userInfo?.username ? +userInfo.username.slice(-1) : 0} size='6rem' />
+        <p className='mt-2 text-body1'>{userInfo?.username || '사용자명 없음'}</p>
+        <p className='text-gray-500 text-subtitle1'>{userInfo?.user_id || 'ID 없음'}</p>
       </div>
       {/* <Section title='Linked account' items={linkedAccountItems} /> */}
       <Section items={postItems} title='Post written' />
