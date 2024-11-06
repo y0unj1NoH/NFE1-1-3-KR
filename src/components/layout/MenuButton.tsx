@@ -1,7 +1,8 @@
-import { useState, type KeyboardEvent } from 'react';
+import { useEffect, useState, type KeyboardEvent } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Button, Icon, HeaderProfile } from 'components';
+import { useDebounce } from 'hooks';
 import { useSearchQueryStore } from 'stores';
 
 export const MenuButton = () => {
@@ -9,7 +10,8 @@ export const MenuButton = () => {
   const navigate = useNavigate();
   const [isClick, setIsClick] = useState(false);
   const [isStretchSearch, setIsStretchSearch] = useState(false);
-
+  const [inputValue, setInputValue] = useState('');
+  const debouncedInputValue = useDebounce(inputValue, 300); // 300ms 디바운스
   const { query, setQuery, resetQuery } = useSearchQueryStore();
 
   const handleButtonClick = (pathname: string) => {
@@ -22,6 +24,10 @@ export const MenuButton = () => {
       handleButtonClick('/search');
     }
   };
+
+  useEffect(() => {
+    setQuery(debouncedInputValue);
+  }, [debouncedInputValue, setQuery]);
 
   return (
     <>
@@ -57,12 +63,12 @@ export const MenuButton = () => {
             <input
               className='w-full focus:out'
               onChange={e => {
-                setQuery(e.target.value);
+                setInputValue(e.target.value);
               }}
               onKeyDown={handleKeyDown}
               placeholder='search'
               type='text'
-              value={query}
+              value={inputValue}
             />
           )}
         </>
