@@ -10,12 +10,12 @@
 
 ### Contents
 
-👀 [Project Overview](#👀-Project-Overview)
-👥 [Member](#👥-Member)
-✨ [Features](#✨-Features)
-📂 [Project Structure](#📂-Project-Structure)
-🛠️ [Tech Stack](#🛠️-Tech-Stack)
-🚀 [Future Roadmap](#🚀-Future-Roadmap)
+👀 [Project Overview](#%f0%9f%91%80-project-overview) <br />
+👥 [Member](#%f0%9f%91%a5-member) <br />
+✨ [Features](#%e2%9c%a8-features) <br />
+📂 [Project Structure](#%f0%9f%93%82-project-structure) <br />
+🛠️ [Tech Stack](#%f0%9f%9b%a0%ef%b8%8f-tech-stack) <br />
+🚀 [Future Roadmap](#%f0%9f%9a%80-future-roadmap) <br />
 
 ---
 
@@ -26,6 +26,7 @@
 그래서 외국인들에게 한국 도서를 소개하고, 각 작품에 대한 정보와 문화적 배경을 공유할 수 있는 **인터랙티브한 한국 도서 커뮤니티 사이트**를 제공하고자 합니다.
 
 이 플랫폼을 통해 한국 문학을 더 많은 사람들에게 알리는 동시에, 독자들이 서로의 독서 경험을 나누는 공간이 될 것입니다.
+<br />
 <br />
 With the recent Nobel Prize in Literature awarded to South Korean author Han Kang, there has been a surge in global interest in Korean literature. However, resources for international readers to access and explore Korean books remain limited.
 

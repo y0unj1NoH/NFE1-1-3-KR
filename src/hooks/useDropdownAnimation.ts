@@ -1,20 +1,32 @@
 import { useEffect, useState } from 'react';
 
-export const useDropdownAnimation = (condition: boolean): [boolean, () => void, boolean] => {
+interface UseDropdownAnimationReturn {
+  shouldRender: boolean;
+  handleTransitionEnd: () => void;
+  triggerAnimation: boolean;
+}
+
+export const useDropdownAnimation = (isOpen: boolean): UseDropdownAnimationReturn => {
   const [isComplete, setComplete] = useState(false);
 
   useEffect(() => {
-    if (condition) {
+    if (isOpen) {
       setComplete(true);
     }
-  }, [condition]);
+  }, [isOpen]);
 
-  const shouldRender = condition || isComplete;
-  const animationTrigger = condition && isComplete;
+  const shouldRender = isOpen || isComplete;
+  const triggerAnimation = isOpen && isComplete;
 
   const handleTransitionEnd = () => {
-    if (!condition) setComplete(false);
+    if (!isOpen) {
+      setComplete(false);
+    }
   };
 
-  return [shouldRender, handleTransitionEnd, animationTrigger];
+  return {
+    shouldRender,
+    handleTransitionEnd,
+    triggerAnimation,
+  };
 };

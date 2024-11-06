@@ -1,12 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 
-type DropdownState = (initialState: boolean) => {
+interface UseDropdownProps {
+  initialState?: boolean;
+}
+
+interface UseDropdownReturn {
   isOpen: boolean;
   dropdownRef: React.RefObject<HTMLDivElement>;
   toggleDropdown: () => void;
-};
+}
 
-export const useDropdown: DropdownState = (initialState = false) => {
+export const useDropdown = ({ initialState = false }: UseDropdownProps): UseDropdownReturn => {
   const [isOpen, setIsOpen] = useState(initialState);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -16,11 +20,21 @@ export const useDropdown: DropdownState = (initialState = false) => {
     }
   };
 
+  const handleEscape = (e: KeyboardEvent): void => {
+    if (e.key === 'Escape') {
+      setIsOpen(false);
+    }
+  };
+
   useEffect(() => {
-    if (isOpen) window.addEventListener('click', handleOutsideClick);
+    if (isOpen) {
+      window.addEventListener('click', handleOutsideClick);
+      window.addEventListener('keydown', handleEscape);
+    }
 
     return () => {
       window.removeEventListener('click', handleOutsideClick);
+      window.removeEventListener('keydown', handleEscape);
     };
   }, [isOpen]);
 
