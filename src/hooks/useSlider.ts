@@ -23,10 +23,6 @@ export const useSlider = ({ data }: { data: BookData[] }) => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const isIntersecting = useIntersectionObserver(sliderRef);
 
-  // const handleModalClose = useCallback(() => {
-  //   handleModalClick(images, tracker.item, modal);
-  // }, [images, tracker.item, modal]);
-
   useEffect(() => {
     setActiveItem({ type: 'slider', index: tracker.item });
   }, [tracker.item]);
