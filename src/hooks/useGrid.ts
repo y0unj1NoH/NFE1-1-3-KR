@@ -20,8 +20,10 @@ export const useGrid = ({ data }: { data: BookData[] }) => {
   }, [data]);
 
   useEffect(() => {
-    gsap.to(gallery, { autoAlpha: 1, duration: 0.2 });
-    gsap.from(items, { autoAlpha: 0, yPercent: 30, stagger: 0.04 });
+    if (gallery && items) {
+      gsap.to(gallery, { autoAlpha: 1, duration: 0.2 });
+      gsap.from(items, { autoAlpha: 0, yPercent: 30, stagger: 0.04 });
+    }
   }, [gallery, items]);
 
   useEffect(() => {
