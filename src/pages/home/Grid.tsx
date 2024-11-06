@@ -1,19 +1,10 @@
-import ReactDOM from 'react-dom';
-
 import GridItem from './GridItem';
 
 import { useGrid } from 'hooks';
-import { BookModal } from 'pages';
-import { useBookModalStore } from 'stores';
 import type { BookData } from 'types';
 
 const Grid = ({ data }: { data: BookData[] }) => {
-  const { handleModalClose } = useGrid({ data });
-  const { bookModalData } = useBookModalStore();
-
-  const closeModal = () => {
-    handleModalClose();
-  };
+  useGrid({ data });
 
   return (
     <div className='app relative top-4 w-[70vw] mx-auto h-[calc(100vh-8rem)] overflow-y-auto pb-4'>
@@ -29,16 +20,6 @@ const Grid = ({ data }: { data: BookData[] }) => {
           );
         })}
       </div>
-      {ReactDOM.createPortal(
-        <div
-          className='modal fixed inset-0 opacity-0 pointer-events-none z-[10000]'
-          data-flip-id='item'
-          style={{ backgroundColor: bookModalData.color || 'white' }}
-        >
-          {bookModalData.id && <BookModal bookId={bookModalData.id || ''} onClose={closeModal} />}
-        </div>,
-        document.body,
-      )}
     </div>
   );
 };

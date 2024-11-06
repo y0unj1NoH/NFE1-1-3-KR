@@ -1,20 +1,10 @@
-import ReactDOM from 'react-dom';
-
 import SliderItem from './SliderItem';
 
 import { useSlider } from 'hooks';
-import { BookModal } from 'pages';
-import { useBookModalStore } from 'stores';
 import type { BookData } from 'types';
 
 const Slider = ({ data }: { data: BookData[] }) => {
-  const { sliderRef, handleModalClose } = useSlider({ data });
-  const { bookModalData } = useBookModalStore();
-
-  const closeModal = () => {
-    handleModalClose();
-  };
-
+  const { sliderRef } = useSlider({ data });
   return (
     <>
       <div className='slider absolute bottom-0 w-full h-[35vh]' ref={sliderRef}>
@@ -31,16 +21,6 @@ const Slider = ({ data }: { data: BookData[] }) => {
           })}
         </div>
       </div>
-      {ReactDOM.createPortal(
-        <div
-          className='modal fixed inset-0 opacity-0 pointer-events-none z-[10000]'
-          data-flip-id='item'
-          style={{ backgroundColor: bookModalData.color || 'white' }}
-        >
-          {bookModalData.id && <BookModal bookId={bookModalData.id || ''} onClose={closeModal} />}
-        </div>,
-        document.body,
-      )}
     </>
   );
 };

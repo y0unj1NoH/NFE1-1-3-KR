@@ -5,19 +5,14 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useIntersectionObserver } from 'hooks';
+import { useBookModalStore } from 'stores';
 import type { BookData } from 'types';
-import {
-  setupWheel,
-  setupTimeline,
-  handleDrag,
-  handleClick,
-  handleModalClick,
-  handleWheel,
-} from 'utils';
+import { setupWheel, setupTimeline, handleDrag, handleClick, handleWheel } from 'utils';
 
 export const useSlider = ({ data }: { data: BookData[] }) => {
   const sliderTl = gsap.timeline({ paused: true, reversed: true });
   const tracker = { item: 0 };
+  const { setActiveItem } = useBookModalStore();
 
   const wheel = document.querySelector<HTMLDivElement>('.wheel');
   const modal = document.querySelector<HTMLDivElement>('.modal')!;
@@ -28,9 +23,13 @@ export const useSlider = ({ data }: { data: BookData[] }) => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const isIntersecting = useIntersectionObserver(sliderRef);
 
-  const handleModalClose = useCallback(() => {
-    handleModalClick(images, tracker.item, modal);
-  }, [images, tracker.item, modal]);
+  // const handleModalClose = useCallback(() => {
+  //   handleModalClick(images, tracker.item, modal);
+  // }, [images, tracker.item, modal]);
+
+  useEffect(() => {
+    setActiveItem({ type: 'slider', index: tracker.item });
+  }, [tracker.item]);
 
   const handleResize = useCallback(() => {
     setupWheel(wheel as HTMLDivElement, images);
@@ -72,5 +71,5 @@ export const useSlider = ({ data }: { data: BookData[] }) => {
     };
   }, [isIntersecting, handleScroll, handleResize]);
 
-  return { sliderRef, handleModalClose };
+  return { sliderRef };
 };

@@ -11,7 +11,7 @@ interface BookModalState {
 export const useBookModalStore = create<BookModalState>(set => ({
   bookModalData: { id: '', color: '' },
   activeItem: { type: 'slider', index: 0 },
-  setModalData: data => {
+  setBookModalData: data => {
     set({ bookModalData: data });
   },
   setActiveItem: item => {
