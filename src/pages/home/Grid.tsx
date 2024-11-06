@@ -28,8 +28,8 @@ const Grid = ({ data }: { data: BookData[] }) => {
   const closeModal = () => {
     setModalOpen(false);
     setSelectedBookId(null);
-    setSelectedColor(null);
     handleModalClose();
+    // setSelectedColor(null);
   };
 
   return (
@@ -51,13 +51,10 @@ const Grid = ({ data }: { data: BookData[] }) => {
         <div
           className='modal fixed inset-0 opacity-0 pointer-events-none z-[10000]'
           data-flip-id='item'
+          style={{ backgroundColor: selectedColor || 'white' }}
         >
           {isModalOpen && selectedBookId && (
-            <BookModal
-              backgroundColor={selectedColor || 'transparent'}
-              bookId={selectedBookId || ''}
-              onClose={closeModal}
-            />
+            <BookModal bookId={selectedBookId || ''} onClose={closeModal} />
           )}
         </div>,
         document.body,
