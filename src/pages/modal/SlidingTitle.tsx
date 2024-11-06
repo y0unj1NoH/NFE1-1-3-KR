@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
+import { useEffect, useRef, useState } from 'react';
 
 const SlidingTitle = ({ title }: { title: string }) => {
   const titleRef = useRef<HTMLDivElement>(null);
@@ -17,21 +17,27 @@ const SlidingTitle = ({ title }: { title: string }) => {
           duration: 3,
           ease: 'power1.inOut',
           paused: isPaused, // 현재 상태에 따라 재생/멈춤
-        }
+        },
       );
 
       return () => animation.kill();
     });
 
-    return () => ctx.revert();
+    return () => {
+      ctx.revert();
+    };
   }, [isPaused]);
 
   return (
     <div
+      className='rotate-90 cursor-pointer text-h1 whitespace-nowrap text-[#202020]'
+      onMouseEnter={() => {
+        setIsPaused(true);
+      }}
+      onMouseLeave={() => {
+        setIsPaused(false);
+      }}
       ref={titleRef}
-      className="text-h1 rotate-90 whitespace-nowrap cursor-pointer"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
     >
       {title}
     </div>

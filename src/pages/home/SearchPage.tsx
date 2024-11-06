@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 
 import { MainClouds } from './MainClouds';
@@ -6,7 +6,7 @@ import { SearchableBookList } from './SearchableBookList';
 
 import { useIntersectionObserver, useSetBackgroundColor, useCloseModal } from 'hooks';
 import { BookModal } from 'pages';
-import { useBookModalStore } from 'stores';
+import { useSearchQueryStore, useBookModalStore } from 'stores';
 
 export const SearchPage = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -16,6 +16,14 @@ export const SearchPage = () => {
   const { bookModalData } = useBookModalStore();
   const { modalRef, closeModal } = useCloseModal();
   useSetBackgroundColor('bg-secondary', true);
+
+  const { reset } = useSearchQueryStore();
+
+  useEffect(() => {
+    return () => {
+      reset();
+    };
+  }, []);
 
   return (
     <div className='h-[calc(100vh-6rem)] w-full overflow-hidden relative' ref={containerRef}>

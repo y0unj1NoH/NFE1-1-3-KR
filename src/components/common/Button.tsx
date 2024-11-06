@@ -52,11 +52,12 @@ export const Button: FC<ButtonProps> = ({
   children,
   label,
   onClick,
+  className,
   ...props
 }) => {
   return (
     <button
-      className={cn(ButtonVariants({ variant, position, stretch }))}
+      className={cn(ButtonVariants({ variant, position, stretch }), className)}
       {...props}
       onClick={onClick}
     >

@@ -12,7 +12,7 @@ export const MenuButton = () => {
   const [isStretchSearch, setIsStretchSearch] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const debouncedInputValue = useDebounce(inputValue, 300); // 300ms 디바운스
-  const { query, setQuery, resetQuery } = useSearchQueryStore();
+  const { query, setQuery } = useSearchQueryStore();
 
   const handleButtonClick = (pathname: string) => {
     navigate(pathname);
@@ -74,8 +74,10 @@ export const MenuButton = () => {
         </>
       </Button>
       <Button
+        className={`transform transition-all duration-300 ${
+          isClick && !isStretchSearch ? 'opacity-100 ' : 'opacity-0  pointer-events-none'
+        }`}
         onClick={() => {
-          resetQuery();
           handleButtonClick('/community');
         }}
         position={isClick && !isStretchSearch ? 'community' : 'default'}
@@ -83,11 +85,11 @@ export const MenuButton = () => {
       >
         <Icon alt='community' src='/menu/Community.svg' />
       </Button>
+
       <Button
-        onClick={() => {
-          resetQuery();
-          handleButtonClick('/profile');
-        }}
+        className={`transform transition-all duration-300 ${
+          isClick && !isStretchSearch ? 'opacity-100 ' : 'opacity-0  pointer-events-none'
+        }`}
         position={isClick && !isStretchSearch ? 'profile' : 'default'}
         variant='white'
       >

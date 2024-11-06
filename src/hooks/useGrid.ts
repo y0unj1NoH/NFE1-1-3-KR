@@ -31,12 +31,20 @@ export const useGrid = ({ data }: { data: BookData[] }) => {
 
     gsap.registerPlugin(Flip);
 
-    items.map((item: HTMLDivElement, index: number) => {
-      item.addEventListener('click', () => {
+    const clickHandlers = items.map((item: HTMLDivElement, index: number) => {
+      const clickHandler = () => {
         setActiveItem({ type: 'grid', index });
         handleItemClick(item);
-      });
+      };
+      item.addEventListener('click', clickHandler);
+      return { item, clickHandler };
     });
+
+    return () => {
+      clickHandlers.forEach(({ item, clickHandler }) => {
+        item.removeEventListener('click', clickHandler);
+      });
+    };
   }, [items, setActiveItem]);
 
   return { galleryRef };

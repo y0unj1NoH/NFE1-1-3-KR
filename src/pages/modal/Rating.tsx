@@ -9,7 +9,7 @@ export const Rating = ({ rating }: { rating: number }) => {
           alt='heart'
           className='w-6 h-6'
           key={index}
-          src={`/icon/${index < filledHearts ? 'heart.svg' : 'white-heart.svg'}`}
+          src={`/Icon/${index < filledHearts ? 'heart.svg' : 'white-heart.svg'}`}
         />
       ))}
     </div>

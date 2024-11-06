@@ -1,17 +1,24 @@
 import { create } from 'zustand';
 
-type SearchQueryStore = {
+type SearchQueryState = {
   query: string;
-  setQuery: (query: string) => void;
-  resetQuery: () => void;
 };
 
-export const useSearchQueryStore = create<SearchQueryStore>(set => ({
+type SearchQueryActions = {
+  setQuery: (query: string) => void;
+  reset: () => void;
+};
+
+const initialState: SearchQueryState = {
   query: '',
-  setQuery: query => {
+};
+
+export const useSearchQueryStore = create<SearchQueryState & SearchQueryActions>(set => ({
+  ...initialState,
+  setQuery: (query: string) => {
     set({ query });
   },
-  resetQuery: () => {
-    set({ query: '' });
+  reset: () => {
+    set(initialState);
   },
 }));

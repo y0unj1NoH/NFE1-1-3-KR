@@ -1,13 +1,14 @@
 import { getRandomProfile } from 'utils';
 
-export const Profile = ({ index }: { index: number }) => {
+export const Profile = ({ index, size }: { index: number; size?: string }) => {
   const { profile } = getRandomProfile(index);
 
   return (
     <img
       alt='user-profile'
-      className={`object-contain md:w-[2.5rem] md:h-[2.5rem] w-[1.5rem] h-[1.5rem]`}
+      className={`object-contain`}
       src={profile}
+      style={{ width: size ? size : '2.5rem' }}
     />
   );
 };

@@ -8,7 +8,7 @@ export const ContentsContainer = ({ childNode }: { childNode: ReactNode }) => {
 
   return (
     <div className='h-full lg:w-[60%] w-full relative'>
-      <div className='md:h-[calc(100vh-10rem)] h-full w-full md:p-10 p-4 flex-col justify-start items-center inline-flex bg-text-white md:rounded-t-[80px] absolute bottom-0 z-[1000]'>
+      <div className='md:h-[calc(100vh-10rem)] h-full w-full md:p-10 p-4 flex-col justify-start items-center inline-flex bg-text-white md:rounded-t-[80px] absolute bottom-0 z-[20]'>
         {childNode}
       </div>
       {location.pathname.startsWith('/community') && (
