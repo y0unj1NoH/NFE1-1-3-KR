@@ -13,7 +13,7 @@ export const useSlider = ({ data }: { data: BookData[] }) => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const wheelRef = useRef<HTMLDivElement>(null);
 
-  const [images, setImages] = useState<HTMLDivElement[]>(
+  const [items, setItems] = useState<HTMLDivElement[]>(
     gsap.utils.toArray<HTMLDivElement>('.wheel__item'),
   );
 
@@ -25,20 +25,20 @@ export const useSlider = ({ data }: { data: BookData[] }) => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
   useEffect(() => {
-    setImages(gsap.utils.toArray<HTMLDivElement>('.wheel__item'));
+    setItems(gsap.utils.toArray<HTMLDivElement>('.wheel__item'));
   }, [data]);
 
   useEffect(() => {
-    if (!wheelRef.current || !images.length) {
+    if (!wheelRef.current || !items.length) {
       return;
     }
     gsap.registerPlugin(ScrollTrigger, Draggable, Flip);
 
-    setupWheel(wheelRef.current, images);
-    setupTimeline(images.length, sliderTl, tracker);
-    handleDrag(images, sliderTl, tracker, setActiveIndex);
-    handleClick(images, sliderTl, tracker, setActiveIndex);
-  }, [images]);
+    setupWheel(wheelRef.current, items);
+    setupTimeline(items.length, sliderTl, tracker);
+    handleDrag(items, sliderTl, tracker, setActiveIndex);
+    handleClick(items, sliderTl, tracker, setActiveIndex);
+  }, [items]);
 
   useEffect(() => {
     setActiveItem({ type: 'slider', index: activeIndex });
@@ -46,15 +46,15 @@ export const useSlider = ({ data }: { data: BookData[] }) => {
 
   const handleScroll = useCallback(
     (event: WheelEvent) => {
-      handleWheel(event.deltaY, images, sliderTl, tracker, setActiveIndex);
+      handleWheel(event.deltaY, items, sliderTl, tracker, setActiveIndex);
     },
-    [images],
+    [items],
   );
 
   // TODO: handleResize 처분 여부 결정
   // const handleResize = useCallback(() => {
-  //   setupWheel(wheelRef.current as HTMLDivElement, images);
-  // }, [wheelRef.current, images]);
+  //   setupWheel(wheelRef.current as HTMLDivElement, items);
+  // }, [wheelRef.current, items]);
 
   useEffect(() => {
     if (isIntersecting) {

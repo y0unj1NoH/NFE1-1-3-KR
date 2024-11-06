@@ -34,7 +34,6 @@ export const handleItemClick = (item: AnimatedHTMLDivElement) => {
 
   item.animation = animation;
   item.animation.play();
-  console.log('done');
 };
 
 export const handleModalClick = (
