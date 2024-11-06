@@ -23,7 +23,7 @@ const GridItem = ({ src, alt, bookId }: GridItemProps) => {
         }
       }}
     >
-      <div className='faces relative relative w-full h-full rounded-xl [transform-style:preserve-3d]'>
+      <div className='faces relative w-full h-full rounded-xl [transform-style:preserve-3d]'>
         <div className='absolute w-full h-full shadow-xl hover:shadow-2xl [backface-visibility:hidden] transition-transform duration-500 ease-in-out transform hover:translate-y-2'>
           <img
             alt={alt}
