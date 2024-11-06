@@ -13,12 +13,12 @@ import type { BookData } from 'types';
 
 export const BookModal = ({
   bookId,
-  backgroundColor,
   onClose,
+  backgroundColor,
 }: {
   bookId: string;
-  backgroundColor: string;
   onClose: () => void;
+  backgroundColor?: string;
 }) => {
   const [book, setBook] = useState<BookData | null>(null);
   const [isBookmarkOpen, setBookmarkOpen] = useState(false);
@@ -85,7 +85,10 @@ export const BookModal = ({
       .join(' ');
 
   return (
-    <div className='modal-content fixed inset-0 z-[40000]' style={{ backgroundColor }}>
+    <div
+      className='modal-content fixed inset-0 z-[40000]'
+      style={{ backgroundColor: backgroundColor || 'transparent' }}
+    >
       <div className='relative flex w-full h-full '>
         <div
           className='absolute top-0'

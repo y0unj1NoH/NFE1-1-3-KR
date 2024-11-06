@@ -1,49 +1,51 @@
 import { gsap } from 'gsap';
 import { Flip } from 'gsap/Flip';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
+import { useBookModalStore } from 'stores';
 import type { BookData } from 'types';
-import { handleItemClick, handleModalClick } from 'utils';
+import { handleItemClick } from 'utils';
 
 export const useGrid = ({ data }: { data: BookData[] }) => {
-  const gallery = document.querySelector<HTMLDivElement>('.gallery');
-  const modal = document.querySelector<HTMLDivElement>('.modal')!;
+  const galleryRef = useRef<HTMLDivElement>(null);
 
-  const [items, setItems] = useState<HTMLDivElement[]>(
-    gsap.utils.toArray<HTMLDivElement>('.gallery__item'),
-  );
+  const [items, setItems] = useState<HTMLDivElement[]>([]);
 
-  const [activeIndex, setActiveIndex] = useState<number>(0);
+  const { setActiveItem } = useBookModalStore();
 
   useEffect(() => {
     setItems(gsap.utils.toArray<HTMLDivElement>('.gallery__item'));
   }, [data]);
 
   useEffect(() => {
-    gsap.to(gallery, { autoAlpha: 1, duration: 0.2 });
-    gsap.from(items, { autoAlpha: 0, yPercent: 30, stagger: 0.04 });
-  }, [gallery, items]);
+    if (galleryRef.current && items.length) {
+      gsap.to(galleryRef.current, { autoAlpha: 1, duration: 0.2 });
+      gsap.from(items, { autoAlpha: 0, yPercent: 30, stagger: 0.04 });
+    }
+  }, [items]);
 
   useEffect(() => {
-    if (!gallery || !items.length) {
+    if (!galleryRef.current || !items.length) {
       return;
     }
 
     gsap.registerPlugin(Flip);
 
-    items.map((item: HTMLDivElement, index: number) => {
-      item.addEventListener('click', () => {
-        setActiveIndex(index);
-        handleItemClick(item, modal);
-      });
+    const clickHandlers = items.map((item: HTMLDivElement, index: number) => {
+      const clickHandler = () => {
+        setActiveItem({ type: 'grid', index });
+        handleItemClick(item);
+      };
+      item.addEventListener('click', clickHandler);
+      return { item, clickHandler };
     });
-  }, [items]);
 
-  const handleModalClose = useCallback(() => {
-    handleModalClick(items, activeIndex, modal);
-  }, [items, activeIndex, modal]);
+    return () => {
+      clickHandlers.forEach(({ item, clickHandler }) => {
+        item.removeEventListener('click', clickHandler);
+      });
+    };
+  }, [items, setActiveItem]);
 
-  return {
-    handleModalClose,
-  };
+  return { galleryRef };
 };

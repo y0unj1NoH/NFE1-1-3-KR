@@ -10,3 +10,5 @@ export * from './useBookList';
 export * from './useRandomTitle';
 export * from './useGrid';
 export * from './useDebounce';
+export * from './useColorThief';
+export * from './useCloseModal';

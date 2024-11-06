@@ -1,6 +1,7 @@
 import { gsap } from 'gsap';
 import { Draggable } from 'gsap/Draggable';
-import { Flip } from 'gsap/Flip';
+
+import { handleItemClick } from 'utils';
 
 const wrapProgress = gsap.utils.wrap(0, 1);
 
@@ -23,23 +24,32 @@ const rotateSlider = (
   });
 };
 
-const moveWheel = (images: HTMLDivElement[], amount: number, tl: gsap.core.Timeline) => {
-  const total = images.length;
+const moveWheel = (
+  items: HTMLDivElement[],
+  amount: number,
+  tl: gsap.core.Timeline,
+  tracker: { index: number },
+  setActiveIndex: (index: number) => void,
+) => {
+  const total = items.length;
 
   gsap.to(tl, {
     progress: snap(total)(tl.progress() + amount),
     modifiers: {
       progress: wrapProgress,
     },
+    onComplete: () => {
+      setActiveIndex(tracker.index);
+    },
   });
 };
 
-export const setupWheel = (wheel: HTMLDivElement, images: HTMLDivElement[]) => {
+export const setupWheel = (wheel: HTMLDivElement, items: HTMLDivElement[]) => {
   const radius = wheel.offsetWidth / 2;
   const center = wheel.offsetWidth / 2;
-  const slice = (2 * Math.PI) / images.length;
+  const slice = (2 * Math.PI) / items.length;
 
-  images.forEach((item, i) => {
+  items.forEach((item, i) => {
     const angle = i * slice;
     const x = center + radius * Math.sin(angle);
     const y = center - radius * Math.cos(angle);
@@ -52,11 +62,13 @@ export const setupWheel = (wheel: HTMLDivElement, images: HTMLDivElement[]) => {
       y: y,
     });
   });
-
-  images[0].classList.add('active');
 };
 
-export const setupTimeline = (total: number, tl: gsap.core.Timeline, tracker: { item: number }) => {
+export const setupTimeline = (
+  total: number,
+  tl: gsap.core.Timeline,
+  tracker: { index: number },
+) => {
   const wrapTracker = gsap.utils.wrap(0, total);
 
   tl.to(
@@ -73,11 +85,11 @@ export const setupTimeline = (total: number, tl: gsap.core.Timeline, tracker: { 
   tl.to(
     tracker,
     {
-      item: total,
+      index: total,
       duration: 1,
       ease: 'none',
       modifiers: {
-        item(value: number) {
+        index(value: number) {
           return wrapTracker(total - Math.round(value));
         },
       },
@@ -94,8 +106,13 @@ export const setupTimeline = (total: number, tl: gsap.core.Timeline, tracker: { 
   });
 };
 
-export const handleDrag = (images: HTMLDivElement[], tl: gsap.core.Timeline) => {
-  const total = images.length;
+export const handleDrag = (
+  items: HTMLDivElement[],
+  tl: gsap.core.Timeline,
+  tracker: { index: number },
+  setActiveIndex: (index: number) => void,
+) => {
+  const total = items.length;
   const AnglePerImage = 360 / total;
   let startRotation = 0;
 
@@ -116,6 +133,9 @@ export const handleDrag = (images: HTMLDivElement[], tl: gsap.core.Timeline) => 
         modifiers: {
           progress: wrapProgress,
         },
+        onComplete: () => {
+          setActiveIndex(tracker.index);
+        },
       });
 
       const finalRotation = startRotation + distance * AnglePerImage;
@@ -124,131 +144,59 @@ export const handleDrag = (images: HTMLDivElement[], tl: gsap.core.Timeline) => 
   });
 };
 
+interface AnimatedHTMLDivElement extends HTMLDivElement {
+  animation?: gsap.core.Timeline;
+}
+
 export const handleClick = (
-  images: HTMLDivElement[],
+  items: HTMLDivElement[],
   tl: gsap.core.Timeline,
-  tracker: { item: number },
-  modal: HTMLDivElement,
+  tracker: { index: number },
+  setActiveIndex: (index: number) => void,
 ) => {
-  const total = images.length;
+  const total = items.length;
   const step = 1 / total;
 
-  images.forEach((el, i) => {
+  items.forEach((el, i) => {
     el.addEventListener('click', function () {
-      const currentActive = tracker.item;
+      const currentActive = tracker.index;
 
       if (i === currentActive) {
-        handleActiveClick(el as AnimatedHTMLDivElement, modal);
+        handleItemClick(el as AnimatedHTMLDivElement);
       }
 
       const diff = currentActive - i;
       if (Math.abs(diff) < total / 2) {
-        moveWheel(images, diff * step, tl);
+        moveWheel(items, diff * step, tl, tracker, setActiveIndex);
       } else {
         const amt = total - Math.abs(diff);
         if (currentActive > i) {
-          moveWheel(images, amt * -step, tl);
+          moveWheel(items, amt * -step, tl, tracker, setActiveIndex);
         } else {
-          moveWheel(images, amt * step, tl);
+          moveWheel(items, amt * step, tl, tracker, setActiveIndex);
         }
       }
     });
   });
 };
 
-interface AnimatedHTMLDivElement extends HTMLDivElement {
-  animation?: gsap.core.Timeline;
-}
-
-const handleActiveClick = (card: AnimatedHTMLDivElement, modal: HTMLDivElement) => {
-  const faces = card.querySelector('.faces');
-  const animation = gsap.timeline({ paused: true });
-  animation.to(faces, { rotationY: 180 });
-  animation.set(card, { opacity: 0 });
-  animation.add(function () {
-    card.dataset.flipId = 'wheel__card';
-    const state = Flip.getState([card, modal], {
-      props: 'borderRadius, aspectRatio, boxShadow',
-    });
-
-    const cardColor = card.getAttribute('data-color');
-    if (cardColor) {
-      modal.style.backgroundColor = cardColor;
-    }
-
-    modal.style.opacity = '1';
-    modal.style.pointerEvents = 'all';
-
-    Flip.from(state, {
-      duration: 0.4,
-      ease: 'sine.inOut',
-      absolute: true,
-    });
-  });
-
-  card.animation = animation;
-  card.animation.play();
-};
-
-export const handleModalClick = (
-  images: HTMLDivElement[],
-  trackerItem: number,
-  modal: HTMLDivElement,
+export const handleWheel = (
+  deltaY: number,
+  items: HTMLDivElement[],
+  tl: gsap.core.Timeline,
+  tracker: { index: number },
+  setActiveIndex: (index: number) => void,
 ) => {
-  const activeCard = images[trackerItem] as AnimatedHTMLDivElement;
-  const faces = activeCard.querySelector('.faces');
-
-  const animation = gsap.timeline({ paused: true });
-  animation.set(activeCard, { opacity: 1 });
-  animation.add(function () {
-    const cardRect = activeCard.getBoundingClientRect();
-    const modalRect = modal.getBoundingClientRect();
-
-    const originalX = modalRect.left;
-    const originalY = modalRect.top;
-
-    const cardCenterX = cardRect.left;
-    const cardCenterY = cardRect.top;
-
-    const content = modal.querySelector('.modal-content') as HTMLDivElement;
-    content.style.opacity = '0';
-
-    gsap.to(modal, {
-      duration: 0.4,
-      x: cardCenterX - originalX,
-      y: cardCenterY - originalY,
-      width: cardRect.width,
-      height: cardRect.height,
-      ease: 'sine.inOut',
-      onComplete: () => {
-        modal.style.opacity = '0';
-        modal.style.pointerEvents = 'none';
-        modal.style.width = '100%';
-        modal.style.height = '100vh';
-
-        gsap.set(modal, {
-          x: originalX - modalRect.left,
-          y: originalY - modalRect.top,
-        });
-
-        animation.to(faces, { rotationY: 0 });
-        content.style.opacity = '1';
-      },
-    });
-  });
-
-  activeCard.animation = animation;
-  activeCard.animation.play();
-};
-
-export const handleWheel = (deltaY: number, images: HTMLDivElement[], tl: gsap.core.Timeline) => {
   const direction = deltaY > 0 ? -1 : 1;
-  const total = images.length;
+  const total = items.length;
 
   gsap.to(tl, {
     progress: snap(total)(tl.progress() + direction / total),
     modifiers: {
       progress: wrapProgress,
+    },
+    onComplete: () => {
+      setActiveIndex(tracker.index);
     },
   });
 };

@@ -5,21 +5,17 @@ interface AnimatedHTMLDivElement extends HTMLDivElement {
   animation?: gsap.core.Timeline;
 }
 
-export const handleItemClick = (item: AnimatedHTMLDivElement, modal: HTMLDivElement) => {
+export const handleItemClick = (item: AnimatedHTMLDivElement) => {
+  const modal = document.querySelector('.modal') as HTMLDivElement;
   const faces = item.querySelector('.faces');
   const animation = gsap.timeline({ paused: true });
   animation.to(faces, { rotationY: 180 });
   animation.set(item, { opacity: 0 });
   animation.add(function () {
-    item.dataset.flipId = 'gallery__item';
+    item.dataset.flipId = 'item';
     const state = Flip.getState([item, modal], {
       props: 'borderRadius, aspectRatio, boxShadow',
     });
-
-    const itemColor = item.getAttribute('data-color');
-    if (itemColor) {
-      modal.style.backgroundColor = itemColor;
-    }
 
     modal.style.opacity = '1';
     modal.style.pointerEvents = 'all';
@@ -35,7 +31,7 @@ export const handleItemClick = (item: AnimatedHTMLDivElement, modal: HTMLDivElem
   item.animation.play();
 };
 
-export const handleModalClick2 = (
+export const handleModalClick = (
   images: HTMLDivElement[],
   activeIndex: number,
   modal: HTMLDivElement,
