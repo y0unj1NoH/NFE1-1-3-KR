@@ -1,7 +1,7 @@
-import ColorThief from 'colorthief';
-import { useState, type ImgHTMLAttributes } from 'react';
+import type { ImgHTMLAttributes } from 'react';
 
-import { blendColors } from 'utils';
+import { useColorThief } from 'hooks';
+
 interface SliderItemProps extends ImgHTMLAttributes<HTMLImageElement> {
   alt?: string;
   src: string;
@@ -10,14 +10,7 @@ interface SliderItemProps extends ImgHTMLAttributes<HTMLImageElement> {
 }
 
 const SliderItem = ({ src, alt, bookId, onCardClick }: SliderItemProps) => {
-  const [bookColor, setBookColor] = useState<string>();
-
-  const handleOnLoadImage = (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    const colorThief = new ColorThief();
-    const color = colorThief.getColor(event.currentTarget);
-    const blendedColor = `rgb(${blendColors(color).join(',')})`;
-    setBookColor(blendedColor);
-  };
+  const { bookColor, handleOnLoadImage } = useColorThief();
 
   return (
     <div

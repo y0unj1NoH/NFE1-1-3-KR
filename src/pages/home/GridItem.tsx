@@ -1,7 +1,6 @@
-import ColorThief from 'colorthief';
-import { useState, type ImgHTMLAttributes } from 'react';
+import type { ImgHTMLAttributes } from 'react';
 
-import { blendColors } from 'utils';
+import { useColorThief } from 'hooks';
 
 interface GridItemProps extends ImgHTMLAttributes<HTMLImageElement> {
   alt?: string;
@@ -11,14 +10,7 @@ interface GridItemProps extends ImgHTMLAttributes<HTMLImageElement> {
 }
 
 const GridItem = ({ src, alt, bookId, onCardClick }: GridItemProps) => {
-  const [bookColor, setBookColor] = useState<string>();
-
-  const handleOnLoadImage = (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    const colorThief = new ColorThief();
-    const color = colorThief.getColor(event.currentTarget);
-    const blendedColor = `rgb(${blendColors(color).join(',')})`;
-    setBookColor(blendedColor);
-  };
+  const { bookColor, handleOnLoadImage } = useColorThief();
 
   return (
     <div
