@@ -14,7 +14,7 @@ export const useSlider = ({ data }: { data: BookData[] }) => {
   const wheelRef = useRef<HTMLDivElement>(null);
 
   const [images, setImages] = useState<HTMLDivElement[]>(
-    gsap.utils.toArray<HTMLDivElement>('.wheel__card'),
+    gsap.utils.toArray<HTMLDivElement>('.wheel__item'),
   );
 
   const isIntersecting = useIntersectionObserver(sliderRef);
@@ -24,7 +24,7 @@ export const useSlider = ({ data }: { data: BookData[] }) => {
   const tracker = { item: 0 };
 
   useEffect(() => {
-    setImages(gsap.utils.toArray<HTMLDivElement>('.wheel__card'));
+    setImages(gsap.utils.toArray<HTMLDivElement>('.wheel__item'));
   }, [data]);
 
   useEffect(() => {

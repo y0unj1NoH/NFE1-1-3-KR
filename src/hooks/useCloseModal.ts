@@ -13,7 +13,7 @@ export const useCloseModal = () => {
 
     let items: HTMLDivElement[];
     if (activeItem.type === 'slider') {
-      items = gsap.utils.toArray<HTMLDivElement>('.wheel__card');
+      items = gsap.utils.toArray<HTMLDivElement>('.wheel__item');
     } else {
       items = gsap.utils.toArray<HTMLDivElement>('.gallery__item');
     }
