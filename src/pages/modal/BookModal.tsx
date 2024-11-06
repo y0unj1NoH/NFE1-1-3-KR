@@ -11,7 +11,15 @@ import { useBookCoverAnimation, useRibbonAnimation } from 'hooks';
 import { fetchAndSetBookmarks, useAuthStore, useBookMarkStore } from 'stores';
 import type { BookData } from 'types';
 
-export const BookModal = ({ bookId, onClose }: { bookId: string; onClose: () => void }) => {
+export const BookModal = ({
+  bookId,
+  onClose,
+  backgroundColor,
+}: {
+  bookId: string;
+  onClose: () => void;
+  backgroundColor?: string;
+}) => {
   const [book, setBook] = useState<BookData | null>(null);
   const [isBookmarkOpen, setBookmarkOpen] = useState(false);
   const [initialized, setInitialized] = useState(false);
@@ -79,7 +87,7 @@ export const BookModal = ({ bookId, onClose }: { bookId: string; onClose: () => 
   return (
     <div
       className='modal-content fixed inset-0 z-[40000]'
-      style={{ backgroundColor: 'transparent' }}
+      style={{ backgroundColor: backgroundColor || 'transparent' }}
     >
       <div className='relative flex w-full h-full '>
         <div
