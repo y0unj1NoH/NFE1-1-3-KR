@@ -1,29 +1,18 @@
-import { useState } from 'react';
 import ReactDOM from 'react-dom';
 
 import SliderItem from './SliderItem';
 
 import { useSlider } from 'hooks';
 import { BookModal } from 'pages';
+import { useBookModalStore } from 'stores';
 import type { BookData } from 'types';
 
 const Slider = ({ data }: { data: BookData[] }) => {
   const { sliderRef, handleModalClose } = useSlider({ data });
-  const [isModalOpen, setModalOpen] = useState(false);
-  const [selectedBookId, setSelectedBookId] = useState<string | null>(null);
-  const [selectedColor, setSelectedColor] = useState<string | null>(null);
-
-  const openModal = (bookId: string, bookColor: string) => {
-    setSelectedBookId(bookId);
-    setSelectedColor(bookColor);
-    setModalOpen(true);
-  };
+  const { bookModalData } = useBookModalStore();
 
   const closeModal = () => {
-    setModalOpen(false);
-    setSelectedBookId(null);
     handleModalClose();
-    // setSelectedColor(null);
   };
 
   return (
@@ -33,10 +22,9 @@ const Slider = ({ data }: { data: BookData[] }) => {
           {data.slice(0, 14).map((bookData, index) => {
             return (
               <SliderItem
-                alt='슬라이드 아이템'
+                alt={`slider-item-${index}`}
                 bookId={bookData.id}
                 key={index}
-                onCardClick={openModal}
                 src={bookData.cover as string}
               />
             );
@@ -47,14 +35,9 @@ const Slider = ({ data }: { data: BookData[] }) => {
         <div
           className='modal fixed inset-0 opacity-0 pointer-events-none z-[10000]'
           data-flip-id='item'
-          style={{ backgroundColor: selectedColor || 'white' }}
+          style={{ backgroundColor: bookModalData.color || 'white' }}
         >
-          {isModalOpen && selectedBookId && (
-            <BookModal
-              bookId={selectedBookId || ''}
-              onClose={closeModal}
-            />
-          )}
+          {bookModalData.id && <BookModal bookId={bookModalData.id || ''} onClose={closeModal} />}
         </div>,
         document.body,
       )}

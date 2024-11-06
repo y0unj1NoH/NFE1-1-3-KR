@@ -59,23 +59,18 @@ export const useSlider = ({ data }: { data: BookData[] }) => {
   }, [images]);
 
   useEffect(() => {
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [handleResize]);
-
-  useEffect(() => {
     if (isIntersecting) {
       window.addEventListener('wheel', handleScroll);
+      window.addEventListener('resize', handleResize);
     } else {
       window.removeEventListener('wheel', handleScroll);
+      window.removeEventListener('resize', handleResize);
     }
     return () => {
       window.removeEventListener('wheel', handleScroll);
+      window.removeEventListener('resize', handleResize);
     };
-  }, [isIntersecting, handleScroll]);
+  }, [isIntersecting, handleScroll, handleResize]);
 
   return { sliderRef, handleModalClose };
 };

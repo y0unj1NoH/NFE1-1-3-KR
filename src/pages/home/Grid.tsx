@@ -1,30 +1,18 @@
-import { gsap } from 'gsap';
-import { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
 import GridItem from './GridItem';
 
 import { useGrid } from 'hooks';
 import { BookModal } from 'pages';
+import { useBookModalStore } from 'stores';
 import type { BookData } from 'types';
 
 const Grid = ({ data }: { data: BookData[] }) => {
   const { handleModalClose } = useGrid({ data });
-  const [isModalOpen, setModalOpen] = useState(false);
-  const [selectedBookId, setSelectedBookId] = useState<string | null>(null);
-  const [selectedColor, setSelectedColor] = useState<string | null>(null);
-
-  const openModal = (bookId: string, bookColor: string) => {
-    setSelectedBookId(bookId);
-    setSelectedColor(bookColor);
-    setModalOpen(true);
-  };
+  const { bookModalData } = useBookModalStore();
 
   const closeModal = () => {
-    setModalOpen(false);
-    setSelectedBookId(null);
     handleModalClose();
-    // setSelectedColor(null);
   };
 
   return (
@@ -36,7 +24,6 @@ const Grid = ({ data }: { data: BookData[] }) => {
               alt='Grid Item'
               bookId={bookData.id}
               key={index}
-              onCardClick={openModal}
               src={bookData.cover as string}
             />
           );
@@ -46,11 +33,9 @@ const Grid = ({ data }: { data: BookData[] }) => {
         <div
           className='modal fixed inset-0 opacity-0 pointer-events-none z-[10000]'
           data-flip-id='item'
-          style={{ backgroundColor: selectedColor || 'white' }}
+          style={{ backgroundColor: bookModalData.color || 'white' }}
         >
-          {isModalOpen && selectedBookId && (
-            <BookModal bookId={selectedBookId || ''} onClose={closeModal} />
-          )}
+          {bookModalData.id && <BookModal bookId={bookModalData.id || ''} onClose={closeModal} />}
         </div>,
         document.body,
       )}

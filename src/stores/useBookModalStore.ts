@@ -1,21 +1,20 @@
 import { create } from 'zustand';
 
+import type { BookModalData, ActiveItem } from 'types';
 interface BookModalState {
-  isModalOpen: boolean;
-  selectedBookId: string | null;
-  selectedColor: string | null;
-  openModal: (bookId: string, bookColor: string) => void;
-  closeModal: () => void;
+  bookModalData: BookModalData;
+  activeItem: ActiveItem;
+  setBookModalData: (data: BookModalData) => void;
+  setActiveItem: (item: ActiveItem) => void;
 }
 
 export const useBookModalStore = create<BookModalState>(set => ({
-  isModalOpen: false,
-  selectedBookId: null,
-  selectedColor: null,
-  openModal: (bookId, bookColor) => {
-    set({ isModalOpen: true, selectedBookId: bookId, selectedColor: bookColor });
+  bookModalData: { id: '', color: '' },
+  activeItem: { type: 'slider', index: 0 },
+  setModalData: data => {
+    set({ bookModalData: data });
   },
-  closeModal: () => {
-    set({ isModalOpen: false, selectedBookId: null, selectedColor: null });
+  setActiveItem: item => {
+    set({ activeItem: item });
   },
 }));
