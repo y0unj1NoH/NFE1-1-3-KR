@@ -9,9 +9,7 @@ import { handleItemClick } from 'utils';
 export const useGrid = ({ data }: { data: BookData[] }) => {
   const galleryRef = useRef<HTMLDivElement>(null);
 
-  const [items, setItems] = useState<HTMLDivElement[]>(
-    gsap.utils.toArray<HTMLDivElement>('.gallery__item'),
-  );
+  const [items, setItems] = useState<HTMLDivElement[]>([]);
 
   const { setActiveItem } = useBookModalStore();
 
@@ -20,11 +18,11 @@ export const useGrid = ({ data }: { data: BookData[] }) => {
   }, [data]);
 
   useEffect(() => {
-    if (galleryRef.current && items) {
+    if (galleryRef.current && items.length) {
       gsap.to(galleryRef.current, { autoAlpha: 1, duration: 0.2 });
       gsap.from(items, { autoAlpha: 0, yPercent: 30, stagger: 0.04 });
     }
-  }, [galleryRef.current, items]);
+  }, [items]);
 
   useEffect(() => {
     if (!galleryRef.current || !items.length) {
@@ -39,7 +37,7 @@ export const useGrid = ({ data }: { data: BookData[] }) => {
         handleItemClick(item);
       });
     });
-  }, [items]);
+  }, [items, setActiveItem]);
 
   return { galleryRef };
 };
