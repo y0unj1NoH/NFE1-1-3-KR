@@ -97,7 +97,7 @@ export const BookModal = ({
             clipPath: 'polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%)',
             width: '4rem',
             height: '300px',
-            backgroundColor: '#DD0000',
+            backgroundColor: '#fa2121',
             cursor: 'pointer',
           }}
         />
@@ -112,25 +112,27 @@ export const BookModal = ({
                 alt={book.title || '표지 없음'}
                 className='object-cover w-full h-auto max-w-md rounded-lg shadow-xl md:max-w-lg'
                 ref={coverRef}
-                src={book.cover || '/Logo.svg'}
+                src={book.cover || '/default-bookcover.png'}
               />
               <div className='flex flex-col justify-end flex-1'>
                 <div>
                   <p className='mb-4 text-h4'>{book.title}</p>
-                  <p className='mb-2 text-h5'>{author}</p>
-                  <div className='mb-4 text-body1'>{formatCategory(book.category_name || '')}</div>
+                  <p className='mb-2 text-h5 '>{author}</p>
+                  <div className='mb-4 text-body1 text-[#202020]'>
+                    {formatCategory(book.category_name || '')}
+                  </div>
                   <div className='flex items-center mb-6'>
                     <Rating rating={Number(book.rating_info)} />
                     <span className='text-[#DD0000] text-body1 ml-2'>{book.rating_info}</span>
                   </div>
-                  <p className='leading-relaxed text-body1'>{book.description}</p>
+                  <p className='leading-relaxed text-body1 text-[#303030]'>{book.description}</p>
                 </div>
               </div>
             </div>
           </div>
           <Button onClick={onClose} position='default'>
             <>
-              <Icon alt='Close' src='/icon/X.svg' />
+              <Icon alt='Close' src='/Icon/X.svg' />
             </>
           </Button>
         </div>

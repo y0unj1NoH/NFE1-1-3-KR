@@ -8,7 +8,7 @@ interface SectionProps {
 const Section = ({ title, items }: SectionProps) => {
   return (
     <div className='w-full mb-10 md:w-1/2'>
-      <h2 className='mb-4 text-center text-subtitle1'>{title}</h2>
+      <h2 className='mb-4 text-center text-subtitle1 text-[#161616]'>{title}</h2>
       <ul className='flex flex-col gap-2'>
         {items.map((item, index) => (
           <li key={index}>
@@ -18,7 +18,7 @@ const Section = ({ title, items }: SectionProps) => {
               style={{ borderBottom: '2px solid #9CA3AF' }}
             >
               {item.icon}
-              <p className='w-[80%] pb-1 break-words text-body1'>{item.text}</p>
+              <p className='w-[80%] pb-1 break-words text-body1 text-[#333333]'>{item.text}</p>
             </div>
           </li>
         ))}

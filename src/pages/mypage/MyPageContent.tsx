@@ -69,7 +69,7 @@ export const MyPageContent = ({ openBookModal }: { openBookModal: (bookId: strin
     <div className='w-full items-center flex flex-col h-[80vh] overflow-y-scroll'>
       <div className='flex flex-col items-center my-4 mb-10'>
         <Profile index={userInfo?.username ? +userInfo.username.slice(-1) : 0} size='6rem' />
-        <p className='mt-2 text-body1'>{userInfo?.username || '사용자명 없음'}</p>
+        <p className='mt-2 text-body1 text-[#161616]'>{userInfo?.username || '사용자명 없음'}</p>
         <p className='text-gray-500 text-subtitle1'>{userInfo?.user_id || 'ID 없음'}</p>
       </div>
       {/* <Section title='Linked account' items={linkedAccountItems} /> */}
