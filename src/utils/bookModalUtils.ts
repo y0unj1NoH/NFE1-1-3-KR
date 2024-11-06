@@ -17,11 +17,6 @@ export const handleItemClick = (item: AnimatedHTMLDivElement) => {
       props: 'borderRadius, aspectRatio, boxShadow',
     });
 
-    const itemColor = item.getAttribute('data-color');
-    if (itemColor) {
-      modal.style.backgroundColor = itemColor;
-    }
-
     modal.style.opacity = '1';
     modal.style.pointerEvents = 'all';
 

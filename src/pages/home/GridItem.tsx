@@ -16,7 +16,6 @@ const GridItem = ({ src, alt, bookId }: GridItemProps) => {
   return (
     <div
       className='gallery__item relative cursor-pointer w-full max-w-[300px] aspect-[200/295]'
-      data-color={bookColor}
       onClick={() => {
         if (setBookModalData) {
           setBookModalData({ id: bookId, color: bookColor || 'white' });
