@@ -24,13 +24,23 @@ const rotateSlider = (
   });
 };
 
-const moveWheel = (images: HTMLDivElement[], amount: number, tl: gsap.core.Timeline) => {
+const moveWheel = (
+  images: HTMLDivElement[],
+  amount: number,
+  tl: gsap.core.Timeline,
+  tracker: { item: number },
+  setActiveIndex: (item: number) => void,
+) => {
   const total = images.length;
 
   gsap.to(tl, {
     progress: snap(total)(tl.progress() + amount),
     modifiers: {
       progress: wrapProgress,
+    },
+    onComplete: () => {
+      console.log(tracker.item);
+      setActiveIndex(tracker.item);
     },
   });
 };
@@ -53,8 +63,6 @@ export const setupWheel = (wheel: HTMLDivElement, images: HTMLDivElement[]) => {
       y: y,
     });
   });
-
-  images[0].classList.add('active');
 };
 
 export const setupTimeline = (total: number, tl: gsap.core.Timeline, tracker: { item: number }) => {
@@ -95,7 +103,12 @@ export const setupTimeline = (total: number, tl: gsap.core.Timeline, tracker: { 
   });
 };
 
-export const handleDrag = (images: HTMLDivElement[], tl: gsap.core.Timeline) => {
+export const handleDrag = (
+  images: HTMLDivElement[],
+  tl: gsap.core.Timeline,
+  tracker: { item: number },
+  setActiveIndex: (item: number) => void,
+) => {
   const total = images.length;
   const AnglePerImage = 360 / total;
   let startRotation = 0;
@@ -117,6 +130,10 @@ export const handleDrag = (images: HTMLDivElement[], tl: gsap.core.Timeline) => 
         modifiers: {
           progress: wrapProgress,
         },
+        onComplete: () => {
+          console.log(tracker.item);
+          setActiveIndex(tracker.item);
+        },
       });
 
       const finalRotation = startRotation + distance * AnglePerImage;
@@ -133,6 +150,7 @@ export const handleClick = (
   images: HTMLDivElement[],
   tl: gsap.core.Timeline,
   tracker: { item: number },
+  setActiveIndex: (item: number) => void,
 ) => {
   const total = images.length;
   const step = 1 / total;
@@ -147,20 +165,26 @@ export const handleClick = (
 
       const diff = currentActive - i;
       if (Math.abs(diff) < total / 2) {
-        moveWheel(images, diff * step, tl);
+        moveWheel(images, diff * step, tl, tracker, setActiveIndex);
       } else {
         const amt = total - Math.abs(diff);
         if (currentActive > i) {
-          moveWheel(images, amt * -step, tl);
+          moveWheel(images, amt * -step, tl, tracker, setActiveIndex);
         } else {
-          moveWheel(images, amt * step, tl);
+          moveWheel(images, amt * step, tl, tracker, setActiveIndex);
         }
       }
     });
   });
 };
 
-export const handleWheel = (deltaY: number, images: HTMLDivElement[], tl: gsap.core.Timeline) => {
+export const handleWheel = (
+  deltaY: number,
+  images: HTMLDivElement[],
+  tl: gsap.core.Timeline,
+  tracker: { item: number },
+  setActiveIndex: (item: number) => void,
+) => {
   const direction = deltaY > 0 ? -1 : 1;
   const total = images.length;
 
@@ -168,6 +192,10 @@ export const handleWheel = (deltaY: number, images: HTMLDivElement[], tl: gsap.c
     progress: snap(total)(tl.progress() + direction / total),
     modifiers: {
       progress: wrapProgress,
+    },
+    onComplete: () => {
+      console.log(tracker.item);
+      setActiveIndex(tracker.item);
     },
   });
 };

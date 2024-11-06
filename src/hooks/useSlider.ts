@@ -22,6 +22,7 @@ export const useSlider = ({ data }: { data: BookData[] }) => {
 
   const sliderTl = gsap.timeline({ paused: true, reversed: true });
   const tracker = { item: 0 };
+  const [activeIndex, setActiveIndex] = useState<number>(0);
 
   useEffect(() => {
     setImages(gsap.utils.toArray<HTMLDivElement>('.wheel__item'));
@@ -35,17 +36,17 @@ export const useSlider = ({ data }: { data: BookData[] }) => {
 
     setupWheel(wheelRef.current, images);
     setupTimeline(images.length, sliderTl, tracker);
-    handleDrag(images, sliderTl);
-    handleClick(images, sliderTl, tracker);
+    handleDrag(images, sliderTl, tracker, setActiveIndex);
+    handleClick(images, sliderTl, tracker, setActiveIndex);
   }, [images]);
 
   useEffect(() => {
-    setActiveItem({ type: 'slider', index: tracker.item });
-  }, [tracker.item]);
+    setActiveItem({ type: 'slider', index: activeIndex });
+  }, [activeIndex]);
 
   const handleScroll = useCallback(
     (event: WheelEvent) => {
-      handleWheel(event.deltaY, images, sliderTl);
+      handleWheel(event.deltaY, images, sliderTl, tracker, setActiveIndex);
     },
     [images],
   );
