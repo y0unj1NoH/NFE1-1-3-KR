@@ -11,7 +11,7 @@ export const SearchableBookList = ({ isVisible }: { isVisible: boolean }) => {
     <div className='relative w-full h-[calc(100vh-6rem)] overflow-hidden'>
       {isVisible && dataType !== 'searchResults' && (
         <div
-          className='absolute left-0 top-[15%] w-full text-center text-gold-default font-thin select-none leading-tight lg:text-[3.75rem] md:text-[3rem] sm:text-[2.5rem] xxs:text-[1.75rem]'
+          className='absolute left-0 top-[15%] w-full text-center text-gold-default font-thin select-none leading-tight xxs:text-[1.75rem] sm:text-[2.5rem] md:text-[3rem] lg:text-[3.75rem]'
           ref={titleRef}
         >
           {dataType === 'noResults' ? 'No results found' : randomTitle}

@@ -15,7 +15,6 @@ export const Main = forwardRef<HTMLDivElement, { isVisible: boolean }>(({ isVisi
 
   return (
     <div ref={ref}>
-      {/* <div className='relative w-full h-[calc(100vh-6rem)] border-black border-8' /> */}
       <SearchPage />
     </div>
   );
