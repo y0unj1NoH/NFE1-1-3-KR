@@ -57,6 +57,10 @@ Through this platform, we hope to promote Korean literature to a wider audience 
 - **마이 페이지**
   - 사용자 정보와 북마크 도서, 작성 게시 물, 댓글을 확인할 수 있습니다.
 
+<img src="https://github.com/user-attachments/assets/ba90c22a-49f1-4346-a64d-6ed0f70ef571" width="45%" /> 
+<img src="https://github.com/user-attachments/assets/79f1b943-1cc5-4b62-8f71-74d56f63239f" width="45%" /> 
+
+
 ## 📂 Project Structure
 
 ```
