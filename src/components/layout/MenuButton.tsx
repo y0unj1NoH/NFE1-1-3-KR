@@ -11,8 +11,8 @@ export const MenuButton = () => {
   const [isClick, setIsClick] = useState(false);
   const [isStretchSearch, setIsStretchSearch] = useState(false);
   const [inputValue, setInputValue] = useState('');
-  const debouncedInputValue = useDebounce(inputValue, 300); // 300ms 디바운스
-  const { query, setQuery } = useSearchQueryStore();
+  const debouncedInputValue = useDebounce(inputValue, 300); 
+  const { setQuery } = useSearchQueryStore();
 
   const handleButtonClick = (pathname: string) => {
     navigate(pathname);
