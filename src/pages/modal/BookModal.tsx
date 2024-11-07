@@ -119,14 +119,17 @@ export const BookModal = ({
               />
               <div className='flex flex-col justify-end flex-1'>
                 <div>
-                  <p className='mb-4 text-h4'>{book.title}</p>
-                  <p className='mb-2 text-h5 '>{author}</p>
-                  <div className='mb-4 text-body1 text-[#202020]'>
+                  {/* <p className='mb-4 xss:text-h5 sm:text-h4'>{book.title}</p> */}
+                  <p className='mb-4 xxs:text-h5 sm:text-h4'>{book.title}</p>
+                  <p className='mb-2 xxs:text-h6 sm:text-h5 '>{author}</p>
+                  <div className='mb-4 xxs:text-body2 sm:text-body1 text-[#202020]'>
                     {formatCategory(book.category_name || '')}
                   </div>
                   <div className='flex items-center mb-6'>
                     <Rating rating={Number(book.rating_info)} />
-                    <span className='text-[#DD0000] text-body1 ml-2'>{book.rating_info}</span>
+                    <span className='text-[#DD0000] xxs:text-body2 sm:text-body1 ml-2'>
+                      {book.rating_info}
+                    </span>
                   </div>
                   <p className='leading-relaxed text-body1 text-[#303030]'>{book.description}</p>
                 </div>

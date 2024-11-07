@@ -11,22 +11,22 @@ export const ButtonVariants = cva(
   {
     variants: {
       variant: {
-        default: ' shadow-none active:scale-100 ',
-        coral: ' bg-menu-coral',
-        gold: ' bg-gold-default ',
-        white: 'bg-white border-solid border-2 border-gold-default ',
-        blue: ' bg-primary ',
+        default: 'shadow-none active:scale-100',
+        coral: 'bg-menu-coral',
+        gold: 'bg-gold-default',
+        white: 'bg-white border-solid border-2 border-gold-default',
+        blue: 'bg-primary',
       },
       position: {
-        default: ' top-4 right-4 ',
+        default: 'top-4 right-4',
         menu: ' top-4 right-4 z-10',
         search: ' top-3 right-24 ',
-        community: ' top-[4.95rem] right-[5rem] ',
+        community: 'top-[4.95rem] right-[5rem]',
         profile: ' top-24 right-3 ',
       },
       stretch: {
-        default: ' w-[4rem] ',
-        search: ' w-[20rem] top-3 right-24',
+        default: 'w-[4rem]',
+        search: 'xxs:w-[12rem] sm:w-[20rem] top-3 right-24',
       },
     },
     defaultVariants: {

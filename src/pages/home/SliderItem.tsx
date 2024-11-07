@@ -15,7 +15,7 @@ const SliderItem = ({ src, alt, bookId }: SliderItemProps) => {
 
   return (
     <div
-      className='wheel__item absolute [perspective:1000px] top-0 left-0 w-[13%] max-w-[300px] aspect-[200/295]'
+      className='wheel__item absolute top-0 left-0 w-[13%] max-w-[300px] aspect-[200/295] [perspective:1000px] wheel__item'
       onClick={() => {
         if (setBookModalData) {
           setBookModalData({ id: bookId, color: bookColor || 'white' });

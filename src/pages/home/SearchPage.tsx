@@ -26,12 +26,12 @@ export const SearchPage = () => {
   }, []);
 
   return (
-    <div className='h-[calc(100vh-6rem)] w-full overflow-hidden relative' ref={containerRef}>
+    <div className='relative w-full h-[calc(100vh-6rem)] overflow-hidden' ref={containerRef}>
       {isVisible && <MainClouds />}
       <SearchableBookList isVisible={isVisible} />
       {ReactDOM.createPortal(
         <div
-          className='modal fixed inset-0 opacity-0 pointer-events-none z-[10000]'
+          className='modal fixed inset-0 z-[10000] opacity-0 pointer-events-none'
           data-flip-id='item'
           ref={modalRef}
           style={{ backgroundColor: bookModalData.color || 'white' }}
