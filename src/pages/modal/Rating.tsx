@@ -1,15 +1,34 @@
 export const Rating = ({ rating }: { rating: number }) => {
   const maxRating = 5;
-  const filledHearts = Math.round(rating / 2);
-
+  const filledHearts = Math.floor(rating / 2);
+  const hasHalfHeart = rating % 2 !== 0 && filledHearts < maxRating;
+  
   return (
     <div className='flex space-x-0.5'>
-      {Array.from({ length: maxRating }, (_, index) => (
+      {Array.from({ length: filledHearts }).map((_, index) => (
         <img
-          alt='heart'
+          alt='full heart'
           className='xxs:w-4 xxs:h-4 sm:w-6 sm:h-6'
-          key={index}
-          src={`/Icon/${index < filledHearts ? 'heart.svg' : 'white-heart.svg'}`}
+          key={`full-${index}`}
+          src='/Icon/filled-heart.svg'
+        />
+      ))}
+
+      {hasHalfHeart && (
+        <img
+          alt='half heart'
+          className='xxs:w-4 xxs:h-4 sm:w-6 sm:h-6'
+          key='half'
+          src='/Icon/half-heart.svg'
+        />
+      )}
+
+      {Array.from({ length: maxRating - filledHearts - (hasHalfHeart ? 1 : 0) }).map((_, index) => (
+        <img
+          alt='empty heart'
+          className='xxs:w-4 xxs:h-4 sm:w-6 sm:h-6'
+          key={`empty-${index}`}
+          src='/Icon/white-heart.svg'
         />
       ))}
     </div>
