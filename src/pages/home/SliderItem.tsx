@@ -1,4 +1,5 @@
 import type { ImgHTMLAttributes } from 'react';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import { useColorThief } from 'hooks';
 import { useBookModalStore } from 'stores';
@@ -24,7 +25,7 @@ const SliderItem = ({ src, alt, bookId }: SliderItemProps) => {
     >
       <div className='faces relative w-full h-full rounded-xl [transform-style:preserve-3d]'>
         <div className='absolute w-full h-full shadow-xl hover:shadow-2xl [backface-visibility:hidden] transition-transform duration-500 ease-in-out transform hover:translate-y-2'>
-          <img
+          <LazyLoadImage
             alt={alt}
             className='w-full h-full object-cover'
             crossOrigin='anonymous'
