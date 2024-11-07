@@ -7,15 +7,15 @@ const Grid = ({ data }: { data: BookData[] }) => {
   const { galleryRef } = useGrid({ data });
 
   return (
-    <div className='app relative top-4 w-[70vw] mx-auto h-[calc(100vh-8rem)] overflow-y-auto pb-4'>
+    <div className='relative top-4 mx-auto xxs:w-[90vw] md:w-[70vw] h-[calc(100vh-8rem)] overflow-y-auto pb-4 '>
       <div
-        className='gallery grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-[3.6%] gap-y-[2%] p-2.5'
+        className='gallery grid gap-x-[3.6%] gap-y-[2%] p-2.5 xxs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 '
         ref={galleryRef}
       >
         {data.map((bookData, index) => {
           return (
             <GridItem
-              alt='Grid Item'
+              alt={`grid-item-${index}`}
               bookId={bookData.id}
               key={index}
               src={bookData.cover as string}
