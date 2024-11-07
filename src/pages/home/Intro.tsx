@@ -1,7 +1,7 @@
 import gsap from 'gsap';
 import { useRef, useEffect } from 'react';
 
-import { Background } from 'components';
+import { Background, ScrollDownIndicator } from 'components';
 import { useIntersectionObserver, useSetBackgroundColor } from 'hooks';
 import { useIntroStore } from 'stores';
 
@@ -90,6 +90,8 @@ export const Intro = () => {
           </p>
         ))}
       </div>
+      <ScrollDownIndicator />
+
       {isVisible && <Background />}
     </div>
   );
