@@ -77,7 +77,7 @@ export const Intro = () => {
         ref={cloud3Ref}
         src='/bg/cloud-3.svg'
       />
-      <div className='text-white lg:text-[4rem] xs:text-[3rem] xxs:text-[2rem]  translate-y-[-3rem] flex flex-col gap-4'>
+      <div className='text-white lg:text-[4rem] xs:text-[3rem] xxs:text-[2rem] translate-y-[-3rem] flex flex-col gap-4'>
         {['DISCOVER', 'KOREAN STORIES', 'THAT TOUCH THE SOUL'].map((text, index) => (
           <p
             className={index === 0 ? 'translate-x-[2rem]' : index === 1 ? 'translate-x-[6rem]' : ''}
