@@ -67,7 +67,6 @@ export const BookModal = ({
     void fetchBookDetails();
   }, [bookId, bookmarks]);
 
-  // 리본 초기 위치
   useEffect(() => {
     if (bookmarkRef.current) {
       const initialY = isBookmarkOpen ? 0 : -200;
@@ -89,13 +88,12 @@ export const BookModal = ({
       className='modal-content fixed inset-0 z-[40000]'
       style={{ backgroundColor: backgroundColor || 'transparent' }}
     >
-      <div className='relative flex w-full h-full '>
+      <div className='relative flex flex-col md:flex-row w-full h-full'>
         <div
-          className='absolute top-0'
+          className='absolute top-0 md:right-[10%] right-auto left-[10%] md:left-auto'
           onClick={toggleBookmark}
           ref={bookmarkRef}
           style={{
-            right: '10%',
             zIndex: 99,
             clipPath: 'polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%)',
             width: '4rem',
@@ -105,41 +103,37 @@ export const BookModal = ({
           }}
         />
 
-        <div className='w-[15%] flex items-center justify-center'>
+        <div className='hidden md:flex lg:w-[15%] md:w-[20%] w-full p-2 items-center justify-center'>
           <SlidingTitle title={book.title || '제목 없음'} />
         </div>
-        <div className='w-[85%] flex items-center justify-center'>
-          <div className='relative flex flex-col items-center justify-center w-full h-full max-w-6xl p-4 overflow-y-auto'>
-            <div className='flex flex-col items-center gap-12 md:flex-row'>
-              <img
-                alt={book.title || '표지 없음'}
-                className='object-cover w-full h-auto max-w-md rounded-lg shadow-xl md:max-w-lg'
-                ref={coverRef}
-                src={book.cover || '/default-bookcover.png'}
-              />
-              <div className='flex flex-col justify-end flex-1'>
-                <div>
-                  {/* <p className='mb-4 xss:text-h5 sm:text-h4'>{book.title}</p> */}
-                  <p className='mb-4 xxs:text-h5 sm:text-h4'>{book.title}</p>
-                  <p className='mb-2 xxs:text-h6 sm:text-h5 '>{author}</p>
-                  <div className='mb-4 xxs:text-body2 sm:text-body1 text-[#202020]'>
-                    {formatCategory(book.category_name || '')}
-                  </div>
-                  <div className='flex items-center mb-6'>
-                    <Rating rating={Number(book.rating_info)} />
-                    <span className='text-[#DD0000] xxs:text-body2 sm:text-body1 ml-2'>
-                      {book.rating_info}
-                    </span>
-                  </div>
-                  <p className='leading-relaxed text-body1 text-[#303030]'>{book.description}</p>
+
+        <div className='lg:w-[85%] md:w-[80%] w-full flex items-center justify-center p-4'>
+          <div className='relative flex flex-col md:flex-row items-center justify-center w-full max-w-6xl h-full overflow-y-auto'>
+            <img
+              alt={book.title || '표지 없음'}
+              className='object-contain w-full max-w-xs md:max-w-sm lg:max-w-md rounded-lg shadow-xl'
+              ref={coverRef}
+              src={book.cover || '/default-bookcover.png'}
+            />
+            <div className='flex flex-col justify-center lg:justify-start flex-1 p-4'>
+              <div>
+                <p className='mb-2 xxs:text-h5 sm:text-h4'>{book.title}</p>
+                <p className='mb-2 xxs:text-h6 sm:text-h5'>{author}</p>
+                <div className='mb-4 xxs:text-body2 sm:text-body1 text-[#202020]'>
+                  {formatCategory(book.category_name || '')}
                 </div>
+                <div className='flex items-center mb-6'>
+                  <Rating rating={Number(book.rating_info)} />
+                  <span className='text-[#DD0000] xxs:text-body2 sm:text-body1 ml-2'>
+                    {book.rating_info}
+                  </span>
+                </div>
+                <p className='leading-relaxed text-body1 text-[#303030]'>{book.description}</p>
               </div>
             </div>
           </div>
           <Button onClick={onClose} position='default'>
-            <>
-              <Icon alt='Close' src='/Icon/X.svg' />
-            </>
+            <Icon alt='Close' src='/Icon/X.svg' />
           </Button>
         </div>
       </div>
