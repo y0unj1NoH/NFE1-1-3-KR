@@ -7,7 +7,7 @@ export const Rating = ({ rating }: { rating: number }) => {
       {Array.from({ length: maxRating }, (_, index) => (
         <img
           alt='heart'
-          className='w-6 h-6'
+          className='xxs:w-4 xxs:h-4 sm:w-6 sm:h-6'
           key={index}
           src={`/Icon/${index < filledHearts ? 'heart.svg' : 'white-heart.svg'}`}
         />
