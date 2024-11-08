@@ -47,7 +47,7 @@ const router = createBrowserRouter([
 const queryClient = new QueryClient();
 
 function App() {
-  const { reset, setSession, setIsLoading, setUserInfo } = useAuthStore();
+  const { reset, setSession, setIsLoading, setUserInfo, isLoading } = useAuthStore();
 
   useEffect(() => {
     const initializeAuth = async () => {
@@ -91,8 +91,10 @@ function App() {
   }, []);
 
   useEffect(() => {
-    fetchAndSetBookmarks();
-  }, []);
+    if (!isLoading) {
+      fetchAndSetBookmarks();
+    }
+  }, [isLoading]);
 
   return (
     <QueryClientProvider client={queryClient}>
