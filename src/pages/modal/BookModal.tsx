@@ -88,7 +88,7 @@ export const BookModal = ({
       className='modal-content fixed inset-0 z-[40000]'
       style={{ backgroundColor: backgroundColor || 'transparent' }}
     >
-      <div className='relative flex flex-col md:flex-row w-full h-full'>
+      <div className='relative flex flex-col w-full h-full overflow-scroll md:flex-row'>
         <div
           className='absolute top-0 md:right-[10%] right-auto left-[10%] md:left-auto'
           onClick={toggleBookmark}
@@ -108,14 +108,14 @@ export const BookModal = ({
         </div>
 
         <div className='lg:w-[85%] md:w-[80%] w-full flex items-center justify-center p-4'>
-          <div className='relative flex flex-col md:flex-row items-center justify-center w-full max-w-6xl h-full overflow-y-auto'>
+          <div className='relative flex flex-col items-center justify-center w-full h-full max-w-6xl overflow-y-auto md:flex-row'>
             <img
               alt={book.title || '표지 없음'}
-              className='object-contain w-full max-w-xs md:max-w-sm lg:max-w-md rounded-lg shadow-xl'
+              className='object-contain w-full max-w-xs rounded-lg shadow-xl md:max-w-sm lg:max-w-md'
               ref={coverRef}
               src={book.cover || '/default-bookcover.png'}
             />
-            <div className='flex flex-col justify-center lg:justify-start flex-1 p-4'>
+            <div className='flex flex-col justify-center flex-1 p-4 lg:justify-start'>
               <div>
                 <p className='mb-2 xxs:text-h5 sm:text-h4'>{book.title}</p>
                 <p className='mb-2 xxs:text-h6 sm:text-h5'>{author}</p>

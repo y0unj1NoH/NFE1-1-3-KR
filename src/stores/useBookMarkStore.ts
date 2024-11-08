@@ -13,12 +13,17 @@ interface BookmarkState {
 
 export const useBookMarkStore = create<BookmarkState>(set => ({
   bookmarks: null,
-  setBookmarks: bookmarks => { set({ bookmarks }); },
-  addBookmark: bookmark => { set(state => ({ bookmarks: [...(state.bookmarks || []), bookmark] })); },
-  removeBookmark: bookId =>
-    { set(state => ({
+  setBookmarks: bookmarks => {
+    set({ bookmarks });
+  },
+  addBookmark: bookmark => {
+    set(state => ({ bookmarks: [...(state.bookmarks || []), bookmark] }));
+  },
+  removeBookmark: bookId => {
+    set(state => ({
       bookmarks: (state.bookmarks || []).filter(b => b.book_id !== bookId),
-    })); },
+    }));
+  },
 }));
 
 export const fetchAndSetBookmarks = async () => {
@@ -29,7 +34,6 @@ export const fetchAndSetBookmarks = async () => {
     try {
       const bookmarks = await getBookMarkList(userInfo.user_id);
       setBookmarks(bookmarks);
-      console.log('fetchAndSetBookmarks clear');
     } catch (error) {
       console.error('Failed to fetch bookmarks:', error);
     }

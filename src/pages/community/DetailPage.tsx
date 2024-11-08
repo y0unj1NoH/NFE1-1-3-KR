@@ -16,7 +16,7 @@ export const DetailPage = () => {
       <Background />
       <ContentsContainer
         childNode={
-          <div className='relative w-full h-full p-2 '>
+          <div className='relative w-full h-full p-2 overflow-scroll'>
             <WritePost />
             <DetailPost postId={id ?? ''} />
           </div>

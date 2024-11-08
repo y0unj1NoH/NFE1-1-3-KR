@@ -56,7 +56,7 @@ export const DetailPost = ({ postId }: { postId: string }) => {
   }, [post?.comment?.length]);
 
   return (
-    <div className='relative flex items-end justify-center w-full h-full md:p-[2.5rem] py-[2rem]'>
+    <div className='relative flex w-full md:p-[2.5rem] overflow-scroll pt-4'>
       <button
         className='absolute top-[1rem] left-[1rem] md:block hidden items-center justify-center w-6 h-6'
         onClick={() => {
@@ -98,7 +98,7 @@ export const DetailPost = ({ postId }: { postId: string }) => {
           </span>
         </div>
       )}
-      <div className='flex flex-col w-full h-full p-[2.5rem] items-center justify-between border-2 border-[#afa18b] rounded-[40px] gap-4 overflow-hidden'>
+      <div className='flex flex-col w-full p-[2.5rem] items-center justify-between border-2 border-[#afa18b] rounded-[40px] overflow-scroll gap-4'>
         <div className='flex flex-col md:w-[80%] w-full gap-8 xs:flex-row'>
           {post?.books && (
             <img
@@ -107,7 +107,7 @@ export const DetailPost = ({ postId }: { postId: string }) => {
               src={post?.books?.cover || '/default-bookcover.png'}
             />
           )}
-          <div className='flex flex-col justify-center flex-grow gap-2 overflow-hidden' id='info'>
+          <div className='flex flex-col justify-center flex-grow gap-2=' id='info'>
             <div className='flex items-center flex-shrink-0 gap-2' id='user'>
               <Profile index={+post?.userinfo?.username!.slice(-1)} />
               <div className='text-[#1c1c1c] text-xs font-normal leading-snug break-words max-w-full'>
@@ -140,7 +140,7 @@ export const DetailPost = ({ postId }: { postId: string }) => {
           </div>
         </div>
         <div
-          className='xs:max-h-[40%] md:w-[80%] w-[100%] overflow-auto gap-2 items-end flex flex-col'
+          className='md:w-[80%] w-[100%] overflow-scroll gap-2 items-end flex flex-col h-[10rem]'
           id='comments'
           ref={commentsRef}
         >
