@@ -9,6 +9,7 @@ interface BookmarkState {
   setBookmarks: (bookmarks: BookMarkReturn[]) => void;
   addBookmark: (bookmark: BookMarkReturn) => void;
   removeBookmark: (bookId: string) => void;
+  clearBookmarks: () => void;
 }
 
 export const useBookMarkStore = create<BookmarkState>(set => ({
@@ -23,6 +24,9 @@ export const useBookMarkStore = create<BookmarkState>(set => ({
     set(state => ({
       bookmarks: (state.bookmarks || []).filter(b => b.book_id !== bookId),
     }));
+  },
+  clearBookmarks: () => {
+    set({ bookmarks: null });
   },
 }));
 

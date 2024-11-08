@@ -10,7 +10,7 @@ import { ModalProvider, BackgroundColorProvider } from 'context';
 import { supabase } from 'lib/supabase';
 import { CommunityPage, MyPage, HomePage, DetailPage, SearchPage } from 'pages';
 import 'styles/toast.css';
-import { fetchAndSetBookmarks, useAuthStore } from 'stores';
+import { fetchAndSetBookmarks, useAuthStore, useBookMarkStore } from 'stores';
 
 const router = createBrowserRouter([
   {
@@ -48,6 +48,7 @@ const queryClient = new QueryClient();
 
 function App() {
   const { reset, setSession, setIsLoading, setUserInfo, isLoading } = useAuthStore();
+  const clearBookmarks = useBookMarkStore(state => state.clearBookmarks);
 
   useEffect(() => {
     const initializeAuth = async () => {
@@ -80,6 +81,7 @@ function App() {
       if (event === 'SIGNED_OUT') {
         setSession(null);
         reset();
+        clearBookmarks();
       } else if (session) {
         setSession(session);
       }
