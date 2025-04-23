@@ -110,7 +110,7 @@ export const BookModal = ({
         </div>
 
         <div className='lg:w-[85%] md:w-[80%] w-full flex items-center justify-center p-4'>
-          <div className='relative flex flex-col items-center justify-center w-full h-full max-w-6xl overflow-y-auto md:flex-row'>
+          <div className='relative flex flex-col items-center justify-center w-full h-full max-w-6xl overflow-y-auto md:flex-row md:gap-4 gap-2'>
             <img
               alt={book.title || '표지 없음'}
               className='object-contain w-full max-w-xs rounded-lg shadow-xl md:max-w-sm lg:max-w-md'
