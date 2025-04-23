@@ -1,4 +1,3 @@
-// TODO: 예시코드 - 지우기
-import { topicsDataHandler } from './topic.handler';
+import { booksHandlers } from './books.handler';
 
-export const handlers = [...topicsDataHandler];
+export const handlers = [...booksHandlers];

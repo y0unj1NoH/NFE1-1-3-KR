@@ -1,21 +1,36 @@
 import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
-import { getPopularBooks, searchBook } from 'api';
+// import { getPopularBooks, searchBook } from 'api';
+import { getMockPopularBooks, searchMockBook } from 'api';
 import { useSearchQueryStore } from 'stores';
 
 export const useBookList = () => {
   const { query } = useSearchQueryStore();
 
+  // 실제 API 사용 시
+  // const { data: popularBooks, refetch: fetchPopularBooks } = useQuery({
+  //   queryKey: ['popularBooks'],
+  //   queryFn: getPopularBooks,
+  //   enabled: false,
+  // });
+
+  // const { data: searchResults, refetch: fetchSearchBooks } = useQuery({
+  //   queryKey: ['searchBook', query],
+  //   queryFn: () => searchBook({ query }),
+  //   enabled: false,
+  // });
+
+  // Mock API 사용
   const { data: popularBooks, refetch: fetchPopularBooks } = useQuery({
-    queryKey: ['popularBooks'],
-    queryFn: getPopularBooks,
+    queryKey: ['mockPopularBooks'],
+    queryFn: getMockPopularBooks,
     enabled: false,
   });
 
   const { data: searchResults, refetch: fetchSearchBooks } = useQuery({
-    queryKey: ['searchBook', query],
-    queryFn: () => searchBook({ query }),
+    queryKey: ['mockSearchBook', query],
+    queryFn: () => searchMockBook({ query }),
     enabled: false,
   });
 

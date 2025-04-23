@@ -3,7 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 
 import { Rating } from './Rating';
 import SlidingTitle from './SlidingTitle';
-import { getBookDataById } from '../../api/book';
+// import { getBookDataById } from '../../api/book';
+import { getMockBookDataById } from 'api';
 
 import { addBookMark, deleteBookMark } from 'api';
 import { Button, CustomToast, Icon } from 'components';
@@ -55,7 +56,8 @@ export const BookModal = ({
 
     const fetchBookDetails = async () => {
       try {
-        const data = await getBookDataById({ bookId });
+        // const data = await getBookDataById({ bookId });
+        const data = await getMockBookDataById({ bookId });
         setBook(data);
       } catch (error) {
         console.error('Failed to fetch book details:', error);
